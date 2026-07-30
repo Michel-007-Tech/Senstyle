@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SenStyle - Suivi de commande en temps réel. Suivez votre colis partout au Sénégal.">
+    <title>SenStyle - Suivi de Commande</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #009639;
+            --primary-dark: #007a2e;
+            --accent-gold: #fcd116;
+            --accent-red: #ce1126;
+            --dark: #1a1a1a;
+            --light: #f8f6f3;
+            --white: #ffffff;
+            --gray-100: #f7f7f7;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --success: #059669;
+            --danger: #dc2626;
+            --blue: #2563eb;
+            --orange: #ff6600;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+            --shadow-xl: 0 20px 50px rgba(0,0,0,0.2);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #f0f2f5 0%, #e8ecef 100%);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+        }
+        .header-top {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-gold));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 22px;
+            box-shadow: 0 2px 8px rgba(0,150,57,0.3);
+        }
+        .logo-text h2 {
+            font-size: 24px;
+            color: var(--dark);
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+        }
+        .logo-text span {
+            font-size: 11px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .main-nav {
+            background: var(--white);
+            border-top: 1px solid var(--gray-200);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            overflow-x: auto;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--gray-500);
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 1rem 0;
+            position: relative;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--dark);
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #1a3a1a 0%, #0d2d0d 100%);
+            color: var(--white);
+            padding: 3.5rem 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(252,209,22,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .hero-section * {
+            position: relative;
+            z-index: 1;
+        }
+        .hero-section .hero-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+            color: var(--accent-gold);
+        }
+        .hero-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .hero-section h1 span {
+            color: var(--accent-gold);
+        }
+        .hero-section p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* Info Cards */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .info-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            transition: var(--transition);
+            cursor: default;
+        }
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+        .info-card i {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .info-card .icon-green { color: var(--primary); }
+        .info-card .icon-blue { color: var(--blue); }
+        .info-card .icon-orange { color: var(--orange); }
+        .info-card h4 {
+            margin-bottom: 0.3rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .info-card p {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        /* Search Card */
+        .search-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+        .search-card:focus-within {
+            border-color: var(--primary);
+        }
+        .search-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .search-card .search-subtitle {
+            color: var(--gray-500);
+            margin-bottom: 1.5rem;
+            font-size: 14px;
+        }
+        .search-form {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 14px 20px;
+            border: 2px solid var(--gray-200);
+            border-radius: 50px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+            background: var(--gray-100);
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(0,150,57,0.1);
+        }
+        .search-input::placeholder {
+            color: var(--gray-400);
+        }
+        .btn-search {
+            padding: 14px 32px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-search:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .btn-search:active {
+            transform: translateY(0);
+        }
+
+        /* Recent Orders */
+        .recent-orders {
+            margin-bottom: 2rem;
+        }
+        .recent-orders h4 {
+            margin-bottom: 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-500);
+        }
+        .recent-orders-grid {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .recent-order-chip {
+            padding: 8px 16px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 50px;
+            font-size: 12px;
+            font-family: 'Space Grotesk', monospace;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--gray-600);
+        }
+        .recent-order-chip:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        /* Result Card */
+        .result-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            display: none;
+            animation: fadeInUp 0.5s ease;
+        }
+        .result-card.show {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .result-header h3 {
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+        }
+        .status-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-encours { background: #fef3c7; color: #92400e; }
+        .status-expedie { background: #dbeafe; color: #1e40af; }
+        .status-livre { background: #d1fae5; color: #065f46; }
+        .status-paye { background: #d1fae5; color: #065f46; }
+        .status-annule { background: #fee2e2; color: #991b1b; }
+
+        .result-body {
+            padding: 2rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .info-item label {
+            font-size: 11px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+        .info-item span {
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .info-item i {
+            color: var(--primary);
+            width: 16px;
+        }
+
+        /* Timeline */
+        .timeline-title {
+            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 35px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--gray-200);
+            border-radius: 2px;
+        }
+        .timeline-step {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding-left: 20px;
+        }
+        .timeline-step:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            border: 3px solid var(--white);
+            box-shadow: 0 0 0 2px var(--gray-300);
+        }
+        .timeline-step.completed::before {
+            background: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+        .timeline-step.current::before {
+            background: var(--accent-gold);
+            box-shadow: 0 0 0 2px var(--accent-gold);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 2px var(--accent-gold); }
+            50% { box-shadow: 0 0 0 10px rgba(252,209,22,0.2); }
+            100% { box-shadow: 0 0 0 2px var(--accent-gold); }
+        }
+        .timeline-step h4 {
+            font-size: 15px;
+            margin-bottom: 0.2rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .timeline-step p {
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+        .timeline-step .step-date {
+            font-size: 11px;
+            color: var(--gray-400);
+            margin-top: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Order Items */
+        .order-items {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-200);
+        }
+        .order-items h4 {
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--gray-100);
+            font-size: 14px;
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        .order-item span {
+            color: var(--gray-500);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .order-item strong {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary);
+        }
+
+        /* Contact bar */
+        .contact-bar {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gray-200);
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+        .contact-bar strong {
+            color: var(--primary);
+        }
+
+        /* Not Found */
+        .not-found-card {
+            background: var(--white);
+            padding: 3rem 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            display: none;
+            animation: fadeInUp 0.5s ease;
+        }
+        .not-found-card.show {
+            display: block;
+        }
+        .not-found-card .nf-icon {
+            font-size: 4rem;
+            color: var(--accent-red);
+            margin-bottom: 1rem;
+        }
+        .not-found-card h3 {
+            color: var(--accent-red);
+            margin-bottom: 0.5rem;
+        }
+        .not-found-card p {
+            color: var(--gray-500);
+            margin-bottom: 1.5rem;
+        }
+        .not-found-card .nf-number {
+            font-family: 'Space Grotesk', monospace;
+            font-weight: 700;
+            color: var(--dark);
+            background: var(--gray-100);
+            padding: 4px 12px;
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        .footer a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            margin-top: 0.8rem;
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+        .footer-bottom .flag-colors {
+            display: inline-flex;
+            gap: 2px;
+            margin: 0 0.5rem;
+            vertical-align: middle;
+        }
+        .flag-color {
+            width: 18px;
+            height: 12px;
+            display: inline-block;
+        }
+        .flag-green { background: var(--primary); }
+        .flag-gold { background: var(--accent-gold); }
+        .flag-red { background: var(--accent-red); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-top { flex-direction: column; gap: 1rem; }
+            .nav-container { gap: 1.2rem; padding: 0 1rem; }
+            .nav-link { font-size: 11px; }
+            .hero-section { padding: 2.5rem 1.5rem; }
+            .hero-section h1 { font-size: 1.8rem; }
+            .search-card { padding: 1.5rem; }
+            .search-form { flex-direction: column; }
+            .btn-search { width: 100%; justify-content: center; }
+            .info-grid { grid-template-columns: 1fr 1fr; }
+            .result-header { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <a href="SenStyle.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-star"></i></div>
+                <div class="logo-text">
+                    <h2>SenStyle</h2>
+                    <span>Sénégal • Dakar</span>
+                </div>
+            </a>
+        </div>
+        <nav class="main-nav">
+            <div class="nav-container">
+                <a href="SenStyle.html" class="nav-link">Accueil</a>
+                <a href="Vetement.html" class="nav-link">Vêtements</a>
+                <a href="shorts.html" class="nav-link">Shorts</a>
+                <a href="chaussures.html" class="nav-link">Chaussures</a>
+                <a href="suivi.html" class="nav-link active">Suivi Commande</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Hero -->
+        <div class="hero-section">
+            <i class="fas fa-box-open hero-icon"></i>
+            <h1>Suivi de <span>Commande</span></h1>
+            <p>Suivez votre colis en temps réel • Service disponible 24h/24 et 7j/7</p>
+        </div>
+
+        <!-- Info Cards -->
+        <div class="info-cards">
+            <div class="info-card">
+                <i class="fas fa-truck-fast icon-green"></i>
+                <h4>Livraison Rapide</h4>
+                <p>Dakar & régions en 24-48h</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-headset icon-blue"></i>
+                <h4>Service Client</h4>
+                <p>+221 78 000 00 00</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-shield-check icon-orange"></i>
+                <h4>Commande Sécurisée</h4>
+                <p>Paiement 100% protégé</p>
+            </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="recent-orders" id="recentOrdersSection" style="display:none;">
+            <h4><i class="far fa-clock"></i> Commandes récentes</h4>
+            <div class="recent-orders-grid" id="recentOrdersGrid"></div>
+        </div>
+
+        <!-- Search -->
+        <div class="search-card">
+            <h3><i class="fas fa-search-location"></i> Rechercher votre commande</h3>
+            <p class="search-subtitle">Entrez le numéro de commande reçu par email ou SMS</p>
+            <div class="search-form">
+                <input type="text" id="trackingNumber" class="search-input" placeholder="Exemple : CMD12345678" onkeyup="if(event.key==='Enter')trackOrder()">
+                <button class="btn-search" onclick="trackOrder()">
+                    <i class="fas fa-search"></i> Suivre ma commande
+                </button>
+            </div>
+        </div>
+
+        <!-- Result -->
+        <div class="result-card" id="resultCard"></div>
+
+        <!-- Not Found -->
+        <div class="not-found-card" id="notFoundCard"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p><a href="SenStyle.html"><i class="fas fa-star"></i> SenStyle</a> - Votre boutique mode au Sénégal</p>
+        <p class="footer-bottom">
+            © 2026 SenStyle. Tous droits réservés.
+            <span class="flag-colors">
+                <span class="flag-color flag-green"></span>
+                <span class="flag-color flag-gold"></span>
+                <span class="flag-color flag-red"></span>
+            </span>
+            Made with ❤️ in Sénégal 🇸🇳
+            | <a href="SenStyle.html">Retour à la boutique</a>
+        </p>
+    </footer>
+
+    <script>
+        // ==================== UTILITAIRES ====================
+        function formatFCFA(amount) {
+            return (amount || 0).toLocaleString('fr-FR') + ' FCFA';
+        }
+
+        function formatDate(dateStr) {
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('fr-FR', {
+                day: 'numeric', month: 'long', year: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+        }
+
+        function formatShortDate(dateStr) {
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('fr-FR', {
+                day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+            });
+        }
+
+        function getPaymentName(method) {
+            const names = { orange: 'Orange Money', wave: 'Wave', card: 'Carte Bancaire' };
+            return names[method] || method || 'Non spécifié';
+        }
+
+        function getStatusClass(status) {
+            const classes = {
+                'En cours': 'status-encours',
+                'Expédié': 'status-expedie',
+                'Livré': 'status-livre',
+                'Payé': 'status-paye',
+                'Annulé': 'status-annule'
+            };
+            return classes[status] || 'status-encours';
+        }
+
+        function getStatusSteps(status, orderDate) {
+            const date = new Date(orderDate);
+            return [
+                {
+                    label: 'Commande confirmée',
+                    description: 'Votre commande a été enregistrée avec succès',
+                    status: 'completed',
+                    date: formatShortDate(date)
+                },
+                {
+                    label: 'Paiement validé',
+                    description: 'Le paiement a été reçu et confirmé',
+                    status: 'completed',
+                    date: formatShortDate(new Date(date.getTime() + 60000))
+                },
+                {
+                    label: 'Préparation en cours',
+                    description: 'Votre commande est en cours de préparation par notre équipe',
+                    status: (status === 'En cours' || status === 'Payé') ? 'current' : 'completed',
+                    date: (status === 'En cours' || status === 'Payé') ? 'En cours...' : formatShortDate(new Date(date.getTime() + 3600000))
+                },
+                {
+                    label: 'Expédition',
+                    description: 'Votre colis a été remis au transporteur',
+                    status: status === 'Expédié' ? 'current' : (status === 'Livré' ? 'completed' : ''),
+                    date: status === 'Expédié' ? 'En cours...' : (status === 'Livré' ? formatShortDate(new Date(date.getTime() + 86400000)) : 'En attente')
+                },
+                {
+                    label: 'Livraison effectuée',
+                    description: 'Votre colis a été livré à destination',
+                    status: status === 'Livré' ? 'current' : '',
+                    date: status === 'Livré' ? formatShortDate(new Date()) : 'En attente...'
+                }
+            ];
+        }
+
+        // ==================== COMMANDES RÉCENTES ====================
+        function loadRecentOrders() {
+            const orders = JSON.parse(localStorage.getItem('senstyleOrders')) || [];
+            if (orders.length === 0) return;
+            
+            document.getElementById('recentOrdersSection').style.display = 'block';
+            const grid = document.getElementById('recentOrdersGrid');
+            
+            // Afficher les 5 dernières commandes
+            const recent = orders.slice(-5).reverse();
+            grid.innerHTML = recent.map(o => `
+                <div class="recent-order-chip" onclick="quickTrack('${o.id}')" title="Suivre cette commande">
+                    <i class="fas fa-box"></i> #${o.id}
+                </div>
+            `).join('');
+        }
+
+        function quickTrack(orderId) {
+            document.getElementById('trackingNumber').value = orderId;
+            trackOrder();
+        }
+
+        // ==================== SUIVI DE COMMANDE ====================
+        function trackOrder() {
+            const trackingNumber = document.getElementById('trackingNumber').value.trim().toUpperCase();
+            const resultCard = document.getElementById('resultCard');
+            const notFoundCard = document.getElementById('notFoundCard');
+            
+            // Réinitialiser
+            resultCard.className = 'result-card';
+            resultCard.innerHTML = '';
+            notFoundCard.className = 'not-found-card';
+            notFoundCard.innerHTML = '';
+
+            // Validation
+            if (!trackingNumber) {
+                notFoundCard.className = 'not-found-card show';
+                notFoundCard.innerHTML = `
+                    <i class="fas fa-exclamation-triangle nf-icon"></i>
+                    <h3>Numéro de commande requis</h3>
+                    <p>Veuillez entrer un numéro de commande valide pour effectuer le suivi</p>
+                    <p style="font-size:13px;">Exemple : <span class="nf-number">CMD12345678</span></p>
+                    <button class="btn-search" onclick="document.getElementById('trackingNumber').focus();" style="margin-top:1rem;">
+                        <i class="fas fa-edit"></i> Saisir un numéro
+                    </button>
+                `;
+                return;
+            }
+
+            // Rechercher la commande
+            const orders = JSON.parse(localStorage.getItem('senstyleOrders')) || [];
+            
+            const order = orders.find(o => 
+                o.id === trackingNumber || 
+                o.id === trackingNumber.replace('CMD', '') ||
+                'CMD' + o.id === trackingNumber
+            );
+
+            if (!order) {
+                notFoundCard.className = 'not-found-card show';
+                notFoundCard.innerHTML = `
+                    <i class="fas fa-search nf-icon"></i>
+                    <h3>Commande introuvable</h3>
+                    <p>Aucune commande trouvée avec le numéro</p>
+                    <p><span class="nf-number">${trackingNumber}</span></p>
+                    <p style="font-size:13px;margin-top:1rem;">Vérifiez votre numéro de commande et réessayez.<br>Le numéro se trouve dans votre email ou SMS de confirmation.</p>
+                    <button class="btn-search" onclick="document.getElementById('trackingNumber').value='';document.getElementById('trackingNumber').focus();document.getElementById('notFoundCard').className='not-found-card';" style="margin-top:1rem;">
+                        <i class="fas fa-redo"></i> Nouvelle recherche
+                    </button>
+                `;
+                return;
+            }
+
+            // Construire le résultat
+            const steps = getStatusSteps(order.status || 'En cours', order.date);
+            const orderDate = formatDate(order.date);
+
+            resultCard.className = 'result-card show';
+            resultCard.innerHTML = `
+                <div class="result-header">
+                    <h3><i class="fas fa-box"></i> Commande #${order.id}</h3>
+                    <span class="status-badge ${getStatusClass(order.status)}">
+                        <i class="fas fa-circle"></i> ${order.status || 'En cours'}
+                    </span>
+                </div>
+                <div class="result-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Date de commande</label>
+                            <span><i class="far fa-calendar-alt"></i> ${orderDate}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Mode de paiement</label>
+                            <span><i class="fas fa-credit-card"></i> ${getPaymentName(order.paymentMethod)}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Montant total</label>
+                            <span><i class="fas fa-tag"></i> ${formatFCFA(order.total)}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Nombre d'articles</label>
+                            <span><i class="fas fa-cube"></i> ${order.items ? order.items.length : 0} article(s)</span>
+                        </div>
+                    </div>
+
+                    <h4 class="timeline-title"><i class="fas fa-timeline"></i> Progression de la commande</h4>
+                    <div class="timeline">
+                        ${steps.map(step => `
+                            <div class="timeline-step ${step.status}">
+                                <h4>${step.label}</h4>
+                                <p>${step.description}</p>
+                                ${step.date ? `<span class="step-date"><i class="far fa-clock"></i> ${step.date}</span>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    ${order.items && order.items.length > 0 ? `
+                        <div class="order-items">
+                            <h4><i class="fas fa-list-ul"></i> Articles commandés</h4>
+                            ${order.items.map(item => `
+                                <div class="order-item">
+                                    <span><i class="fas fa-tshirt" style="color:var(--primary);"></i> ${item.name} x${item.quantity || 1}</span>
+                                    <strong>${formatFCFA((item.price || 0) * (item.quantity || 1))}</strong>
+                                </div>
+                            `).join('')}
+                            <div class="order-item" style="font-weight:700;border-top:1px solid var(--gray-300);padding-top:1rem;margin-top:0.5rem;">
+                                <span>Total</span>
+                                <strong>${formatFCFA(order.total)}</strong>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <div class="contact-bar">
+                        <i class="fas fa-info-circle"></i> Besoin d'aide ? Contactez notre service client au <strong>+221 78 000 00 00</strong>
+                    </div>
+                </div>
+            `;
+
+            // Faire défiler jusqu'au résultat
+            setTimeout(() => {
+                resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 150);
+        }
+
+        // ==================== INITIALISATION ====================
+        function init() {
+            loadRecentOrders();
+            
+            // Focus sur le champ de recherche
+            document.getElementById('trackingNumber').focus();
+        }
+
+        init();
+    </script>
+</body>
+</html>
