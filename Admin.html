@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SenStyle - Administration</title>
+    <title>SenStyle - Administration Propriétaire</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    
     <style>
         :root {
             --primary: #009639;
@@ -21,36 +24,55 @@
             --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
             --transition: all 0.3s;
             --radius: 12px;
-            --success: #059669;
-            --warning: #d97706;
-            --danger: #dc2626;
-            --info: #2563eb;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        .access-denied {
+        .owner-verify {
             display: flex; align-items: center; justify-content: center;
-            min-height: 100vh; background: #f0f2f5; font-family: 'Inter', sans-serif;
+            min-height: 100vh; background: linear-gradient(135deg, #1a1a1a 0%, #0d1f0d 100%);
+            font-family: 'Inter', sans-serif;
         }
-        .access-denied-card {
+        .owner-verify-card {
             background: white; padding: 3rem; border-radius: 20px;
-            text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2); max-width: 500px;
+            text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); max-width: 450px; width: 90%;
         }
-        .access-denied-card i { font-size: 5rem; color: var(--accent-red); margin-bottom: 1rem; }
-        .access-denied-card h2 { font-family: 'Playfair Display', serif; margin-bottom: 1rem; color: var(--dark); }
-        .access-denied-card p { color: var(--gray-500); margin-bottom: 2rem; }
-        .btn-return {
-            padding: 12px 32px; background: var(--primary); color: white;
-            border: none; border-radius: 50px; font-weight: 700; cursor: pointer;
-            text-decoration: none; display: inline-block; transition: var(--transition);
+        .owner-verify-card .logo-icon {
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-gold));
+            border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+            color: var(--white); font-size: 28px; margin-bottom: 1.5rem;
         }
-        .btn-return:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .owner-verify-card h2 { font-family: 'Playfair Display', serif; margin-bottom: 0.5rem; color: var(--dark); }
+        .owner-verify-card p { color: var(--gray-500); margin-bottom: 2rem; font-size: 14px; }
+        .owner-verify-card .warning {
+            background: #fef3c7; color: #92400e; padding: 1rem;
+            border-radius: var(--radius); margin-bottom: 1.5rem; font-size: 13px;
+            border: 1px solid #fcd116;
+        }
+        .owner-verify-card .warning i { margin-right: 8px; }
+        .form-group { margin-bottom: 1rem; text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 14px; }
+        .form-group input {
+            width: 100%; padding: 12px 16px; border: 2px solid var(--gray-200);
+            border-radius: var(--radius); font-size: 14px; font-family: 'Inter', sans-serif;
+        }
+        .form-group input:focus { outline: none; border-color: var(--primary); }
+        .btn-owner {
+            width: 100%; padding: 14px; background: var(--primary); color: white;
+            border: none; border-radius: var(--radius); font-weight: 700; cursor: pointer;
+            font-size: 16px; transition: var(--transition); text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-owner:hover { background: var(--primary-dark); }
+        .btn-back { display: block; margin-top: 1rem; color: var(--gray-500); text-decoration: none; font-size: 13px; transition: var(--transition); }
+        .btn-back:hover { color: var(--primary); }
+        .error-msg {
+            background: #fee2e2; color: #991b1b; padding: 10px; border-radius: var(--radius);
+            margin-bottom: 1rem; font-size: 13px; display: none;
+        }
+        .error-msg.show { display: block; }
 
-        body.admin-body {
-            font-family: 'Inter', sans-serif; background: #f0f2f5;
-            display: flex; min-height: 100vh;
-        }
+        body.admin-body { font-family: 'Inter', sans-serif; background: #f0f2f5; display: flex; min-height: 100vh; }
 
         .sidebar {
             width: 280px; background: var(--dark); color: var(--white);
@@ -107,30 +129,14 @@
             align-items: center; gap: 8px; border: 2px solid transparent; white-space: nowrap;
         }
         .btn-visit-site:hover { background: var(--primary-dark); border-color: var(--accent-gold); transform: translateY(-2px); }
-        .user-avatar {
-            width: 40px; height: 40px; background: var(--primary);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: var(--white); font-weight: 700;
-        }
-        .btn-logout {
-            padding: 8px 20px; background: var(--accent-red); color: var(--white);
-            border: none; border-radius: var(--radius); cursor: pointer; font-weight: 600;
-        }
+        .user-avatar { width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; }
+        .btn-logout { padding: 8px 20px; background: var(--accent-red); color: var(--white); border: none; border-radius: var(--radius); cursor: pointer; font-weight: 600; }
         .btn-logout:hover { background: #a00e1a; }
 
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem; margin-bottom: 2rem;
-        }
-        .stat-card {
-            background: var(--white); padding: 1.5rem; border-radius: var(--radius);
-            box-shadow: var(--shadow-sm); transition: var(--transition);
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--white); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow-sm); transition: var(--transition); }
         .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-        .stat-icon {
-            width: 48px; height: 48px; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; font-size: 24px; margin-bottom: 1rem;
-        }
+        .stat-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 1rem; }
         .stat-icon.green { background: #d1fae5; color: var(--primary); }
         .stat-icon.gold { background: #fef3c7; color: #d97706; }
         .stat-icon.red { background: #fee2e2; color: var(--accent-red); }
@@ -138,38 +144,24 @@
         .stat-card h3 { font-size: 2rem; margin-bottom: 0.5rem; font-family: 'Space Grotesk', sans-serif; }
         .stat-card p { color: var(--gray-500); font-size: 14px; }
 
-        .data-section {
-            background: var(--white); border-radius: var(--radius);
-            box-shadow: var(--shadow-sm); padding: 1.5rem; margin-bottom: 2rem;
-        }
-        .data-section h3 {
-            font-family: 'Playfair Display', serif; font-size: 20px;
-            margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--gray-200);
-        }
+        .data-section { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 1.5rem; margin-bottom: 2rem; }
+        .data-section h3 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--gray-200); }
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--gray-200); font-size: 14px; }
         th { background: var(--gray-100); font-weight: 700; color: var(--dark); }
         tr:hover { background: var(--gray-100); }
 
-        /* Status badges */
-        .status-badge {
-            padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.5px; display: inline-block;
-        }
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; }
         .status-en-attente { background: #fef3c7; color: #92400e; }
         .status-confirmee { background: #dbeafe; color: #1e40af; }
         .status-en-preparation { background: #e0e7ff; color: #3730a3; }
         .status-expediee { background: #d1fae5; color: #065f46; }
         .status-livree { background: #059669; color: white; }
         .status-annulee { background: #fee2e2; color: #991b1b; }
-        .status-remboursee { background: #fce7f3; color: #9d174d; }
 
         .action-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-        .btn-action {
-            padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer;
-            font-size: 12px; font-weight: 600; transition: var(--transition);
-        }
+        .btn-action { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: var(--transition); }
         .btn-validate { background: #d1fae5; color: #065f46; }
         .btn-validate:hover { background: #059669; color: white; }
         .btn-reject { background: #fee2e2; color: #991b1b; }
@@ -180,55 +172,27 @@
         .btn-deliver:hover { background: #059669; color: white; }
         .btn-view { background: #e0e7ff; color: #3730a3; }
         .btn-view:hover { background: #6366f1; color: white; }
+        .btn-invoice { background: #fef3c7; color: #92400e; }
+        .btn-invoice:hover { background: #f59e0b; color: white; }
         .btn-edit { background: #fef3c7; color: #92400e; }
-        .btn-edit:hover { background: #d97706; color: white; }
         .btn-delete { background: #fee2e2; color: #991b1b; }
-        .btn-delete:hover { background: #dc2626; color: white; }
 
-        .btn-add {
-            padding: 10px 24px; background: var(--primary); color: var(--white);
-            border: none; border-radius: var(--radius); cursor: pointer; font-weight: 600;
-        }
+        .btn-add { padding: 10px 24px; background: var(--primary); color: var(--white); border: none; border-radius: var(--radius); cursor: pointer; font-weight: 600; }
         .btn-add:hover { background: var(--primary-dark); }
 
-        /* Modal */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; }
         .modal.active { display: flex; }
-        .modal-content {
-            background: var(--white); border-radius: var(--radius); padding: 2rem;
-            width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto;
-        }
+        .modal-content { background: var(--white); border-radius: var(--radius); padding: 2rem; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
         .modal-close { cursor: pointer; font-size: 24px; color: var(--gray-500); }
         .modal-close:hover { color: var(--accent-red); }
 
         .form-group { margin-bottom: 1rem; }
         .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 14px; }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%; padding: 10px; border: 2px solid var(--gray-200);
-            border-radius: 8px; font-size: 14px; font-family: 'Inter', sans-serif;
-        }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none; border-color: var(--primary);
-        }
-        .btn-submit {
-            width: 100%; padding: 12px; background: var(--primary); color: var(--white);
-            border: none; border-radius: var(--radius); font-weight: 700; cursor: pointer;
-        }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 14px; font-family: 'Inter', sans-serif; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); }
+        .btn-submit { width: 100%; padding: 12px; background: var(--primary); color: var(--white); border: none; border-radius: var(--radius); font-weight: 700; cursor: pointer; }
         .btn-submit:hover { background: var(--primary-dark); }
-
-        .notification-log {
-            background: var(--gray-100); padding: 1rem; border-radius: var(--radius);
-            margin-top: 1rem; max-height: 200px; overflow-y: auto;
-        }
-        .notification-item {
-            padding: 0.5rem 0; border-bottom: 1px solid var(--gray-200);
-            font-size: 12px; display: flex; justify-content: space-between;
-        }
-        .notification-item:last-child { border-bottom: none; }
 
         @media (max-width: 768px) {
             body.admin-body { flex-direction: column; }
@@ -241,6 +205,35 @@
     </style>
 </head>
 <body>
+    <div id="ownerVerifyScreen" class="owner-verify">
+        <div class="owner-verify-card">
+            <div class="logo-icon"><i class="fas fa-star"></i></div>
+            <h2>Espace Propriétaire</h2>
+            <p>Accès strictement réservé au propriétaire du site</p>
+            <div class="warning">
+                <i class="fas fa-shield-haltered"></i>
+                Cette zone est protégée. Seul le propriétaire avec les identifiants autorisés peut y accéder.
+            </div>
+            <div class="error-msg" id="ownerError"></div>
+            <form onsubmit="verifyOwner(event)">
+                <div class="form-group">
+                    <label>Email propriétaire</label>
+                    <input type="email" id="ownerEmail" required placeholder="admin@senstyle.sn" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Code secret propriétaire</label>
+                    <input type="password" id="ownerSecret" required placeholder="Code d'accès propriétaire" autocomplete="off">
+                </div>
+                <button type="submit" class="btn-owner">
+                    <i class="fas fa-lock-open"></i> Accéder à l'administration
+                </button>
+            </form>
+            <a href="index.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Retourner à la boutique
+            </a>
+        </div>
+    </div>
+
     <div id="adminContent" style="display:none; width:100%;">
         <div class="sidebar">
             <div class="sidebar-logo">
@@ -252,23 +245,23 @@
                 <li><a onclick="showSection('products')"><i class="fas fa-box"></i> Produits</a></li>
                 <li><a onclick="showSection('orders')"><i class="fas fa-shopping-cart"></i> Commandes <span class="badge-count" id="pendingCount">0</span></a></li>
                 <li><a onclick="showSection('users')"><i class="fas fa-users"></i> Clients</a></li>
+                <li><a onclick="showSection('invoices')"><i class="fas fa-file-invoice"></i> Factures</a></li>
                 <li><a onclick="showSection('settings')"><i class="fas fa-cog"></i> Paramètres</a></li>
             </ul>
-            <a href="SenStyle.html" class="back-to-site"><i class="fas fa-store"></i> Retourner à la boutique</a>
+            <a href="index.html" class="back-to-site"><i class="fas fa-store"></i> Retourner à la boutique</a>
         </div>
 
         <div class="main-content">
             <div class="admin-header">
                 <h1 id="sectionTitle">Tableau de bord</h1>
                 <div class="user-info">
-                    <a href="SenStyle.html" class="btn-visit-site" target="_blank"><i class="fas fa-external-link-alt"></i> Voir le site</a>
-                    <div class="user-avatar" id="userInitial">A</div>
-                    <div><strong id="userName">Admin</strong><br><small style="color: var(--gray-500);">Administrateur</small></div>
+                    <a href="index.html" class="btn-visit-site" target="_blank"><i class="fas fa-external-link-alt"></i> Voir le site</a>
+                    <div class="user-avatar" id="userInitial">P</div>
+                    <div><strong>Propriétaire</strong><br><small style="color: var(--gray-500);">Administrateur</small></div>
                     <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
                 </div>
             </div>
 
-            <!-- Dashboard -->
             <div id="dashboardSection" class="content-section">
                 <div class="stats-grid">
                     <div class="stat-card"><div class="stat-icon green"><i class="fas fa-box"></i></div><h3 id="totalProducts">0</h3><p>Produits en stock</p></div>
@@ -276,16 +269,8 @@
                     <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-users"></i></div><h3 id="totalUsers">0</h3><p>Clients inscrits</p></div>
                     <div class="stat-card"><div class="stat-icon red"><i class="fas fa-money-bill-wave"></i></div><h3 id="totalRevenue">0 FCFA</h3><p>Revenus totaux</p></div>
                 </div>
-                <div class="data-section">
-                    <h3>Accès rapides</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                        <a href="SenStyle.html" style="text-decoration: none; padding: 1.5rem; background: var(--gray-100); border-radius: var(--radius); text-align: center; color: var(--dark);"><i class="fas fa-store" style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem; display: block;"></i><strong>Voir la boutique</strong></a>
-                        <a href="#" onclick="showSection('orders')" style="text-decoration: none; padding: 1.5rem; background: var(--gray-100); border-radius: var(--radius); text-align: center; color: var(--dark);"><i class="fas fa-clipboard-list" style="font-size: 2rem; color: #d97706; margin-bottom: 0.5rem; display: block;"></i><strong>Gérer les commandes</strong></a>
-                    </div>
-                </div>
             </div>
 
-            <!-- Products (inchangé) -->
             <div id="productsSection" class="content-section" style="display:none;">
                 <div class="data-section">
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
@@ -301,7 +286,6 @@
                 </div>
             </div>
 
-            <!-- Orders - AMÉLIORÉ -->
             <div id="ordersSection" class="content-section" style="display:none;">
                 <div class="data-section">
                     <h3>Gestion des Commandes</h3>
@@ -315,63 +299,61 @@
                     </div>
                     <div class="table-container">
                         <table>
-                            <thead><tr><th>N°</th><th>Client</th><th>Date</th><th>Montant</th><th>Paiement</th><th>Statut</th><th>Notification</th><th>Actions</th></tr></thead>
+                            <thead><tr><th>N°</th><th>Client</th><th>Email</th><th>Date</th><th>Montant</th><th>Paiement</th><th>Statut</th><th>Facture</th><th>Actions</th></tr></thead>
                             <tbody id="ordersTableBody"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Users (inchangé) -->
             <div id="usersSection" class="content-section" style="display:none;">
                 <div class="data-section">
                     <h3>Gestion des Clients</h3>
                     <div class="table-container">
                         <table>
-                            <thead><tr><th>ID</th><th>Nom</th><th>Email</th><th>Téléphone</th><th>Ville</th><th>Rôle</th></tr></thead>
+                            <thead><tr><th>ID</th><th>Nom</th><th>Email</th><th>Téléphone</th><th>Ville</th><th>Rôle</th><th>Inscrit le</th></tr></thead>
                             <tbody id="usersTableBody"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Settings (inchangé) -->
+            <div id="invoicesSection" class="content-section" style="display:none;">
+                <div class="data-section">
+                    <h3>Factures Électroniques</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>N° Facture</th><th>Commande</th><th>Client</th><th>Email</th><th>Date</th><th>Montant</th><th>Télécharger</th></tr></thead>
+                            <tbody id="invoicesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             <div id="settingsSection" class="content-section" style="display:none;">
                 <div class="data-section">
                     <h3>Paramètres du site</h3>
                     <div class="form-group"><label>Nom du site</label><input type="text" id="siteName" value="SenStyle"></div>
                     <div class="form-group"><label>Email de contact</label><input type="email" id="siteEmail" value="contact@senstyle.sn"></div>
                     <div class="form-group"><label>Téléphone</label><input type="tel" id="sitePhone" value="+221 78 000 00 00"></div>
+                    <div class="form-group"><label>Adresse</label><input type="text" id="siteAddress" value="Dakar, Sénégal"></div>
+                    <div class="form-group"><label>N° NINEA</label><input type="text" id="siteNinea" value="SN-DKR-2025-001234"></div>
+                    <div class="form-group"><label>Code secret propriétaire</label><input type="password" id="ownerSecretCode" value="SenStyle2026"></div>
                     <div class="form-group"><label>Frais de livraison (FCFA)</label><input type="number" id="shippingCost" value="2000"></div>
                     <div class="form-group"><label>Livraison gratuite à partir de (FCFA)</label><input type="number" id="freeShipping" value="20000"></div>
-                    <button class="btn-submit" onclick="saveSettings()"><i class="fas fa-save"></i> Enregistrer les paramètres</button>
+                    <button class="btn-submit" onclick="saveSettings()"><i class="fas fa-save"></i> Enregistrer</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="accessDenied" class="access-denied" style="display:none;">
-        <div class="access-denied-card">
-            <i class="fas fa-lock"></i>
-            <h2>Accès Refusé</h2>
-            <p>Cette zone est réservée à l'administrateur du site.</p>
-            <p style="font-size: 14px; color: var(--gray-500); margin-bottom: 2rem;">Email autorisé : <strong>admin@senstyle.sn</strong></p>
-            <a href="SenStyle.html" class="btn-return"><i class="fas fa-arrow-left"></i> Retourner à la boutique</a>
-        </div>
-    </div>
-
-    <!-- Modal Détails Commande -->
     <div class="modal" id="orderDetailModal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="orderDetailTitle">Détails de la commande</h3>
-                <i class="fas fa-times modal-close" onclick="closeOrderDetail()"></i>
-            </div>
+            <div class="modal-header"><h3 id="orderDetailTitle">Détails de la commande</h3><i class="fas fa-times modal-close" onclick="closeOrderDetail()"></i></div>
             <div id="orderDetailContent"></div>
         </div>
     </div>
 
-    <!-- Modal Produit (inchangé) -->
     <div class="modal" id="productModal">
         <div class="modal-content">
             <div class="modal-header"><h3 id="modalTitle">Ajouter un produit</h3><i class="fas fa-times modal-close" onclick="closeModal()"></i></div>
@@ -380,8 +362,8 @@
                 <div class="form-group"><label>Nom du produit</label><input type="text" id="productName" required></div>
                 <div class="form-group"><label>Catégorie</label><select id="productCategory" required><option value="vêtements">Vêtements</option><option value="shorts">Shorts</option><option value="chaussures">Chaussures</option></select></div>
                 <div class="form-group"><label>Prix (FCFA)</label><input type="number" id="productPrice" required min="0"></div>
-                <div class="form-group"><label>Ancien prix (FCFA) - Optionnel</label><input type="number" id="productOldPrice" min="0"></div>
-                <div class="form-group"><label>Image URL</label><input type="text" id="productImage" required placeholder="https://images.unsplash.com/..."></div>
+                <div class="form-group"><label>Ancien prix (FCFA)</label><input type="number" id="productOldPrice" min="0"></div>
+                <div class="form-group"><label>Image URL</label><input type="text" id="productImage" required></div>
                 <div class="form-group"><label><input type="checkbox" id="productPromo"> En promotion</label></div>
                 <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Enregistrer</button>
             </form>
@@ -389,43 +371,55 @@
     </div>
 
     <script>
-        const ADMIN_EMAIL = 'admin@senstyle.sn';
-        let currentFilterOrder = 'all';
+        const OWNER_EMAIL = 'admin@senstyle.sn';
+        const OWNER_SECRET = 'SenStyle2026';
 
-        function checkAdminAccess() {
-            const currentUser = JSON.parse(localStorage.getItem('senstyleCurrentUser'));
-            if (currentUser && currentUser.role === 'admin' && currentUser.email === ADMIN_EMAIL) {
-                document.body.classList.add('admin-body');
+        function verifyOwner(event) {
+            event.preventDefault();
+            const email = document.getElementById('ownerEmail').value.trim();
+            const secret = document.getElementById('ownerSecret').value.trim();
+            const errorDiv = document.getElementById('ownerError');
+            
+            if (email === OWNER_EMAIL && secret === OWNER_SECRET) {
+                document.getElementById('ownerVerifyScreen').style.display = 'none';
                 document.getElementById('adminContent').style.display = 'flex';
-                document.getElementById('accessDenied').style.display = 'none';
-                document.getElementById('userInitial').textContent = currentUser.name.charAt(0).toUpperCase();
-                document.getElementById('userName').textContent = currentUser.name;
-                loadDashboard(); loadProducts(); loadOrders(); loadUsers(); loadSettings();
-                return true;
+                document.body.classList.add('admin-body');
+                loadDashboard(); loadProducts(); loadOrders(); loadUsers(); loadInvoices(); loadSettings();
+                sessionStorage.setItem('ownerAuthenticated', 'true');
             } else {
-                document.body.classList.remove('admin-body');
-                document.getElementById('adminContent').style.display = 'none';
-                document.getElementById('accessDenied').style.display = 'flex';
-                setTimeout(() => { window.location.href = 'SenStyle.html'; }, 5000);
-                return false;
+                errorDiv.className = 'error-msg show';
+                errorDiv.textContent = 'Email ou code secret incorrect. Accès refusé.';
+                setTimeout(() => { errorDiv.className = 'error-msg'; }, 3000);
             }
         }
-        checkAdminAccess();
+
+        function checkExistingSession() {
+            if (sessionStorage.getItem('ownerAuthenticated') === 'true') {
+                document.getElementById('ownerVerifyScreen').style.display = 'none';
+                document.getElementById('adminContent').style.display = 'flex';
+                document.body.classList.add('admin-body');
+                loadDashboard(); loadProducts(); loadOrders(); loadUsers(); loadInvoices(); loadSettings();
+            }
+        }
+        checkExistingSession();
+
+        let currentFilterOrder = 'all';
 
         function showSection(section) {
             document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
             document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-            const sectionMap = { 'dashboard': 'dashboardSection', 'products': 'productsSection', 'orders': 'ordersSection', 'users': 'usersSection', 'settings': 'settingsSection' };
+            const sectionMap = { 'dashboard': 'dashboardSection', 'products': 'productsSection', 'orders': 'ordersSection', 'users': 'usersSection', 'invoices': 'invoicesSection', 'settings': 'settingsSection' };
             const sectionDiv = document.getElementById(sectionMap[section]);
             if (sectionDiv) sectionDiv.style.display = 'block';
             const links = document.querySelectorAll('.sidebar-menu a');
-            links.forEach(link => { if (link.textContent.toLowerCase().includes(section === 'dashboard' ? 'tableau' : section)) link.classList.add('active'); });
-            const titles = { 'dashboard': 'Tableau de bord', 'products': 'Gestion des Produits', 'orders': 'Gestion des Commandes', 'users': 'Gestion des Clients', 'settings': 'Paramètres' };
+            links.forEach(link => { if (link.textContent.toLowerCase().includes(section === 'dashboard' ? 'tableau' : section === 'invoices' ? 'factures' : section)) link.classList.add('active'); });
+            const titles = { 'dashboard': 'Tableau de bord', 'products': 'Gestion des Produits', 'orders': 'Gestion des Commandes', 'users': 'Gestion des Clients', 'invoices': 'Factures Électroniques', 'settings': 'Paramètres' };
             document.getElementById('sectionTitle').textContent = titles[section] || 'Administration';
             if (section === 'dashboard') loadDashboard();
             if (section === 'products') loadProducts();
             if (section === 'orders') loadOrders();
             if (section === 'users') loadUsers();
+            if (section === 'invoices') loadInvoices();
         }
 
         function loadDashboard() {
@@ -460,15 +454,8 @@
                 tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;">Aucun produit</td></tr>';
             } else {
                 tbody.innerHTML = products.map(p => `
-                    <tr>
-                        <td>#${p.id}</td>
-                        <td><img src="${p.image}" alt="${p.name}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;" onerror="this.src='https://via.placeholder.com/50'"></td>
-                        <td>${p.name}</td>
-                        <td>${p.category}</td>
-                        <td>${p.price.toLocaleString()} FCFA</td>
-                        <td>${p.promo ? '<span style="color:var(--accent-red);font-weight:700;">Oui</span>' : 'Non'}</td>
-                        <td><div class="action-buttons"><button class="btn-action btn-edit" onclick="editProduct(${p.id})"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i></button></div></td>
-                    </tr>`).join('');
+                    <tr><td>#${p.id}</td><td><img src="${p.image}" alt="${p.name}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;" onerror="this.src='https://via.placeholder.com/50'"></td><td>${p.name}</td><td>${p.category}</td><td>${p.price.toLocaleString()} FCFA</td><td>${p.promo ? 'Oui' : 'Non'}</td><td><div class="action-buttons"><button class="btn-action btn-edit" onclick="editProduct(${p.id})"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i></button></div></td></tr>
+                `).join('');
             }
         }
 
@@ -514,11 +501,10 @@
             else { products.push(productData); }
             localStorage.setItem('senstyleProducts', JSON.stringify(products));
             closeModal(); loadProducts(); loadDashboard();
-            alert('Produit enregistré avec succès !');
+            alert('Produit enregistré ! Les modifications sont visibles sur la boutique.');
         }
 
         function editProduct(id) { openProductModal(id); }
-
         function deleteProduct(id) {
             if (confirm('Supprimer ce produit ?')) {
                 let products = getProducts();
@@ -528,81 +514,49 @@
             }
         }
 
-        // ==================== GESTION DES COMMANDES AMÉLIORÉE ====================
-        function getOrders() {
-            return JSON.parse(localStorage.getItem('senstyleOrders')) || [];
-        }
-
-        function saveOrders(orders) {
-            localStorage.setItem('senstyleOrders', JSON.stringify(orders));
-        }
-
-        function filterOrders(status) {
-            currentFilterOrder = status;
-            loadOrders();
-        }
+        function getOrders() { return JSON.parse(localStorage.getItem('senstyleOrders')) || []; }
+        function saveOrders(orders) { localStorage.setItem('senstyleOrders', JSON.stringify(orders)); }
+        function filterOrders(status) { currentFilterOrder = status; loadOrders(); }
 
         function getStatusClass(status) {
-            const classes = {
-                'En attente': 'status-en-attente',
-                'Confirmée': 'status-confirmee',
-                'En préparation': 'status-en-preparation',
-                'Expédiée': 'status-expediee',
-                'Livrée': 'status-livree',
-                'Annulée': 'status-annulee',
-                'Remboursée': 'status-remboursee',
-                'Payé': 'status-confirmee'
-            };
+            const classes = { 'En attente': 'status-en-attente', 'Confirmée': 'status-confirmee', 'En préparation': 'status-en-preparation', 'Expédiée': 'status-expediee', 'Livrée': 'status-livree', 'Annulée': 'status-annulee', 'Payé': 'status-confirmee' };
             return classes[status] || 'status-en-attente';
         }
 
         function loadOrders() {
             let orders = getOrders();
-            
-            // Mettre à jour les statuts par défaut
             orders = orders.map(o => {
                 if (!o.status || o.status === 'Payé') o.status = 'En attente';
-                if (!o.notifications) o.notifications = [];
-                if (!o.customerPhone && o.paymentIdentifier) o.customerPhone = o.paymentIdentifier;
+                if (!o.customerName) o.customerName = 'Client non identifié';
+                if (!o.invoiceNumber) o.invoiceNumber = 'FACT-' + o.id;
                 return o;
             });
             saveOrders(orders);
-
-            // Filtrer
-            if (currentFilterOrder !== 'all') {
-                orders = orders.filter(o => o.status === currentFilterOrder);
-            }
-
+            if (currentFilterOrder !== 'all') orders = orders.filter(o => o.status === currentFilterOrder);
             const tbody = document.getElementById('ordersTableBody');
             const pendingCount = getOrders().filter(o => o.status === 'En attente').length;
             document.getElementById('pendingCount').textContent = pendingCount;
 
             if (orders.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:2rem;">Aucune commande</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:2rem;">Aucune commande</td></tr>';
             } else {
                 tbody.innerHTML = orders.map(o => `
                     <tr>
                         <td><strong>#${o.id || 'N/A'}</strong></td>
-                        <td>${o.customerName || 'Client'}</td>
+                        <td>${o.customerName || 'N/A'}</td>
+                        <td style="font-size:12px;">${o.customerEmail || 'N/A'}</td>
                         <td>${new Date(o.date).toLocaleDateString('fr-FR')}</td>
                         <td><strong>${(o.total || 0).toLocaleString()} FCFA</strong></td>
                         <td>${o.paymentMethod || 'N/A'}</td>
                         <td><span class="status-badge ${getStatusClass(o.status)}">${o.status || 'En attente'}</span></td>
-                        <td>
-                            ${o.notifications && o.notifications.length > 0 ? 
-                                `<span style="font-size:11px;color:var(--success);"><i class="fas fa-check-circle"></i> ${o.notifications.length} notification(s)</span>` : 
-                                '<span style="font-size:11px;color:var(--gray-500);">Aucune</span>'}
-                        </td>
+                        <td><button class="btn-action btn-invoice" onclick="generateInvoice('${o.id}')"><i class="fas fa-file-pdf"></i> PDF</button></td>
                         <td>
                             <div class="action-buttons">
-                                <button class="btn-action btn-view" onclick="viewOrderDetails('${o.id}')" title="Détails"><i class="fas fa-eye"></i></button>
-                                ${o.status === 'En attente' ? `
-                                    <button class="btn-action btn-validate" onclick="updateOrderStatus('${o.id}', 'Confirmée')" title="Confirmer"><i class="fas fa-check"></i></button>
-                                    <button class="btn-action btn-reject" onclick="updateOrderStatus('${o.id}', 'Annulée')" title="Annuler"><i class="fas fa-times"></i></button>
-                                ` : ''}
-                                ${o.status === 'Confirmée' ? `<button class="btn-action btn-ship" onclick="updateOrderStatus('${o.id}', 'En préparation')" title="Préparation"><i class="fas fa-box"></i></button>` : ''}
-                                ${o.status === 'En préparation' ? `<button class="btn-action btn-ship" onclick="updateOrderStatus('${o.id}', 'Expédiée')" title="Expédier"><i class="fas fa-truck"></i></button>` : ''}
-                                ${o.status === 'Expédiée' ? `<button class="btn-action btn-deliver" onclick="updateOrderStatus('${o.id}', 'Livrée')" title="Livrer"><i class="fas fa-home"></i></button>` : ''}
+                                <button class="btn-action btn-view" onclick="viewOrderDetails('${o.id}')"><i class="fas fa-eye"></i></button>
+                                ${o.status === 'En attente' ? `<button class="btn-action btn-validate" onclick="updateOrderStatus('${o.id}','Confirmée')"><i class="fas fa-check"></i></button><button class="btn-action btn-reject" onclick="updateOrderStatus('${o.id}','Annulée')"><i class="fas fa-times"></i></button>` : ''}
+                                ${o.status === 'Confirmée' ? `<button class="btn-action btn-ship" onclick="updateOrderStatus('${o.id}','En préparation')"><i class="fas fa-box"></i></button>` : ''}
+                                ${o.status === 'En préparation' ? `<button class="btn-action btn-ship" onclick="updateOrderStatus('${o.id}','Expédiée')"><i class="fas fa-truck"></i></button>` : ''}
+                                ${o.status === 'Expédiée' ? `<button class="btn-action btn-deliver" onclick="updateOrderStatus('${o.id}','Livrée')"><i class="fas fa-home"></i></button>` : ''}
                             </div>
                         </td>
                     </tr>
@@ -612,113 +566,184 @@
 
         function updateOrderStatus(orderId, newStatus) {
             if (!confirm(`Changer le statut en "${newStatus}" ?`)) return;
-            
             const orders = getOrders();
             const orderIndex = orders.findIndex(o => o.id === orderId || 'CMD' + o.id === orderId);
-            
             if (orderIndex === -1) { alert('Commande non trouvée'); return; }
-            
-            const order = orders[orderIndex];
-            const oldStatus = order.status;
-            order.status = newStatus;
-            
-            // Ajouter notification
-            if (!order.notifications) order.notifications = [];
-            const notification = {
-                date: new Date().toISOString(),
-                from: oldStatus,
-                to: newStatus,
-                message: getStatusMessage(newStatus),
-                sentTo: order.customerPhone || order.paymentIdentifier || 'Client'
-            };
-            order.notifications.push(notification);
-            
-            // Ajouter SMS log
-            const smsLog = JSON.parse(localStorage.getItem('senstyleSMS')) || [];
-            smsLog.push({
-                phone: order.customerPhone || order.paymentIdentifier || 'N/A',
-                message: `SenStyle: Votre commande #${order.id} est maintenant "${newStatus}". ${getStatusMessage(newStatus)}`,
-                date: new Date().toISOString(),
-                orderId: order.id
-            });
-            localStorage.setItem('senstyleSMS', JSON.stringify(smsLog));
-            
+            orders[orderIndex].status = newStatus;
             saveOrders(orders);
-            loadOrders();
-            loadDashboard();
-            alert(`Commande #${order.id} : statut mis à jour → "${newStatus}"\n\nNotification envoyée au client.`);
-        }
-
-        function getStatusMessage(status) {
-            const messages = {
-                'Confirmée': 'Votre commande a été confirmée. Elle sera préparée sous peu.',
-                'En préparation': 'Votre commande est en cours de préparation.',
-                'Expédiée': 'Votre colis a été expédié. Livraison en cours.',
-                'Livrée': 'Votre colis a été livré. Merci de votre confiance !',
-                'Annulée': 'Votre commande a été annulée. Contactez-nous pour plus d\'informations.',
-                'Remboursée': 'Votre commande a été remboursée.'
-            };
-            return messages[status] || 'Statut mis à jour.';
+            loadOrders(); loadDashboard();
+            alert(`Commande #${orderId} : statut mis à jour → "${newStatus}"`);
         }
 
         function viewOrderDetails(orderId) {
             const orders = getOrders();
             const order = orders.find(o => o.id === orderId || 'CMD' + o.id === orderId);
             if (!order) { alert('Commande non trouvée'); return; }
-
             document.getElementById('orderDetailTitle').textContent = `Commande #${order.id}`;
             document.getElementById('orderDetailContent').innerHTML = `
-                <div style="margin-bottom:1.5rem;">
-                    <p><strong>Client :</strong> ${order.customerName || 'Non spécifié'}</p>
-                    <p><strong>Date :</strong> ${new Date(order.date).toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'})}</p>
-                    <p><strong>Paiement :</strong> ${order.paymentMethod || 'N/A'}</p>
-                    <p><strong>Montant :</strong> <span style="color:var(--primary);font-weight:700;">${(order.total || 0).toLocaleString()} FCFA</span></p>
-                    <p><strong>Statut :</strong> <span class="status-badge ${getStatusClass(order.status)}">${order.status || 'En attente'}</span></p>
-                    ${order.customerPhone ? `<p><strong>Téléphone :</strong> ${order.customerPhone}</p>` : ''}
-                </div>
-                ${order.items && order.items.length > 0 ? `
-                    <h4 style="margin-bottom:0.5rem;">Articles commandés</h4>
-                    <table style="width:100%;margin-bottom:1rem;">
-                        <thead><tr><th>Article</th><th>Qté</th><th>Prix</th></tr></thead>
-                        <tbody>${order.items.map(item => `<tr><td>${item.name}</td><td>${item.quantity || 1}</td><td>${((item.price || 0) * (item.quantity || 1)).toLocaleString()} FCFA</td></tr>`).join('')}</tbody>
-                    </table>
-                ` : ''}
-                ${order.notifications && order.notifications.length > 0 ? `
-                    <h4 style="margin-bottom:0.5rem;">Historique des notifications</h4>
-                    <div class="notification-log">
-                        ${order.notifications.slice().reverse().map(n => `
-                            <div class="notification-item">
-                                <span><strong>${n.to}</strong> - ${n.message}</span>
-                                <span style="color:var(--gray-500);">${new Date(n.date).toLocaleString('fr-FR')}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                ` : '<p style="color:var(--gray-500);">Aucune notification envoyée</p>'}
-                <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
-                    ${order.status === 'En attente' ? `<button class="btn-action btn-validate" onclick="updateOrderStatus('${order.id}','Confirmée');closeOrderDetail();">Confirmer</button><button class="btn-action btn-reject" onclick="updateOrderStatus('${order.id}','Annulée');closeOrderDetail();">Annuler</button>` : ''}
-                    ${order.status === 'Confirmée' ? `<button class="btn-action btn-ship" onclick="updateOrderStatus('${order.id}','En préparation');closeOrderDetail();">En préparation</button>` : ''}
-                    ${order.status === 'En préparation' ? `<button class="btn-action btn-ship" onclick="updateOrderStatus('${order.id}','Expédiée');closeOrderDetail();">Expédier</button>` : ''}
-                    ${order.status === 'Expédiée' ? `<button class="btn-action btn-deliver" onclick="updateOrderStatus('${order.id}','Livrée');closeOrderDetail();">Livrer</button>` : ''}
-                </div>
+                <p><strong>Client :</strong> ${order.customerName || 'N/A'}</p>
+                <p><strong>Email :</strong> ${order.customerEmail || 'N/A'}</p>
+                <p><strong>Téléphone :</strong> ${order.customerPhone || 'N/A'}</p>
+                <p><strong>Date :</strong> ${new Date(order.date).toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'})}</p>
+                <p><strong>Montant :</strong> ${(order.total || 0).toLocaleString()} FCFA</p>
+                <p><strong>Statut :</strong> <span class="status-badge ${getStatusClass(order.status)}">${order.status}</span></p>
+                <p><strong>N° Facture :</strong> ${order.invoiceNumber || 'FACT-' + order.id}</p>
+                ${order.items ? `<h4>Articles :</h4>${order.items.map(i => `<p>${i.name} x${i.quantity} - ${((i.price||0)*(i.quantity||1)).toLocaleString()} FCFA</p>`).join('')}` : ''}
+                <button class="btn-action btn-invoice" onclick="generateInvoice('${order.id}')" style="margin-top:1rem;padding:8px 16px;"><i class="fas fa-file-pdf"></i> Télécharger la facture PDF</button>
             `;
             document.getElementById('orderDetailModal').classList.add('active');
         }
 
-        function closeOrderDetail() {
-            document.getElementById('orderDetailModal').classList.remove('active');
-            loadOrders();
-        }
+        function closeOrderDetail() { document.getElementById('orderDetailModal').classList.remove('active'); loadOrders(); }
 
         function loadUsers() {
             const users = JSON.parse(localStorage.getItem('senstyleUsers')) || [];
             const tbody = document.getElementById('usersTableBody');
             if (users.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;">Aucun client</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;">Aucun client</td></tr>';
             } else {
                 tbody.innerHTML = users.map(u => `
-                    <tr><td>#${u.id}</td><td>${u.name}</td><td>${u.email}</td><td>${u.phone || 'N/A'}</td><td>${u.city || 'N/A'}</td><td>${u.role === 'admin' ? '👑 Admin' : '👤 Client'}</td></tr>
+                    <tr><td>#${u.id}</td><td>${u.name}</td><td>${u.email}</td><td>${u.phone || 'N/A'}</td><td>${u.city || 'N/A'}</td><td>${u.role === 'admin' ? 'Propriétaire' : 'Client'}</td><td>${new Date(u.createdAt).toLocaleDateString('fr-FR')}</td></tr>
                 `).join('');
             }
+        }
+
+        function loadInvoices() {
+            const orders = getOrders();
+            const tbody = document.getElementById('invoicesTableBody');
+            if (orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;">Aucune facture</td></tr>';
+            } else {
+                tbody.innerHTML = orders.map(o => `
+                    <tr>
+                        <td><strong>${o.invoiceNumber || 'FACT-' + o.id}</strong></td>
+                        <td>#${o.id}</td>
+                        <td>${o.customerName || 'N/A'}</td>
+                        <td style="font-size:12px;">${o.customerEmail || 'N/A'}</td>
+                        <td>${new Date(o.date).toLocaleDateString('fr-FR')}</td>
+                        <td><strong>${(o.total || 0).toLocaleString()} FCFA</strong></td>
+                        <td><button class="btn-action btn-invoice" onclick="generateInvoice('${o.id}')"><i class="fas fa-download"></i> PDF</button></td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function generateInvoice(orderId) {
+            const orders = getOrders();
+            const order = orders.find(o => o.id === orderId || 'CMD' + o.id === orderId);
+            if (!order) { alert('Commande non trouvée'); return; }
+            
+            const settings = JSON.parse(localStorage.getItem('senstyleSettings')) || {};
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // En-tête
+            doc.setFillColor(0, 150, 57);
+            doc.rect(0, 0, 210, 30, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(22);
+            doc.text('SENSTYLE', 105, 18, { align: 'center' });
+            doc.setFontSize(10);
+            doc.text('FACTURE ELECTRONIQUE', 105, 26, { align: 'center' });
+            
+            // Infos entreprise
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'bold');
+            doc.text('SenStyle - Boutique Mode', 14, 40);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Adresse: ' + (settings.address || 'Dakar, Senegal'), 14, 46);
+            doc.text('Tel: ' + (settings.phone || '+221 78 000 00 00'), 14, 52);
+            doc.text('Email: ' + (settings.email || 'contact@senstyle.sn'), 14, 58);
+            doc.text('NINEA: ' + (settings.ninea || 'SN-DKR-2025-001234'), 14, 64);
+            
+            // Infos facture
+            doc.setFont('helvetica', 'bold');
+            doc.text('FACTURE N°: ' + (order.invoiceNumber || 'FACT-' + order.id), 140, 40);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Date: ' + new Date(order.date).toLocaleDateString('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}), 140, 46);
+            doc.text('Commande N°: #' + order.id, 140, 52);
+            
+            // Infos client
+            doc.setFont('helvetica', 'bold');
+            doc.text('FACTURER A:', 14, 78);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Nom: ' + (order.customerName || 'Client'), 14, 84);
+            doc.text('Email: ' + (order.customerEmail || 'N/A'), 14, 90);
+            doc.text('Tel: ' + (order.customerPhone || 'N/A'), 14, 96);
+            doc.text('Ville: ' + (order.customerCity || 'N/A'), 14, 102);
+            
+            // Tableau des articles avec prix
+            const items = order.items || [];
+            const tableRows = items.map(item => [
+                item.name || 'Article',
+                (item.quantity || 1).toString(),
+                (item.price || 0).toLocaleString('fr-FR') + ' FCFA',
+                ((item.price || 0) * (item.quantity || 1)).toLocaleString('fr-FR') + ' FCFA'
+            ]);
+            
+            // Calcul des totaux
+            const subtotal = items.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
+            const shipping = subtotal >= 20000 ? 0 : (settings.shippingCost || 2000);
+            const total = subtotal + shipping;
+            
+            doc.autoTable({
+                startY: 110,
+                head: [['Article', 'Qté', 'Prix unitaire', 'Montant']],
+                body: tableRows,
+                headStyles: { 
+                    fillColor: [0, 150, 57], 
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold',
+                    fontSize: 9
+                },
+                bodyStyles: { fontSize: 9 },
+                alternateRowStyles: { fillColor: [245, 245, 245] },
+                margin: { left: 14, right: 14 },
+                columnStyles: {
+                    0: { cellWidth: 70 },
+                    1: { cellWidth: 15, halign: 'center' },
+                    2: { cellWidth: 35, halign: 'right' },
+                    3: { cellWidth: 40, halign: 'right' }
+                }
+            });
+            
+            const finalY = doc.lastAutoTable.finalY + 10;
+            
+            // Résumé des totaux
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.text('Sous-total:', 130, finalY);
+            doc.text(subtotal.toLocaleString('fr-FR') + ' FCFA', 170, finalY, { align: 'right' });
+            
+            doc.text('Livraison:', 130, finalY + 7);
+            doc.text(shipping === 0 ? 'Gratuite' : shipping.toLocaleString('fr-FR') + ' FCFA', 170, finalY + 7, { align: 'right' });
+            
+            // Ligne de séparation
+            doc.setDrawColor(0, 150, 57);
+            doc.setLineWidth(0.5);
+            doc.line(130, finalY + 12, 196, finalY + 12);
+            
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(11);
+            doc.text('TOTAL TTC:', 130, finalY + 20);
+            doc.text(total.toLocaleString('fr-FR') + ' FCFA', 170, finalY + 20, { align: 'right' });
+            
+            // Mode de paiement
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            const paymentNames = { orange: 'Orange Money', wave: 'Wave', card: 'Carte Bancaire' };
+            doc.text('Mode de paiement: ' + (paymentNames[order.paymentMethod] || order.paymentMethod || 'N/A'), 14, finalY + 30);
+            
+            // Pied de page
+            doc.setFontSize(8);
+            doc.setTextColor(100, 100, 100);
+            doc.text('SenStyle - Dakar, Senegal | NINEA: ' + (settings.ninea || 'SN-DKR-2025-001234'), 105, 280, { align: 'center' });
+            doc.text('Cette facture a ete generee electroniquement et est valide sans signature.', 105, 286, { align: 'center' });
+            
+            // Télécharger
+            doc.save('Facture_' + (order.invoiceNumber || 'FACT-' + order.id) + '.pdf');
+            alert('Facture ' + (order.invoiceNumber || 'FACT-' + order.id) + ' telechargee avec succes !');
         }
 
         function loadSettings() {
@@ -727,6 +752,9 @@
                 document.getElementById('siteName').value = settings.siteName || 'SenStyle';
                 document.getElementById('siteEmail').value = settings.email || '';
                 document.getElementById('sitePhone').value = settings.phone || '';
+                document.getElementById('siteAddress').value = settings.address || '';
+                document.getElementById('siteNinea').value = settings.ninea || '';
+                document.getElementById('ownerSecretCode').value = settings.ownerSecret || 'SenStyle2026';
                 document.getElementById('shippingCost').value = settings.shippingCost || 2000;
                 document.getElementById('freeShipping').value = settings.freeShipping || 20000;
             }
@@ -737,17 +765,20 @@
                 siteName: document.getElementById('siteName').value,
                 email: document.getElementById('siteEmail').value,
                 phone: document.getElementById('sitePhone').value,
+                address: document.getElementById('siteAddress').value,
+                ninea: document.getElementById('siteNinea').value,
+                ownerSecret: document.getElementById('ownerSecretCode').value,
                 shippingCost: parseInt(document.getElementById('shippingCost').value),
                 freeShipping: parseInt(document.getElementById('freeShipping').value)
             };
             localStorage.setItem('senstyleSettings', JSON.stringify(settings));
-            alert('Paramètres enregistrés !');
+            alert('Parametres enregistres !');
         }
 
         function logout() {
-            if (confirm('Se déconnecter ?')) {
-                localStorage.removeItem('senstyleCurrentUser');
-                window.location.href = 'SenStyle.html';
+            if (confirm('Se deconnecter ?')) {
+                sessionStorage.removeItem('ownerAuthenticated');
+                window.location.href = 'index.html';
             }
         }
     </script>
