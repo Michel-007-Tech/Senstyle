@@ -10,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     
     <style>
+        /* [Tout le CSS reste identique jusqu'à la fin du style] */
         :root {
             --primary: #009639;
             --primary-dark: #007a2e;
@@ -194,6 +195,12 @@
         .btn-submit { width: 100%; padding: 12px; background: var(--primary); color: var(--white); border: none; border-radius: var(--radius); font-weight: 700; cursor: pointer; }
         .btn-submit:hover { background: var(--primary-dark); }
 
+        /* Ajout d'un style pour la timeline dans l'admin */
+        .admin-timeline { margin-top: 1rem; padding: 1rem; background: var(--gray-100); border-radius: var(--radius); }
+        .admin-timeline h4 { margin-bottom: 0.5rem; color: var(--primary); }
+        .admin-timeline .timeline-step { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; font-size: 13px; }
+        .admin-timeline .timeline-step i { color: var(--primary); }
+
         @media (max-width: 768px) {
             body.admin-body { flex-direction: column; }
             .sidebar { width: 100%; height: auto; position: relative; padding: 1rem; }
@@ -269,6 +276,17 @@
                     <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-users"></i></div><h3 id="totalUsers">0</h3><p>Clients inscrits</p></div>
                     <div class="stat-card"><div class="stat-icon red"><i class="fas fa-money-bill-wave"></i></div><h3 id="totalRevenue">0 FCFA</h3><p>Revenus totaux</p></div>
                 </div>
+                
+                <!-- Ajout: Section des dernières commandes avec statut -->
+                <div class="data-section" style="margin-top: 1.5rem;">
+                    <h3><i class="fas fa-clock"></i> Dernières commandes</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>N°</th><th>Client</th><th>Date</th><th>Montant</th><th>Statut</th><th>Progression</th></tr></thead>
+                            <tbody id="dashboardRecentOrders"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <div id="productsSection" class="content-section" style="display:none;">
@@ -299,7 +317,7 @@
                     </div>
                     <div class="table-container">
                         <table>
-                            <thead><tr><th>N°</th><th>Client</th><th>Email</th><th>Date</th><th>Montant</th><th>Paiement</th><th>Statut</th><th>Facture</th><th>Actions</th></tr></thead>
+                            <thead><tr><th>N°</th><th>Client</th><th>Email</th><th>Date</th><th>Montant</th><th>Paiement</th><th>Statut</th><th>Progression</th><th>Facture</th><th>Actions</th></tr></thead>
                             <tbody id="ordersTableBody"></tbody>
                         </table>
                     </div>
@@ -422,6 +440,42 @@
             if (section === 'invoices') loadInvoices();
         }
 
+        // Fonction pour obtenir les étapes de progression avec le statut actuel
+        function getOrderProgress(status) {
+            const steps = [
+                { label: 'En attente', icon: 'fa-clock', status: 'pending' },
+                { label: 'Confirmée', icon: 'fa-check-circle', status: 'pending' },
+                { label: 'En préparation', icon: 'fa-box', status: 'pending' },
+                { label: 'Expédiée', icon: 'fa-truck', status: 'pending' },
+                { label: 'Livrée', icon: 'fa-home', status: 'pending' }
+            ];
+            
+            const statusOrder = ['En attente', 'Confirmée', 'En préparation', 'Expédiée', 'Livrée'];
+            const currentIndex = statusOrder.indexOf(status);
+            
+            if (status === 'Annulée') {
+                return '<span style="color:#991b1b;font-weight:700;"><i class="fas fa-times-circle"></i> Commande annulée</span>';
+            }
+            
+            return steps.map((step, index) => {
+                let stepStatus;
+                if (index < currentIndex) stepStatus = 'completed';
+                else if (index === currentIndex) stepStatus = 'current';
+                else stepStatus = 'pending';
+                
+                const colors = {
+                    completed: 'color:#059669;',
+                    current: 'color:#2563eb;font-weight:700;',
+                    pending: 'color:#a3a3a3;'
+                };
+                
+                return `<span style="${colors[stepStatus]};margin-right:8px;font-size:12px;">
+                    <i class="fas ${step.icon}" style="font-size:10px;"></i> ${step.label}
+                    ${index < steps.length - 1 ? ' → ' : ''}
+                </span>`;
+            }).join('');
+        }
+
         function loadDashboard() {
             const products = JSON.parse(localStorage.getItem('senstyleProducts')) || [];
             const orders = JSON.parse(localStorage.getItem('senstyleOrders')) || [];
@@ -431,6 +485,24 @@
             document.getElementById('totalUsers').textContent = users.length;
             const totalRevenue = orders.reduce((sum, o) => sum + (o.total || 0), 0);
             document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString('fr-FR') + ' FCFA';
+            
+            // Afficher les dernières commandes avec progression
+            const recentOrders = orders.slice(-5).reverse();
+            const tbody = document.getElementById('dashboardRecentOrders');
+            if (recentOrders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;">Aucune commande récente</td></tr>';
+            } else {
+                tbody.innerHTML = recentOrders.map(o => `
+                    <tr>
+                        <td><strong>#${o.id || 'N/A'}</strong></td>
+                        <td>${o.customerName || 'N/A'}</td>
+                        <td>${new Date(o.date).toLocaleDateString('fr-FR')}</td>
+                        <td><strong>${(o.total || 0).toLocaleString()} FCFA</strong></td>
+                        <td><span class="status-badge ${getStatusClass(o.status)}">${o.status || 'En attente'}</span></td>
+                        <td style="font-size:11px;">${getOrderProgress(o.status || 'En attente')}</td>
+                    </tr>
+                `).join('');
+            }
         }
 
         function getProducts() {
@@ -538,7 +610,7 @@
             document.getElementById('pendingCount').textContent = pendingCount;
 
             if (orders.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:2rem;">Aucune commande</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:2rem;">Aucune commande</td></tr>';
             } else {
                 tbody.innerHTML = orders.map(o => `
                     <tr>
@@ -549,6 +621,7 @@
                         <td><strong>${(o.total || 0).toLocaleString()} FCFA</strong></td>
                         <td>${o.paymentMethod || 'N/A'}</td>
                         <td><span class="status-badge ${getStatusClass(o.status)}">${o.status || 'En attente'}</span></td>
+                        <td style="font-size:11px;max-width:250px;">${getOrderProgress(o.status || 'En attente')}</td>
                         <td><button class="btn-action btn-invoice" onclick="generateInvoice('${o.id}')"><i class="fas fa-file-pdf"></i> PDF</button></td>
                         <td>
                             <div class="action-buttons">
@@ -570,9 +643,29 @@
             const orderIndex = orders.findIndex(o => o.id === orderId || 'CMD' + o.id === orderId);
             if (orderIndex === -1) { alert('Commande non trouvée'); return; }
             orders[orderIndex].status = newStatus;
+            
+            // Ajouter l'horodatage pour le suivi
+            if (!orders[orderIndex].statusHistory) orders[orderIndex].statusHistory = [];
+            orders[orderIndex].statusHistory.push({
+                status: newStatus,
+                date: new Date().toISOString(),
+                description: getStatusDescription(newStatus)
+            });
+            
             saveOrders(orders);
             loadOrders(); loadDashboard();
-            alert(`Commande #${orderId} : statut mis à jour → "${newStatus}"`);
+            alert(`Commande #${orderId} : statut mis à jour → "${newStatus}"\n\nCe changement est visible sur la page de suivi.`);
+        }
+
+        function getStatusDescription(status) {
+            const descriptions = {
+                'Confirmée': 'Votre commande a été confirmée et sera traitée prochainement.',
+                'En préparation': 'Votre commande est en cours de préparation par notre équipe.',
+                'Expédiée': 'Votre colis a été remis au transporteur et est en route.',
+                'Livrée': 'Votre colis a été livré avec succès.',
+                'Annulée': 'Cette commande a été annulée.'
+            };
+            return descriptions[status] || 'Statut mis à jour.';
         }
 
         function viewOrderDetails(orderId) {
@@ -580,6 +673,23 @@
             const order = orders.find(o => o.id === orderId || 'CMD' + o.id === orderId);
             if (!order) { alert('Commande non trouvée'); return; }
             document.getElementById('orderDetailTitle').textContent = `Commande #${order.id}`;
+            
+            let statusHistoryHtml = '';
+            if (order.statusHistory && order.statusHistory.length > 0) {
+                statusHistoryHtml = `
+                    <div class="admin-timeline">
+                        <h4><i class="fas fa-history"></i> Historique des statuts</h4>
+                        ${order.statusHistory.map(h => `
+                            <div class="timeline-step">
+                                <i class="fas fa-circle" style="font-size:8px;"></i>
+                                <strong>${h.status}</strong> - ${new Date(h.date).toLocaleDateString('fr-FR', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'})}
+                                <br><small style="color:var(--gray-500);margin-left:18px;">${h.description}</small>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
             document.getElementById('orderDetailContent').innerHTML = `
                 <p><strong>Client :</strong> ${order.customerName || 'N/A'}</p>
                 <p><strong>Email :</strong> ${order.customerEmail || 'N/A'}</p>
@@ -587,8 +697,10 @@
                 <p><strong>Date :</strong> ${new Date(order.date).toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'})}</p>
                 <p><strong>Montant :</strong> ${(order.total || 0).toLocaleString()} FCFA</p>
                 <p><strong>Statut :</strong> <span class="status-badge ${getStatusClass(order.status)}">${order.status}</span></p>
+                <p><strong>Progression :</strong> ${getOrderProgress(order.status || 'En attente')}</p>
                 <p><strong>N° Facture :</strong> ${order.invoiceNumber || 'FACT-' + order.id}</p>
-                ${order.items ? `<h4>Articles :</h4>${order.items.map(i => `<p>${i.name} x${i.quantity} - ${((i.price||0)*(i.quantity||1)).toLocaleString()} FCFA</p>`).join('')}` : ''}
+                ${order.items ? `<h4>Articles :</h4>${order.items.map(i => `<p>${i.name} x${i.quantity} - Prix unitaire: ${(i.price||0).toLocaleString()} FCFA | Total: ${((i.price||0)*(i.quantity||1)).toLocaleString()} FCFA</p>`).join('')}` : ''}
+                ${statusHistoryHtml}
                 <button class="btn-action btn-invoice" onclick="generateInvoice('${order.id}')" style="margin-top:1rem;padding:8px 16px;"><i class="fas fa-file-pdf"></i> Télécharger la facture PDF</button>
             `;
             document.getElementById('orderDetailModal').classList.add('active');
@@ -673,7 +785,7 @@
             doc.text('Tel: ' + (order.customerPhone || 'N/A'), 14, 96);
             doc.text('Ville: ' + (order.customerCity || 'N/A'), 14, 102);
             
-            // Tableau des articles avec prix
+            // Tableau des articles avec prix UNITAIRE bien visible
             const items = order.items || [];
             const tableRows = items.map(item => [
                 item.name || 'Article',
@@ -701,7 +813,7 @@
                 alternateRowStyles: { fillColor: [245, 245, 245] },
                 margin: { left: 14, right: 14 },
                 columnStyles: {
-                    0: { cellWidth: 70 },
+                    0: { cellWidth: 65 },
                     1: { cellWidth: 15, halign: 'center' },
                     2: { cellWidth: 35, halign: 'right' },
                     3: { cellWidth: 40, halign: 'right' }
@@ -743,7 +855,7 @@
             
             // Télécharger
             doc.save('Facture_' + (order.invoiceNumber || 'FACT-' + order.id) + '.pdf');
-            alert('Facture ' + (order.invoiceNumber || 'FACT-' + order.id) + ' telechargee avec succes !');
+            alert('Facture ' + (order.invoiceNumber || 'FACT-' + order.id) + ' telechargee avec succes !\n\nPrix unitaires inclus dans le tableau.');
         }
 
         function loadSettings() {
