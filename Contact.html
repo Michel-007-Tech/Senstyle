@@ -270,7 +270,6 @@
             border-left: 4px solid var(--whatsapp-green);
             background: linear-gradient(135deg, #f0fdf4, #ffffff);
         }
-        .contact-info-card.whatsapp-card:hover { border-color: var(--whatsapp-green); box-shadow: 0 8px 30px rgba(37,211,102,0.15); }
         .contact-icon-circle {
             width: 50px; height: 50px; border-radius: 50%; display: flex;
             align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
@@ -368,23 +367,31 @@
             background: var(--white); border-radius: 2px; overflow: hidden;
             box-shadow: var(--shadow-luxury); margin-bottom: 3rem; border: 1px solid rgba(0,0,0,0.06);
         }
-        .map-header { padding: 1.5rem 2rem; display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid rgba(0,0,0,0.06); }
+        .map-header {
+            padding: 1.5rem 2rem; display: flex; align-items: center; gap: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.06); flex-wrap: wrap;
+        }
         .map-header i { font-size: 24px; color: var(--gold); }
         .map-header h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 500; }
-        .map-placeholder {
-            height: 350px; background: linear-gradient(135deg, #f0ebe0 0%, #e8e0d0 100%);
-            display: flex; align-items: center; justify-content: center;
-            color: var(--gray-warm); font-size: 14px; position: relative; overflow: hidden;
+        .map-header .map-address { font-size: 11px; color: var(--gray-cool); margin-left: auto; }
+        .map-container {
+            width: 100%; height: 400px; position: relative; overflow: hidden;
         }
-        .map-placeholder .map-content { text-align: center; z-index: 1; }
-        .map-placeholder .map-content i { font-size: 3rem; margin-bottom: 1rem; display: block; color: var(--gold-dark); }
-        .map-placeholder .map-content p { font-size: 13px; color: var(--gray-cool); }
-        .map-placeholder .map-content strong { color: var(--black); display: block; margin-top: 0.5rem; font-size: 14px; }
-        .map-placeholder::before {
-            content: ''; position: absolute; inset: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.5;
+        .map-container iframe {
+            width: 100%; height: 100%; border: none;
         }
+        .map-overlay {
+            position: absolute; bottom: 20px; left: 20px; background: var(--white);
+            padding: 12px 18px; border-radius: 2px; box-shadow: var(--shadow-luxury);
+            font-size: 11px; display: flex; align-items: center; gap: 8px; z-index: 1;
+        }
+        .map-overlay i { color: var(--gold); font-size: 16px; }
+        .map-overlay strong { color: var(--black); }
+        .map-overlay a {
+            color: var(--gold-dark); text-decoration: none; font-weight: 500;
+            margin-left: 8px; font-size: 10px;
+        }
+        .map-overlay a:hover { color: var(--black); }
 
         /* ===== FAQ SECTION ===== */
         .faq-section { margin-bottom: 3rem; }
@@ -427,11 +434,9 @@
             background: var(--black); border: 1px solid rgba(201,168,76,0.2);
         }
         .social-link:hover { background: var(--gold); color: var(--black); transform: translateY(-4px); box-shadow: var(--shadow-gold); }
-        .social-link.facebook:hover { background: #1877f2; color: white; border-color: #1877f2; }
-        .social-link.instagram:hover { background: #e4405f; color: white; border-color: #e4405f; }
-        .social-link.whatsapp:hover { background: var(--whatsapp-green); color: white; border-color: var(--whatsapp-green); }
-        .social-link.twitter:hover { background: #1da1f2; color: white; border-color: #1da1f2; }
-        .social-link.tiktok:hover { background: #000000; color: white; border-color: #ffffff; }
+        .social-link.facebook:hover { background: #1877f2; color: white; }
+        .social-link.instagram:hover { background: #e4405f; color: white; }
+        .social-link.whatsapp:hover { background: var(--whatsapp-green); color: white; }
 
         /* ===== FOOTER ===== */
         .footer-luxe {
@@ -441,7 +446,6 @@
         .footer-luxe .footer-container { max-width: 1600px; margin: 0 auto; padding: 0 1.5rem; text-align: center; }
         .footer-luxe p { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 1px; font-weight: 300; }
         .footer-luxe a { color: var(--gold); text-decoration: none; transition: var(--transition-smooth); font-weight: 500; }
-        .footer-luxe a:hover { color: var(--gold-light); }
         .footer-luxe .footer-bottom { margin-top: 0.6rem; font-size: 9px; color: rgba(255,255,255,0.25); }
 
         /* ===== TOAST ===== */
@@ -457,78 +461,49 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .contact-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .contact-grid { grid-template-columns: 1fr; }
             .faq-grid { grid-template-columns: 1fr; }
+            .map-container { height: 350px; }
         }
         @media (max-width: 768px) {
-            .header-container { flex-direction: column; padding: 0.8rem 1rem; gap: 0.6rem; }
-            .user-info-header { width: 100%; justify-content: center; }
-            .hero-contact { padding: 2rem 1.2rem; }
+            .header-container { flex-direction: column; padding: 0.8rem 1rem; }
             .whatsapp-hero-card { flex-direction: column; text-align: center; padding: 1.5rem; }
-            .whatsapp-hero-card .whatsapp-hero-icon { margin: 0 auto; }
-            .contact-form-card { padding: 1.5rem; }
-            .form-row { grid-template-columns: 1fr; gap: 0.8rem; }
-            .map-placeholder { height: 250px; }
-            .nav-luxe .nav-container { gap: 1rem; }
-            .nav-luxe .nav-link { font-size: 9px; letter-spacing: 1.5px; }
+            .form-row { grid-template-columns: 1fr; }
+            .map-container { height: 280px; }
+            .map-header { flex-direction: column; align-items: flex-start; }
+            .map-header .map-address { margin-left: 0; }
             .whatsapp-float { bottom: 20px; right: 20px; }
             .whatsapp-float .whatsapp-btn { width: 50px; height: 50px; font-size: 24px; }
         }
         @media (max-width: 480px) {
-            .luxe-bar { font-size: 8px; letter-spacing: 1px; padding: 6px 8px; }
-            .header-container { padding: 0.6rem 0.8rem; gap: 0.4rem; }
-            .brand-crest { width: 32px; height: 32px; font-size: 14px; }
-            .brand-name h2 { font-size: 16px; }
-            .hero-contact { padding: 1.5rem 1rem; margin-bottom: 1.5rem; }
             .hero-contact h1 { font-size: 1.5rem; }
-            .whatsapp-hero-card { padding: 1.2rem; }
-            .whatsapp-hero-card .whatsapp-hero-icon { width: 50px; height: 50px; font-size: 2rem; }
-            .whatsapp-hero-card h3 { font-size: 1.1rem; }
             .contact-info-card { padding: 1rem; }
             .contact-icon-circle { width: 40px; height: 40px; font-size: 16px; }
-            .contact-form-card { padding: 1.2rem; }
-            .social-link { width: 42px; height: 42px; font-size: 18px; }
-            .map-placeholder { height: 200px; }
-            .main-content { padding: 0 0.8rem; margin: 1rem auto; }
-            .nav-luxe .nav-link { font-size: 8px; letter-spacing: 1px; padding: 0.6rem 0; }
-            .btn-header { padding: 4px 10px; font-size: 8px; }
+            .map-container { height: 220px; }
+            .map-overlay { bottom: 5px; left: 5px; padding: 6px 10px; font-size: 9px; }
             .whatsapp-float { bottom: 15px; right: 15px; }
             .whatsapp-float .whatsapp-btn { width: 45px; height: 45px; font-size: 22px; }
-            .whatsapp-float .whatsapp-popup { max-width: 240px; }
         }
     </style>
 </head>
 <body>
-    <!-- Luxury Bar -->
-    <div class="luxe-bar">
-        <i class="fas fa-gem"></i> Maison de Mode Sénégalaise <i class="fas fa-gem"></i> Service Client Premium <i class="fas fa-gem"></i> Contactez-Nous
-    </div>
+    <div class="luxe-bar"><i class="fas fa-gem"></i> Maison de Mode Sénégalaise <i class="fas fa-gem"></i> Service Client Premium <i class="fas fa-gem"></i> Contactez-Nous</div>
 
-    <!-- Header Luxe -->
     <header class="header-luxe">
         <div class="header-container">
-            <a href="index.html" class="brand">
-                <div class="brand-crest"><i class="fas fa-crown"></i></div>
-                <div class="brand-name">
-                    <h2>SENSTYLE</h2>
-                    <span>Maison de Mode • Dakar</span>
-                </div>
-            </a>
+            <a href="index.html" class="brand"><div class="brand-crest"><i class="fas fa-crown"></i></div><div class="brand-name"><h2>SENSTYLE</h2><span>Maison de Mode • Dakar</span></div></a>
             <div class="user-info-header" id="userInfoHeader">
                 <span class="user-greeting" style="opacity:0.6;"><i class="far fa-user"></i> Visiteur</span>
-                <button class="btn-header" onclick="redirectToLogin()" title="Se connecter">
-                    <i class="fas fa-sign-in-alt"></i> Connexion
-                </button>
+                <button class="btn-header" onclick="redirectToLogin()"><i class="fas fa-sign-in-alt"></i> Connexion</button>
             </div>
         </div>
     </header>
 
-    <!-- Navigation -->
     <nav class="nav-luxe">
         <div class="nav-container">
             <a href="index.html" class="nav-link">Accueil</a>
-            <a href="suivi.html" class="nav-link">Suivi Commande</a>
-            <a href="index.html#products" class="nav-link">Collections</a>
+            <a href="suivi.html" class="nav-link">Suivi</a>
+            <a href="collections.html" class="nav-link">Collections</a>
             <a href="contact.html" class="nav-link active">Contact</a>
         </div>
     </nav>
@@ -537,37 +512,14 @@
     <div class="whatsapp-float">
         <div class="whatsapp-popup" id="whatsappPopup">
             <i class="fas fa-times popup-close" onclick="toggleWhatsappPopup()"></i>
-            <div class="popup-header">
-                <i class="fab fa-whatsapp"></i>
-                <div>
-                    <span>SENSTYLE</span>
-                    <small><i class="fas fa-circle" style="font-size:5px;color:var(--success);"></i> En ligne</small>
-                </div>
-            </div>
-            <div class="popup-message">
-                👋 Bonjour ! Bienvenue chez <strong>SenStyle</strong>.<br>
-                Comment pouvons-nous vous aider aujourd'hui ?
-            </div>
-            <a href="https://wa.me/221777277451?text=Bonjour%20SenStyle%20!%20J%27ai%20une%20question%20concernant..." 
-               target="_blank" rel="noopener noreferrer"
-               style="display:block;text-align:center;padding:10px;background:var(--whatsapp-green);color:white;text-decoration:none;border-radius:50px;font-size:11px;font-weight:600;">
-                <i class="fab fa-whatsapp"></i> Démarrer la conversation
-            </a>
+            <div class="popup-header"><i class="fab fa-whatsapp"></i><div><span>SENSTYLE</span><small><i class="fas fa-circle" style="font-size:5px;color:var(--success);"></i> En ligne</small></div></div>
+            <div class="popup-message">👋 Bonjour ! Bienvenue chez <strong>SenStyle</strong>.<br>Comment pouvons-nous vous aider ?</div>
+            <a href="https://wa.me/221777277451?text=Bonjour%20SenStyle%20!" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;padding:10px;background:var(--whatsapp-green);color:white;text-decoration:none;border-radius:50px;font-size:11px;font-weight:600;"><i class="fab fa-whatsapp"></i> Démarrer la conversation</a>
         </div>
-        <a href="https://wa.me/221777277451?text=Bonjour%20SenStyle%20!" 
-           target="_blank" rel="noopener noreferrer"
-           class="whatsapp-btn" 
-           title="Contactez-nous sur WhatsApp"
-           onmouseenter="showWhatsappPopup()">
-            <span class="pulse-ring"></span>
-            <span class="notification-dot"></span>
-            <i class="fab fa-whatsapp"></i>
-        </a>
+        <a href="https://wa.me/221777277451?text=Bonjour%20SenStyle%20!" target="_blank" rel="noopener noreferrer" class="whatsapp-btn" title="WhatsApp" onmouseenter="showWhatsappPopup()"><span class="pulse-ring"></span><span class="notification-dot"></span><i class="fab fa-whatsapp"></i></a>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
-        <!-- Hero -->
         <div class="hero-contact">
             <i class="fas fa-concierge-bell contact-hero-icon"></i>
             <p class="overline">Service Conciergerie</p>
@@ -575,306 +527,94 @@
             <p>Notre équipe est à votre disposition sur WhatsApp pour répondre à toutes vos questions. Service client premium disponible 24h/24 et 7j/7.</p>
         </div>
 
-        <!-- WhatsApp Hero Card -->
         <div class="whatsapp-hero-card" onclick="openWhatsApp()">
-            <div class="whatsapp-hero-icon">
-                <i class="fab fa-whatsapp"></i>
-            </div>
-            <div class="whatsapp-hero-content">
-                <h3>Discutez avec nous sur WhatsApp</h3>
-                <p>Réponse rapide en moins de <strong>5 minutes</strong></p>
-                <p class="whatsapp-number"><i class="fab fa-whatsapp"></i> +221 77 727 74 51</p>
-            </div>
-            <a href="https://wa.me/221777277451?text=Bonjour%20SenStyle%20!%20Je%20souhaite%20avoir%20des%20informations." 
-               target="_blank" rel="noopener noreferrer" 
-               class="btn-whatsapp-hero"
-               onclick="event.stopPropagation();">
-                <i class="fab fa-whatsapp"></i> Ouvrir WhatsApp
-            </a>
+            <div class="whatsapp-hero-icon"><i class="fab fa-whatsapp"></i></div>
+            <div class="whatsapp-hero-content"><h3>Discutez avec nous sur WhatsApp</h3><p>Réponse rapide en moins de <strong>5 minutes</strong></p><p class="whatsapp-number"><i class="fab fa-whatsapp"></i> +221 77 727 74 51</p></div>
+            <a href="https://wa.me/221777277451?text=Bonjour%20SenStyle%20!" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-hero" onclick="event.stopPropagation();"><i class="fab fa-whatsapp"></i> Ouvrir WhatsApp</a>
         </div>
 
-        <!-- Contact Grid -->
         <div class="contact-grid">
-            <!-- Infos de contact -->
             <div class="contact-info-section">
-                <!-- WhatsApp Card (prioritaire) -->
-                <div class="contact-info-card whatsapp-card">
-                    <div class="contact-icon-circle whatsapp">
-                        <i class="fab fa-whatsapp"></i>
-                    </div>
-                    <div class="contact-info-content">
-                        <h4>WhatsApp (Recommandé)</h4>
-                        <p class="highlight-whatsapp">+221 77 727 74 51</p>
-                        <p>Réponse en moins de 5 minutes • Disponible 24h/24</p>
-                        <a href="https://wa.me/221777277451?text=Bonjour%20SenStyle%20!%20J%27ai%20besoin%20d%27aide." target="_blank" rel="noopener noreferrer">
-                            <i class="fab fa-whatsapp"></i> Envoyer un message WhatsApp
-                        </a>
-                    </div>
-                </div>
-
-                <div class="contact-info-card">
-                    <div class="contact-icon-circle gold"><i class="fas fa-phone-alt"></i></div>
-                    <div class="contact-info-content">
-                        <h4>Téléphone</h4>
-                        <p class="highlight">+221 77 727 74 51</p>
-                        <p>Service client disponible 24h/24</p>
-                        <a href="tel:+221777277451"><i class="fas fa-phone"></i> Appeler maintenant</a>
-                    </div>
-                </div>
-
-                <div class="contact-info-card">
-                    <div class="contact-icon-circle emerald"><i class="fas fa-envelope"></i></div>
-                    <div class="contact-info-content">
-                        <h4>Email</h4>
-                        <p class="highlight">contact@senstyle.sn</p>
-                        <p>Réponse sous 2 heures maximum</p>
-                        <a href="mailto:contact@senstyle.sn"><i class="fas fa-paper-plane"></i> Envoyer un email</a>
-                    </div>
-                </div>
-
-                <div class="contact-info-card">
-                    <div class="contact-icon-circle navy"><i class="fas fa-map-marker-alt"></i></div>
-                    <div class="contact-info-content">
-                        <h4>Adresse</h4>
-                        <p class="highlight">Dakar, Sénégal</p>
-                        <p>Plateau, Avenue de la République</p>
-                        <a href="https://maps.google.com/?q=Dakar+Senegal" target="_blank" rel="noopener noreferrer"><i class="fas fa-map"></i> Voir sur Google Maps</a>
-                    </div>
-                </div>
-
-                <div class="contact-info-card">
-                    <div class="contact-icon-circle orange"><i class="fas fa-mobile-alt"></i></div>
-                    <div class="contact-info-content">
-                        <h4>Orange Money</h4>
-                        <p class="highlight">#144# • SENSTYLE2025</p>
-                        <p>Paiement marchand sécurisé</p>
-                        <a href="https://orangemoney.sn/ommarketplace/paiement-marchand" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> Payer avec Orange Money</a>
-                    </div>
-                </div>
-
-                <div class="contact-info-card">
-                    <div class="contact-icon-circle wave"><i class="fas fa-wallet"></i></div>
-                    <div class="contact-info-content">
-                        <h4>Wave</h4>
-                        <p class="highlight">+221 77 727 74 51</p>
-                        <p>Transfert instantané sécurisé</p>
-                        <a href="https://wave.com/fr/send-money/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> Payer avec Wave</a>
-                    </div>
-                </div>
-
-                <div class="contact-info-card">
-                    <div class="contact-icon-circle burgundy"><i class="fas fa-clock"></i></div>
-                    <div class="contact-info-content">
-                        <h4>Horaires d'ouverture</h4>
-                        <p><strong>Lundi - Samedi :</strong> 08h00 - 20h00</p>
-                        <p><strong>Dimanche :</strong> 10h00 - 18h00</p>
-                        <p style="font-size:10px;color:var(--success);margin-top:0.3rem;"><i class="fas fa-circle" style="font-size:6px;"></i> WhatsApp disponible 24h/24</p>
-                    </div>
-                </div>
+                <div class="contact-info-card whatsapp-card"><div class="contact-icon-circle whatsapp"><i class="fab fa-whatsapp"></i></div><div class="contact-info-content"><h4>WhatsApp (Recommandé)</h4><p class="highlight-whatsapp">+221 77 727 74 51</p><p>Réponse en moins de 5 minutes</p><a href="https://wa.me/221777277451" target="_blank"><i class="fab fa-whatsapp"></i> Envoyer un message</a></div></div>
+                <div class="contact-info-card"><div class="contact-icon-circle gold"><i class="fas fa-phone-alt"></i></div><div class="contact-info-content"><h4>Téléphone</h4><p class="highlight">+221 77 727 74 51</p><a href="tel:+221777277451"><i class="fas fa-phone"></i> Appeler</a></div></div>
+                <div class="contact-info-card"><div class="contact-icon-circle emerald"><i class="fas fa-envelope"></i></div><div class="contact-info-content"><h4>Email</h4><p class="highlight">contact@senstyle.sn</p><a href="mailto:contact@senstyle.sn"><i class="fas fa-paper-plane"></i> Envoyer un email</a></div></div>
+                <div class="contact-info-card"><div class="contact-icon-circle navy"><i class="fas fa-map-marker-alt"></i></div><div class="contact-info-content"><h4>Adresse</h4><p class="highlight">Dakar, Sénégal</p><p>Plateau, Avenue de la République</p><a href="https://maps.google.com/?q=Dakar+Senegal" target="_blank"><i class="fas fa-map"></i> Google Maps</a></div></div>
+                <div class="contact-info-card"><div class="contact-icon-circle orange"><i class="fas fa-mobile-alt"></i></div><div class="contact-info-content"><h4>Orange Money</h4><p class="highlight">#144# • SENSTYLE2025</p><a href="https://orangemoney.sn/" target="_blank"><i class="fas fa-external-link-alt"></i> Payer</a></div></div>
+                <div class="contact-info-card"><div class="contact-icon-circle wave"><i class="fas fa-wallet"></i></div><div class="contact-info-content"><h4>Wave</h4><p class="highlight">+221 77 727 74 51</p><a href="https://wave.com/fr/send-money/" target="_blank"><i class="fas fa-external-link-alt"></i> Payer</a></div></div>
+                <div class="contact-info-card"><div class="contact-icon-circle burgundy"><i class="fas fa-clock"></i></div><div class="contact-info-content"><h4>Horaires</h4><p>Lun-Sam : 08h-20h | Dim : 10h-18h</p><p style="font-size:10px;color:var(--success);"><i class="fas fa-circle" style="font-size:6px;"></i> WhatsApp 24h/24</p></div></div>
             </div>
 
-            <!-- Formulaire de contact -->
             <div class="contact-form-card" id="contactFormCard">
-                <div class="form-header">
-                    <div class="tag">Message</div>
-                    <h3>Envoyez-nous un message</h3>
-                    <p>Remplissez le formulaire et cliquez sur <strong>"Envoyer via WhatsApp"</strong> pour une réponse rapide directement sur le WhatsApp du propriétaire.</p>
-                </div>
+                <div class="form-header"><div class="tag">Message</div><h3>Envoyez-nous un message</h3><p>Ou utilisez <strong>WhatsApp</strong> pour une réponse plus rapide.</p></div>
                 <form id="contactForm" onsubmit="handleContactSubmit(event)">
-                    <div class="form-row">
-                        <div class="form-group-luxe">
-                            <label>Nom complet *</label>
-                            <input type="text" id="contactName" required placeholder="Votre nom complet">
-                        </div>
-                        <div class="form-group-luxe">
-                            <label>Email *</label>
-                            <input type="email" id="contactEmail" required placeholder="votre@email.com">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group-luxe">
-                            <label>Téléphone</label>
-                            <input type="tel" id="contactPhone" placeholder="77 000 00 00">
-                        </div>
-                        <div class="form-group-luxe">
-                            <label>Sujet *</label>
-                            <select id="contactSubject" required>
-                                <option value="">Sélectionnez un sujet</option>
-                                <option value="commande">Suivi de commande</option>
-                                <option value="produit">Information produit</option>
-                                <option value="paiement">Problème de paiement</option>
-                                <option value="livraison">Livraison</option>
-                                <option value="retour">Retour / Remboursement</option>
-                                <option value="partenariat">Partenariat</option>
-                                <option value="autre">Autre demande</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group-luxe">
-                        <label>N° de commande (si applicable)</label>
-                        <input type="text" id="contactOrderId" placeholder="Exemple : CMD12345678">
-                    </div>
-                    <div class="form-group-luxe">
-                        <label>Message *</label>
-                        <textarea id="contactMessage" required placeholder="Décrivez votre demande en détail..."></textarea>
-                    </div>
-                    <!-- Bouton principal : Envoi vers WhatsApp du propriétaire -->
-                    <button type="button" class="btn-whatsapp-submit" onclick="sendViaWhatsApp()">
-                        <i class="fab fa-whatsapp"></i> Envoyer via WhatsApp (Propriétaire : 77 727 74 51)
-                    </button>
-                    <button type="submit" class="btn-submit-luxe" id="contactSubmitBtn" style="margin-top:0.6rem;">
-                        <i class="fas fa-paper-plane"></i> Envoyer par email
-                    </button>
+                    <div class="form-row"><div class="form-group-luxe"><label>Nom complet *</label><input type="text" id="contactName" required></div><div class="form-group-luxe"><label>Email *</label><input type="email" id="contactEmail" required></div></div>
+                    <div class="form-row"><div class="form-group-luxe"><label>Téléphone</label><input type="tel" id="contactPhone"></div><div class="form-group-luxe"><label>Sujet *</label><select id="contactSubject" required><option value="">Sélectionnez</option><option value="commande">Suivi de commande</option><option value="produit">Information produit</option><option value="paiement">Problème de paiement</option><option value="livraison">Livraison</option><option value="retour">Retour</option><option value="autre">Autre</option></select></div></div>
+                    <div class="form-group-luxe"><label>N° de commande</label><input type="text" id="contactOrderId" placeholder="CMD12345678"></div>
+                    <div class="form-group-luxe"><label>Message *</label><textarea id="contactMessage" required placeholder="Votre message..."></textarea></div>
+                    <button type="button" class="btn-whatsapp-submit" onclick="sendViaWhatsApp()"><i class="fab fa-whatsapp"></i> Envoyer via WhatsApp (77 727 74 51)</button>
+                    <button type="submit" class="btn-submit-luxe" id="contactSubmitBtn" style="margin-top:0.6rem;"><i class="fas fa-paper-plane"></i> Envoyer par email</button>
                 </form>
-                <div class="form-success" id="formSuccess">
-                    <i class="fas fa-check-circle"></i>
-                    <h3>Message envoyé avec succès !</h3>
-                    <p>Merci de nous avoir contacté. Notre équipe vous répondra dans les plus brefs délais.</p>
-                    <p style="margin-top:1rem;font-size:12px;color:var(--gold-dark);">
-                        <i class="fas fa-clock"></i> Délai de réponse estimé : <strong>2 heures</strong>
-                    </p>
-                    <p style="margin-top:0.5rem;font-size:12px;">
-                        Pour une réponse plus rapide, contactez-nous sur 
-                        <a href="https://wa.me/221777277451" target="_blank" style="color:var(--whatsapp-green);font-weight:600;">
-                            <i class="fab fa-whatsapp"></i> WhatsApp
-                        </a>
-                    </p>
-                    <button class="btn-submit-luxe" style="margin-top:1.5rem;" onclick="resetContactForm()">
-                        <i class="fas fa-redo"></i> Envoyer un autre message
-                    </button>
-                </div>
+                <div class="form-success" id="formSuccess"><i class="fas fa-check-circle"></i><h3>Message envoyé !</h3><p>Nous vous répondrons dans les plus brefs délais.</p><button class="btn-submit-luxe" style="margin-top:1rem;" onclick="resetContactForm()"><i class="fas fa-redo"></i> Nouveau message</button></div>
             </div>
         </div>
 
-        <!-- FAQ Section -->
-        <div class="faq-section">
-            <div class="section-header">
-                <div class="tag">FAQ</div>
-                <h2>Questions Fréquentes</h2>
-                <p>Trouvez rapidement des réponses à vos questions les plus courantes</p>
-            </div>
-            <div class="faq-grid">
-                <div class="faq-card" onclick="toggleFaq(this)">
-                    <div class="faq-question">
-                        <span>Comment suivre ma commande ?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Rendez-vous sur notre page <a href="suivi.html" style="color:var(--gold-dark);">Suivi de commande</a> et entrez votre numéro de commande (ex: CMD12345678). Vous pouvez également nous contacter sur WhatsApp au <strong>77 727 74 51</strong> pour un suivi en temps réel.
-                    </div>
-                </div>
-                <div class="faq-card" onclick="toggleFaq(this)">
-                    <div class="faq-question">
-                        <span>Comment puis-je vous contacter rapidement ?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Le moyen le plus rapide est de nous contacter via <strong>WhatsApp au +221 77 727 74 51</strong>. Nous répondons en moins de 5 minutes, 24h/24 et 7j/7. Vous pouvez aussi nous appeler ou nous envoyer un email à contact@senstyle.sn.
-                    </div>
-                </div>
-                <div class="faq-card" onclick="toggleFaq(this)">
-                    <div class="faq-question">
-                        <span>Quels sont les délais de livraison ?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        La livraison est assurée sous <strong>24 à 48 heures</strong> à Dakar et dans les principales villes du Sénégal. Pour les régions plus éloignées, le délai peut être de 3 à 5 jours ouvrés. La livraison est <strong>offerte</strong> à partir de 20 000 FCFA d'achat.
-                    </div>
-                </div>
-                <div class="faq-card" onclick="toggleFaq(this)">
-                    <div class="faq-question">
-                        <span>Quels modes de paiement acceptez-vous ?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Nous acceptons <strong>Orange Money</strong> (code #144#, marchand SENSTYLE2025), <strong>Wave</strong> (numéro +221 77 727 74 51), et les <strong>cartes bancaires</strong> Visa et Mastercard. Tous les paiements sont 100% sécurisés.
-                    </div>
-                </div>
-                <div class="faq-card" onclick="toggleFaq(this)">
-                    <div class="faq-question">
-                        <span>Puis-je retourner un article ?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Oui, vous disposez d'un délai de <strong>14 jours</strong> après réception pour retourner un article. Contactez-nous sur WhatsApp au <strong>77 727 74 51</strong> pour initier un retour rapidement.
-                    </div>
-                </div>
-                <div class="faq-card" onclick="toggleFaq(this)">
-                    <div class="faq-question">
-                        <span>La livraison est-elle vraiment gratuite ?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Oui ! La livraison est <strong>offerte pour toute commande supérieure à 20 000 FCFA</strong>. Pour les commandes inférieures, des frais de 2 000 FCFA sont appliqués.
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Map Section -->
+        <!-- MAP SECTION AVEC CARTE GOOGLE MAPS -->
         <div class="map-section">
             <div class="map-header">
                 <i class="fas fa-map-pin"></i>
-                <h3>Notre emplacement</h3>
+                <h3>📍 Notre Emplacement — Dakar, Sénégal</h3>
+                <span class="map-address"><i class="fas fa-map-marker-alt"></i> Plateau, Avenue de la République, Dakar</span>
             </div>
-            <div class="map-placeholder">
-                <div class="map-content">
-                    <i class="fas fa-map-marked-alt"></i>
-                    <p><strong>SENSTYLE — Maison de Mode</strong></p>
-                    <p>Dakar, Plateau — Avenue de la République</p>
-                    <p style="margin-top:0.5rem;">Sénégal</p>
-                    <a href="https://maps.google.com/?q=Dakar+Senegal" target="_blank" rel="noopener noreferrer" 
-                       style="display:inline-block;margin-top:1rem;padding:10px 20px;background:var(--black);color:var(--gold);text-decoration:none;border-radius:50px;font-size:11px;font-weight:500;transition:var(--transition-smooth);">
-                        <i class="fas fa-external-link-alt"></i> Ouvrir dans Google Maps
-                    </a>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61751.12517824296!2d-17.477662749999998!3d14.693700000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xec172f5b3c5bb71%3A0x5c46c5b4b3b3b3b3!2sDakar!5e0!3m2!1sfr!2ssn!4v1690000000000!5m2!1sfr!2ssn"
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Carte de Dakar - SenStyle">
+                </iframe>
+                <div class="map-overlay">
+                    <i class="fas fa-store"></i>
+                    <div><strong>SENSTYLE</strong><br><span>Plateau, Dakar, Sénégal</span>
+                    <a href="https://maps.google.com/?q=Dakar+Senegal" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> Agrandir</a></div>
                 </div>
             </div>
         </div>
 
-        <!-- Social Section -->
+        <!-- FAQ -->
+        <div class="faq-section">
+            <div class="section-header"><div class="tag">FAQ</div><h2>Questions Fréquentes</h2></div>
+            <div class="faq-grid">
+                <div class="faq-card" onclick="toggleFaq(this)"><div class="faq-question"><span>Comment suivre ma commande ?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer">Rendez-vous sur <a href="suivi.html" style="color:var(--gold-dark);">Suivi de commande</a> ou contactez-nous sur WhatsApp au <strong>77 727 74 51</strong>.</div></div>
+                <div class="faq-card" onclick="toggleFaq(this)"><div class="faq-question"><span>Comment vous contacter rapidement ?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer">Via <strong>WhatsApp au +221 77 727 74 51</strong>. Réponse en moins de 5 minutes, 24h/24 et 7j/7.</div></div>
+                <div class="faq-card" onclick="toggleFaq(this)"><div class="faq-question"><span>Délais de livraison ?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><strong>24 à 48h</strong> à Dakar. Livraison <strong>offerte</strong> dès 20 000 FCFA.</div></div>
+                <div class="faq-card" onclick="toggleFaq(this)"><div class="faq-question"><span>Modes de paiement ?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><strong>Orange Money</strong> (#144#, SENSTYLE2025), <strong>Wave</strong> (+221 77 727 74 51), <strong>Cartes bancaires</strong>.</div></div>
+                <div class="faq-card" onclick="toggleFaq(this)"><div class="faq-question"><span>Retour possible ?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer">Oui, sous <strong>14 jours</strong>. Contactez-nous sur WhatsApp au <strong>77 727 74 51</strong>.</div></div>
+                <div class="faq-card" onclick="toggleFaq(this)"><div class="faq-question"><span>Livraison gratuite ?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer">Oui ! <strong>Offerte dès 20 000 FCFA</strong>. Frais de 2 000 FCFA en dessous.</div></div>
+            </div>
+        </div>
+
+        <!-- Social -->
         <div class="social-section">
             <h3>Suivez-nous</h3>
-            <p>Restez connecté avec SenStyle sur les réseaux sociaux</p>
             <div class="social-links">
-                <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" class="social-link facebook" title="Facebook">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="social-link instagram" title="Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://wa.me/221777277451" target="_blank" rel="noopener noreferrer" class="social-link whatsapp" title="WhatsApp">
-                    <i class="fab fa-whatsapp"></i>
-                </a>
-                <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" class="social-link twitter" title="Twitter / X">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" class="social-link tiktok" title="TikTok">
-                    <i class="fab fa-tiktok"></i>
-                </a>
+                <a href="https://facebook.com/" target="_blank" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com/" target="_blank" class="social-link instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/221777277451" target="_blank" class="social-link whatsapp"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer-luxe">
         <div class="footer-container">
             <p><a href="index.html"><i class="fas fa-crown"></i> SENSTYLE</a> — Maison de Mode Sénégalaise</p>
-            <p class="footer-bottom">
-                <i class="fab fa-whatsapp"></i> WhatsApp : +221 77 727 74 51 | 
-                © 2026 SenStyle. Tous droits réservés. | Made with ❤️ in Sénégal
-            </p>
+            <p class="footer-bottom"><i class="fab fa-whatsapp"></i> WhatsApp : +221 77 727 74 51 | © 2026 SenStyle | Made with ❤️ in Sénégal</p>
         </div>
     </footer>
 
     <script>
-        // ===== CONFIGURATION WHATSAPP DU PROPRIÉTAIRE =====
-        const WHATSAPP_CONFIG = {
-            phoneNumber: '221777277451', // Numéro WhatsApp du propriétaire
-            ownerName: 'Propriétaire SenStyle',
-            defaultMessage: 'Bonjour SenStyle ! Je souhaite avoir des informations.'
-        };
+        const WHATSAPP_CONFIG = { phoneNumber: '221777277451', defaultMessage: 'Bonjour SenStyle !' };
 
-        // ===== GESTION UTILISATEUR =====
         function loadCurrentUser() {
             const userData = localStorage.getItem('senstyleCurrentUser');
             if (userData) {
@@ -882,219 +622,62 @@
                     const user = JSON.parse(userData);
                     const header = document.getElementById('userInfoHeader');
                     if (header) {
-                        const displayName = user.name || user.email || 'Client';
-                        header.innerHTML = `
-                            <span class="user-greeting"><i class="far fa-user"></i> ${displayName}</span>
-                            <button class="btn-header" onclick="logoutUser()" title="Se déconnecter">
-                                <i class="fas fa-sign-out-alt"></i> Déconnexion
-                            </button>
-                        `;
+                        header.innerHTML = `<span class="user-greeting"><i class="far fa-user"></i> ${user.name||user.email||'Client'}</span><button class="btn-header" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>`;
                     }
                 } catch(e) {}
             }
         }
+        function logoutUser() { if (confirm('Se déconnecter ?')) { localStorage.removeItem('senstyleCurrentUser'); window.location.reload(); } }
+        function redirectToLogin() { window.location.href = 'index.html'; }
 
-        function logoutUser() {
-            if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
-                localStorage.removeItem('senstyleCurrentUser');
-                window.location.reload();
-            }
-        }
-
-        function redirectToLogin() {
-            window.location.href = 'index.html';
-        }
-
-        // ===== FONCTIONS WHATSAPP =====
-        function openWhatsApp(customMessage) {
-            const message = customMessage || WHATSAPP_CONFIG.defaultMessage;
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${WHATSAPP_CONFIG.phoneNumber}?text=${encodedMessage}`;
-            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        function openWhatsApp(msg) {
+            window.open(`https://wa.me/${WHATSAPP_CONFIG.phoneNumber}?text=${encodeURIComponent(msg||WHATSAPP_CONFIG.defaultMessage)}`, '_blank');
         }
 
         function sendViaWhatsApp() {
-            // Récupérer les données du formulaire
             const name = document.getElementById('contactName').value.trim();
             const email = document.getElementById('contactEmail').value.trim();
             const phone = document.getElementById('contactPhone').value.trim();
             const subject = document.getElementById('contactSubject').value;
             const orderId = document.getElementById('contactOrderId').value.trim();
             const message = document.getElementById('contactMessage').value.trim();
-
-            // Vérifier les champs obligatoires
-            if (!name || !email || !subject || !message) {
-                showToast('Veuillez remplir tous les champs obligatoires (*)', 'error');
-                // Mettre en évidence les champs vides
-                if (!name) document.getElementById('contactName').style.borderColor = 'var(--danger)';
-                if (!email) document.getElementById('contactEmail').style.borderColor = 'var(--danger)';
-                if (!subject) document.getElementById('contactSubject').style.borderColor = 'var(--danger)';
-                if (!message) document.getElementById('contactMessage').style.borderColor = 'var(--danger)';
-                // Réinitialiser les bordures après 3 secondes
-                setTimeout(() => {
-                    document.querySelectorAll('#contactForm input, #contactForm select, #contactForm textarea').forEach(el => {
-                        el.style.borderColor = 'rgba(0,0,0,0.1)';
-                    });
-                }, 3000);
-                return;
-            }
-
-            // Construire le message WhatsApp formaté
-            const subjectLabels = {
-                'commande': '📦 Suivi de commande',
-                'produit': 'ℹ️ Information produit',
-                'paiement': '💳 Problème de paiement',
-                'livraison': '🚚 Livraison',
-                'retour': '🔄 Retour / Remboursement',
-                'partenariat': '🤝 Partenariat',
-                'autre': '❓ Autre demande'
-            };
-
-            let whatsappMessage = `🛍️ *SENSTYLE - Nouveau message*\n\n`;
-            whatsappMessage += `👤 *Nom :* ${name}\n`;
-            whatsappMessage += `📧 *Email :* ${email}\n`;
-            if (phone) whatsappMessage += `📱 *Téléphone :* ${phone}\n`;
-            whatsappMessage += `📋 *Sujet :* ${subjectLabels[subject] || subject}\n`;
-            if (orderId) whatsappMessage += `🔢 *N° Commande :* ${orderId}\n`;
-            whatsappMessage += `\n📝 *Message :*\n${message}\n`;
-            whatsappMessage += `\n_ _\n📅 *Date :* ${new Date().toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'})}\n`;
-            whatsappMessage += `⏰ *Heure :* ${new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'})}`;
-
-            // Sauvegarder le message dans le localStorage
-            const formData = {
-                name, email, phone, subject, orderId, message,
-                sentVia: 'whatsapp',
-                whatsappNumber: WHATSAPP_CONFIG.phoneNumber,
-                date: new Date().toISOString()
-            };
-            saveContactMessage(formData);
-
-            // Afficher un message de succès rapide
-            showToast('Redirection vers WhatsApp du propriétaire...', 'success');
-
-            // Ouvrir WhatsApp avec le message
-            setTimeout(() => {
-                openWhatsApp(whatsappMessage);
-            }, 500);
-
-            // Afficher la confirmation sur le formulaire
+            if (!name || !email || !subject || !message) { showToast('Champs obligatoires (*) requis', 'error'); return; }
+            const labels = { commande:'📦 Suivi', produit:'ℹ️ Produit', paiement:'💳 Paiement', livraison:'🚚 Livraison', retour:'🔄 Retour', autre:'❓ Autre' };
+            let wm = `🛍️ *SENSTYLE*\n\n👤 ${name}\n📧 ${email}${phone?`\n📱 ${phone}`:''}\n📋 ${labels[subject]||subject}${orderId?`\n🔢 ${orderId}`:''}\n\n📝 ${message}\n\n📅 ${new Date().toLocaleDateString('fr-FR')}`;
+            saveMessage({ name, email, phone, subject, orderId, message, sentVia:'whatsapp', date: new Date().toISOString() });
+            showToast('Redirection vers WhatsApp...', 'success');
+            setTimeout(() => openWhatsApp(wm), 500);
             document.getElementById('contactForm').style.display = 'none';
-            const successDiv = document.getElementById('formSuccess');
-            successDiv.classList.add('show');
-            successDiv.querySelector('h3').textContent = 'Message envoyé sur WhatsApp !';
-            successDiv.querySelector('p').textContent = `Votre message a été envoyé directement sur le WhatsApp du propriétaire (+221 77 727 74 51). Vous recevrez une réponse dans les plus brefs délais.`;
+            document.getElementById('formSuccess').classList.add('show');
         }
 
-        // ===== FORMULAIRE DE CONTACT (EMAIL) =====
-        function saveContactMessage(formData) {
-            const messages = JSON.parse(localStorage.getItem('senstyleContactMessages')) || [];
-            messages.push(formData);
-            localStorage.setItem('senstyleContactMessages', JSON.stringify(messages));
+        function saveMessage(d) { const m = JSON.parse(localStorage.getItem('senstyleContactMessages'))||[]; m.push(d); localStorage.setItem('senstyleContactMessages', JSON.stringify(m)); }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('contactSubmitBtn');
+            const d = { name:document.getElementById('contactName').value.trim(), email:document.getElementById('contactEmail').value.trim(), phone:document.getElementById('contactPhone').value.trim(), subject:document.getElementById('contactSubject').value, orderId:document.getElementById('contactOrderId').value.trim(), message:document.getElementById('contactMessage').value.trim(), sentVia:'email', date:new Date().toISOString() };
+            btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
+            setTimeout(() => { saveMessage(d); document.getElementById('contactForm').style.display='none'; document.getElementById('formSuccess').classList.add('show'); btn.disabled=false; btn.innerHTML='<i class="fas fa-paper-plane"></i> Envoyer par email'; showToast('Message envoyé !', 'success'); }, 1500);
         }
 
-        function handleContactSubmit(event) {
-            event.preventDefault();
-            
-            const submitBtn = document.getElementById('contactSubmitBtn');
-            const formData = {
-                name: document.getElementById('contactName').value.trim(),
-                email: document.getElementById('contactEmail').value.trim(),
-                phone: document.getElementById('contactPhone').value.trim(),
-                subject: document.getElementById('contactSubject').value,
-                orderId: document.getElementById('contactOrderId').value.trim(),
-                message: document.getElementById('contactMessage').value.trim(),
-                sentVia: 'email',
-                date: new Date().toISOString()
-            };
+        function resetContactForm() { document.getElementById('contactForm').style.display='block'; document.getElementById('formSuccess').classList.remove('show'); document.getElementById('contactForm').reset(); }
+        function showWhatsappPopup() { const p=document.getElementById('whatsappPopup'); if(p)p.classList.add('show'); setTimeout(()=>{if(p)p.classList.remove('show');},10000); }
+        function toggleWhatsappPopup() { const p=document.getElementById('whatsappPopup'); if(p)p.classList.toggle('show'); }
+        function toggleFaq(card) { document.querySelectorAll('.faq-card').forEach(c=>{if(c!==card)c.classList.remove('open');}); card.classList.toggle('open'); }
+        function showToast(msg, type='success') { const t=document.createElement('div'); t.className='toast-luxe'; t.innerHTML=`<i class="fas fa-${type==='error'?'exclamation-circle':'check-circle'}"></i> ${msg}`; document.body.appendChild(t); setTimeout(()=>{t.style.opacity='0';t.style.transform='translate(-50%,20px)';setTimeout(()=>t.remove(),300);},3000); }
 
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
-
-            setTimeout(() => {
-                saveContactMessage(formData);
-                document.getElementById('contactForm').style.display = 'none';
-                const successDiv = document.getElementById('formSuccess');
-                successDiv.classList.add('show');
-                successDiv.querySelector('h3').textContent = 'Message envoyé avec succès !';
-                successDiv.querySelector('p').textContent = 'Merci de nous avoir contacté. Notre équipe vous répondra dans les plus brefs délais.';
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer par email';
-                showToast('Message envoyé avec succès !', 'success');
-            }, 1500);
-        }
-
-        function resetContactForm() {
-            document.getElementById('contactForm').style.display = 'block';
-            document.getElementById('formSuccess').classList.remove('show');
-            document.getElementById('contactForm').reset();
-        }
-
-        // ===== WHATSAPP POPUP =====
-        function showWhatsappPopup() {
-            const popup = document.getElementById('whatsappPopup');
-            if (popup) popup.classList.add('show');
-            setTimeout(() => { if (popup) popup.classList.remove('show'); }, 10000);
-        }
-
-        function toggleWhatsappPopup() {
-            const popup = document.getElementById('whatsappPopup');
-            if (popup) popup.classList.toggle('show');
-        }
-
-        // ===== FAQ =====
-        function toggleFaq(card) {
-            document.querySelectorAll('.faq-card').forEach(c => {
-                if (c !== card) c.classList.remove('open');
-            });
-            card.classList.toggle('open');
-        }
-
-        // ===== TOAST =====
-        function showToast(message, type = 'success') {
-            const existingToast = document.querySelector('.toast-luxe');
-            if (existingToast) existingToast.remove();
-            
-            const toast = document.createElement('div');
-            toast.className = 'toast-luxe';
-            const icons = { success: 'check-circle', error: 'exclamation-circle', warning: 'info-circle' };
-            toast.innerHTML = `<i class="fas fa-${icons[type] || icons.success}"></i> ${message}`;
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translate(-50%, 20px)';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        // ===== INITIALISATION =====
         function init() {
             loadCurrentUser();
             const user = JSON.parse(localStorage.getItem('senstyleCurrentUser'));
-            if (user) {
-                const nameInput = document.getElementById('contactName');
-                const emailInput = document.getElementById('contactEmail');
-                const phoneInput = document.getElementById('contactPhone');
-                if (nameInput && user.name) nameInput.value = user.name;
-                if (emailInput && user.email) emailInput.value = user.email;
-                if (phoneInput && user.phone) phoneInput.value = user.phone;
-            }
+            if (user) { document.getElementById('contactName').value = user.name||''; document.getElementById('contactEmail').value = user.email||''; document.getElementById('contactPhone').value = user.phone||''; }
         }
-
         init();
 
-        // Exposer les fonctions globalement
-        window.toggleFaq = toggleFaq;
-        window.handleContactSubmit = handleContactSubmit;
-        window.resetContactForm = resetContactForm;
-        window.logoutUser = logoutUser;
-        window.redirectToLogin = redirectToLogin;
-        window.openWhatsApp = openWhatsApp;
-        window.sendViaWhatsApp = sendViaWhatsApp;
-        window.showWhatsappPopup = showWhatsappPopup;
-        window.toggleWhatsappPopup = toggleWhatsappPopup;
-
-        console.log('📞 Page Contact SenStyle | 💬 WhatsApp Propriétaire : +221 77 727 74 51');
+        window.toggleFaq=toggleFaq; window.handleContactSubmit=handleContactSubmit; window.resetContactForm=resetContactForm;
+        window.logoutUser=logoutUser; window.redirectToLogin=redirectToLogin; window.openWhatsApp=openWhatsApp;
+        window.sendViaWhatsApp=sendViaWhatsApp; window.showWhatsappPopup=showWhatsappPopup; window.toggleWhatsappPopup=toggleWhatsappPopup;
+        console.log('📞 Contact SenStyle | 💬 WhatsApp: +221 77 727 74 51 | 🗺️ Carte Dakar');
     </script>
 </body>
 </html>
