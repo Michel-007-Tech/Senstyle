@@ -8,1088 +8,308 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
         :root {
-            --gold: #c9a84c;
-            --gold-light: #d4b96a;
-            --gold-dark: #a88a35;
-            --champagne: #f5eedc;
-            --black: #0a0a0a;
-            --black-light: #1a1a1a;
-            --white: #fefefe;
-            --cream: #faf8f3;
-            --gray-warm: #9c9588;
-            --gray-cool: #6b7280;
-            --burgundy: #722f37;
-            --emerald: #0d5c2e;
-            --emerald-light: #1a7a3e;
-            --navy: #1a1f2e;
-            --orange: #e8690c;
-            --wave-color: #1a73e8;
-            --success: #0d7b4a;
-            --danger: #c5222d;
-            --info: #2563eb;
-            
-            --shadow-elegant: 0 4px 20px rgba(0,0,0,0.08);
-            --shadow-luxury: 0 20px 60px rgba(0,0,0,0.12);
-            --shadow-gold: 0 10px 40px rgba(201,168,76,0.15);
-            
-            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-            --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --gold: #c9a84c; --gold-light: #d4b96a; --gold-dark: #a88a35;
+            --black: #0a0a0a; --black-light: #1a1a1a; --white: #fefefe; --cream: #faf8f3;
+            --gray-warm: #9c9588; --gray-cool: #6b7280; --burgundy: #722f37;
+            --emerald: #0d5c2e; --navy: #1a1f2e; --orange: #e8690c; --wave-color: #1a73e8;
+            --success: #0d7b4a; --danger: #c5222d; --info: #2563eb;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.15);
+            --transition: all 0.3s ease;
+            --radius-sm: 4px;
+            --radius-full: 50px;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 16px; scroll-behavior: smooth; }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: var(--cream);
-            color: var(--black);
-            line-height: 1.7;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 500; letter-spacing: -0.01em; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: var(--black); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; min-height: 100vh; display: flex; flex-direction: column; }
+        h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 500; }
         img { max-width: 100%; height: auto; }
 
-        /* ===== NOTIFICATION BELL & BADGE ===== */
-        .notification-container {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            z-index: 5000;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            max-width: 380px;
-            width: 100%;
-        }
-        .notification-toast {
-            background: var(--white);
-            border-radius: 4px;
-            padding: 16px 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-            animation: slideInRight 0.4s ease;
-            border-left: 4px solid var(--gold);
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            position: relative;
-        }
-        .notification-toast:hover {
-            transform: translateX(-4px);
-            box-shadow: 0 14px 48px rgba(0,0,0,0.25);
-        }
-        .notification-toast.status-update {
-            border-left-color: var(--info);
-        }
-        .notification-toast.status-confirmed {
-            border-left-color: var(--success);
-        }
-        .notification-toast.status-shipped {
-            border-left-color: var(--orange);
-        }
-        .notification-toast.status-delivered {
-            border-left-color: var(--emerald);
-        }
-        .notification-toast .notif-icon {
-            font-size: 24px;
-            flex-shrink: 0;
-        }
-        .notification-toast .notif-content {
-            flex: 1;
-            min-width: 0;
-        }
-        .notification-toast .notif-title {
-            font-weight: 600;
-            font-size: 13px;
-            margin-bottom: 4px;
-            color: var(--black);
-        }
-        .notification-toast .notif-message {
-            font-size: 11px;
-            color: var(--gray-cool);
-            line-height: 1.4;
-        }
-        .notification-toast .notif-time {
-            font-size: 9px;
-            color: var(--gray-warm);
-            margin-top: 6px;
-        }
-        .notification-toast .notif-close {
-            position: absolute;
-            top: 8px;
-            right: 12px;
-            cursor: pointer;
-            color: var(--gray-warm);
-            font-size: 14px;
-            transition: var(--transition-smooth);
-        }
-        .notification-toast .notif-close:hover {
-            color: var(--danger);
-        }
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(100px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slideOutRight {
-            from { opacity: 1; transform: translateX(0); }
-            to { opacity: 0; transform: translateX(100px); }
-        }
-
-        /* Badge de notification sur la cloche */
-        .notification-badge {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            background: var(--danger);
-            color: white;
-            font-size: 9px;
-            font-weight: 700;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid var(--white);
-            animation: pulse-badge 2s infinite;
-        }
-        @keyframes pulse-badge {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(197,34,45,0.4); }
-            50% { box-shadow: 0 0 0 8px rgba(197,34,45,0); }
-        }
-
         /* ===== TOP BAR ===== */
-        .luxe-bar {
-            background: var(--black); color: var(--gold); text-align: center;
-            padding: 8px 12px; font-size: 10px; font-weight: 500; letter-spacing: 2px;
-            text-transform: uppercase; border-bottom: 1px solid rgba(201,168,76,0.2);
-            overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
-        }
-        .luxe-bar i { margin: 0 8px; font-size: 8px; }
+        .luxe-bar { background: var(--black); color: var(--gold); text-align: center; padding: 6px 12px; font-size: clamp(7px, 1vw, 9px); font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 1px solid rgba(201,168,76,0.2); display: flex; align-items: center; justify-content: center; gap: clamp(6px, 1vw, 10px); flex-wrap: wrap; }
+        .luxe-bar span { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
 
         /* ===== HEADER ===== */
-        .header-luxe {
-            background: rgba(10,10,10,0.95); backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px); border-bottom: 1px solid rgba(201,168,76,0.15);
-            position: sticky; top: 0; z-index: 1000;
-        }
-        .header-container {
-            max-width: 1600px; margin: 0 auto; padding: 0.8rem 1.5rem;
-            display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
-        }
-        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
-        .brand-crest {
-            width: 40px; height: 40px;
-            background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: var(--black); font-size: 18px; border: 2px solid var(--gold);
-            box-shadow: 0 0 30px rgba(201,168,76,0.2);
-        }
-        .brand-name h2 {
-            font-family: 'Playfair Display', serif; font-size: 20px;
-            color: var(--gold); font-weight: 600; letter-spacing: 1px; line-height: 1;
-        }
-        .brand-name span { font-size: 8px; color: var(--gray-warm); letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
-
-        .user-info-header { display: flex; align-items: center; gap: 1rem; color: var(--white); font-size: 12px; flex-shrink: 0; }
-        .user-info-header .user-greeting { color: var(--gold); font-weight: 500; font-size: 11px; }
-        .btn-logout-header, .btn-notif-header {
-            background: none; border: 1px solid rgba(201,168,76,0.3); color: var(--gold);
-            padding: 6px 14px; border-radius: 50px; cursor: pointer; font-size: 10px;
-            font-weight: 500; transition: var(--transition-smooth); white-space: nowrap;
-            position: relative;
-        }
-        .btn-logout-header:hover, .btn-notif-header:hover { background: var(--gold); color: var(--black); }
+        .header-luxe { background: rgba(10,10,10,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(201,168,76,0.15); position: sticky; top: 0; z-index: 1000; }
+        .header-container { max-width: 1400px; margin: 0 auto; padding: 0.6rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; }
+        .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+        .brand-crest { width: 36px; height: 36px; background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--black); font-size: 15px; border: 2px solid var(--gold); }
+        .brand-name h2 { font-family: 'Playfair Display', serif; font-size: clamp(16px, 2vw, 20px); color: var(--gold); font-weight: 600; line-height: 1; }
+        .brand-name span { font-size: 7px; color: var(--gray-warm); letter-spacing: 2px; text-transform: uppercase; display: block; }
+        .user-info-header { display: flex; align-items: center; gap: 0.5rem; color: var(--white); font-size: 10px; flex-shrink: 0; flex-wrap: wrap; }
+        .user-info-header .user-greeting { color: var(--gold); font-weight: 500; }
+        .btn-sm-header { background: none; border: 1px solid rgba(201,168,76,0.3); color: var(--gold); padding: 4px 10px; border-radius: var(--radius-full); cursor: pointer; font-size: 8px; font-weight: 500; transition: var(--transition); white-space: nowrap; }
+        .btn-sm-header:hover { background: var(--gold); color: var(--black); }
 
         /* ===== NAVIGATION ===== */
-        .nav-luxe {
-            background: rgba(10,10,10,0.98); border-top: 1px solid rgba(201,168,76,0.1);
-            border-bottom: 1px solid rgba(201,168,76,0.1); overflow-x: auto; -webkit-overflow-scrolling: touch;
-        }
-        .nav-luxe .nav-container {
-            max-width: 1600px; margin: 0 auto; padding: 0 1rem;
-            display: flex; justify-content: center; gap: 1.5rem; white-space: nowrap;
-        }
-        .nav-luxe .nav-link {
-            text-decoration: none; color: var(--gray-warm); font-weight: 500;
-            font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
-            padding: 0.8rem 0; position: relative; transition: var(--transition-smooth);
-        }
-        .nav-luxe .nav-link::after {
-            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 0; height: 1px; background: var(--gold); transition: var(--transition-smooth);
-        }
-        .nav-luxe .nav-link:hover, .nav-luxe .nav-link.active { color: var(--gold); }
-        .nav-luxe .nav-link:hover::after, .nav-luxe .nav-link.active::after { width: 100%; }
+        .nav-luxe { background: rgba(10,10,10,0.98); border-top: 1px solid rgba(201,168,76,0.1); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .nav-luxe::-webkit-scrollbar { display: none; }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 0 0.5rem; display: flex; justify-content: center; gap: clamp(0.8rem, 2vw, 1.5rem); white-space: nowrap; }
+        .nav-link { text-decoration: none; color: var(--gray-warm); font-weight: 500; font-size: clamp(8px, 1vw, 9px); text-transform: uppercase; letter-spacing: 1.5px; padding: 0.7rem 0; position: relative; transition: var(--transition); display: flex; align-items: center; gap: 4px; }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background: var(--gold); transition: var(--transition); }
+        .nav-link:hover, .nav-link.active { color: var(--gold); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
 
         /* ===== MAIN CONTENT ===== */
-        .main-content { flex: 1; max-width: 900px; width: 100%; margin: 2rem auto; padding: 0 1.5rem; }
-
-        /* ===== PAYMENT LINKS SECTION ===== */
-        .payment-links-section { margin-bottom: 2rem; }
-        .payment-links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
-        .payment-link-card {
-            background: var(--white); border-radius: 2px; padding: 1.2rem; text-align: center;
-            border: 1px solid rgba(0,0,0,0.06); box-shadow: var(--shadow-elegant);
-            transition: var(--transition-smooth); cursor: pointer; text-decoration: none;
-            color: var(--black); display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-        }
-        .payment-link-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-luxury); border-color: var(--gold); }
-        .payment-link-card.orange { border-left: 3px solid var(--orange); }
-        .payment-link-card.wave { border-left: 3px solid var(--wave-color); }
-        .payment-link-card.visa { border-left: 3px solid #1a1f71; }
-        .payment-link-card.mastercard { border-left: 3px solid #eb001b; }
-        .payment-link-card .payment-icon { font-size: 2.2rem; margin-bottom: 0.3rem; }
-        .payment-link-card.orange .payment-icon { color: var(--orange); }
-        .payment-link-card.wave .payment-icon { color: var(--wave-color); }
-        .payment-link-card.visa .payment-icon { color: #1a1f71; }
-        .payment-link-card.mastercard .payment-icon { color: #eb001b; }
-        .payment-link-card h4 {
-            font-family: 'Montserrat', sans-serif; font-size: 11px;
-            text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;
-        }
-        .payment-link-card p { font-size: 10px; color: var(--gray-cool); font-weight: 400; }
-        .payment-link-card .btn-payment-link {
-            display: inline-block; padding: 8px 16px; border-radius: 50px; font-size: 9px;
-            font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
-            transition: var(--transition-smooth); margin-top: 0.3rem;
-        }
-        .payment-link-card.orange .btn-payment-link { background: var(--orange); color: white; }
-        .payment-link-card.wave .btn-payment-link { background: var(--wave-color); color: white; }
-        .payment-link-card.visa .btn-payment-link { background: #1a1f71; color: white; }
-        .payment-link-card.mastercard .btn-payment-link { background: #eb001b; color: white; }
-        .payment-link-card .btn-payment-link:hover { opacity: 0.9; transform: scale(1.05); }
+        .main-content { flex: 1; max-width: 900px; width: 100%; margin: 0 auto; padding: clamp(1rem, 2vw, 2rem) 1rem; }
 
         /* ===== HERO ===== */
-        .hero-tracking {
-            background: linear-gradient(135deg, var(--black) 0%, var(--black-light) 100%);
-            color: var(--white); padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
-            border-radius: 2px; text-align: center; margin-bottom: 2rem;
-            position: relative; overflow: hidden; border: 1px solid rgba(201,168,76,0.2);
-        }
-        .hero-tracking::before {
-            content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 60%);
-            animation: rotate 25s linear infinite;
-        }
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .hero-tracking * { position: relative; z-index: 1; }
-        .hero-tracking .tracking-icon { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem; display: block; color: var(--gold); }
-        .hero-tracking .overline { font-size: 9px; text-transform: uppercase; letter-spacing: 4px; color: var(--gold); margin-bottom: 0.8rem; font-weight: 500; }
-        .hero-tracking h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.4rem, 4vw, 2.5rem); font-weight: 600; margin-bottom: 0.5rem; letter-spacing: -0.5px; }
+        .hero-tracking { background: linear-gradient(135deg, var(--black) 0%, var(--black-light) 100%); color: var(--white); padding: clamp(1.2rem, 3vw, 2.5rem) clamp(1rem, 2vw, 1.5rem); border-radius: var(--radius-sm); text-align: center; margin-bottom: 1.5rem; position: relative; overflow: hidden; border: 1px solid rgba(201,168,76,0.2); }
+        .hero-tracking .tracking-icon { font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: 0.6rem; display: block; color: var(--gold); }
+        .hero-tracking .overline { font-size: clamp(8px, 1vw, 10px); text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 0.6rem; }
+        .hero-tracking h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 3vw, 2.2rem); font-weight: 600; }
         .hero-tracking h1 em { font-style: italic; color: var(--gold); }
-        .hero-tracking p { opacity: 0.6; font-size: clamp(0.75rem, 1.5vw, 0.9rem); font-weight: 300; }
+        .hero-tracking p { opacity: 0.6; font-size: clamp(0.75rem, 1vw, 0.9rem); }
 
         /* ===== INFO CARDS ===== */
-        .info-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.5rem, 1.5vw, 1rem); margin-bottom: 2rem; }
-        .info-card {
-            background: var(--white); padding: clamp(0.8rem, 2vw, 1.5rem); border-radius: 2px;
-            text-align: center; transition: var(--transition-smooth); border: 1px solid rgba(0,0,0,0.06);
-            box-shadow: var(--shadow-elegant);
-        }
-        .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-luxury); }
-        .info-card .card-icon { font-size: clamp(1.3rem, 2.5vw, 2rem); margin-bottom: 0.6rem; display: block; }
+        .info-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.4rem, 1vw, 0.8rem); margin-bottom: 1.5rem; }
+        .info-card { background: var(--white); padding: clamp(0.6rem, 1.5vw, 1.2rem); border-radius: var(--radius-sm); text-align: center; transition: var(--transition); border: 1px solid rgba(0,0,0,0.06); box-shadow: var(--shadow-sm); }
+        .info-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .info-card .card-icon { font-size: clamp(1.2rem, 2vw, 1.8rem); margin-bottom: 0.4rem; display: block; }
         .info-card .card-icon.gold { color: var(--gold); }
         .info-card .card-icon.emerald { color: var(--emerald); }
         .info-card .card-icon.navy { color: var(--navy); }
-        .info-card h4 { font-family: 'Montserrat', sans-serif; font-size: clamp(8px, 1.2vw, 11px); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 0.2rem; color: var(--black); }
-        .info-card p { font-size: clamp(8px, 1.2vw, 11px); color: var(--gray-cool); font-weight: 400; }
+        .info-card h4 { font-size: clamp(7px, 0.9vw, 10px); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 0.1rem; }
+        .info-card p { font-size: clamp(7px, 0.8vw, 10px); color: var(--gray-cool); }
+
+        /* ===== PAYMENT LINKS ===== */
+        .payment-links-section { margin-bottom: 1.5rem; }
+        .payment-links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.6rem; }
+        .payment-link-card { background: var(--white); border-radius: var(--radius-sm); padding: clamp(0.6rem, 1.5vw, 1rem); text-align: center; border: 1px solid rgba(0,0,0,0.06); box-shadow: var(--shadow-sm); transition: var(--transition); cursor: pointer; text-decoration: none; color: var(--black); display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+        .payment-link-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .payment-link-card .payment-icon { font-size: clamp(1.4rem, 2vw, 1.8rem); }
+        .payment-link-card h4 { font-size: clamp(8px, 0.9vw, 10px); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .payment-link-card p { font-size: clamp(7px, 0.7vw, 9px); color: var(--gray-cool); }
+        .payment-link-card .btn-payment-link { display: inline-block; padding: 5px 12px; border-radius: var(--radius-full); font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; transition: var(--transition); margin-top: 0.2rem; }
 
         /* ===== SEARCH CARD ===== */
-        .search-card {
-            background: var(--white); padding: clamp(1.2rem, 3vw, 2rem); border-radius: 2px;
-            box-shadow: var(--shadow-luxury); margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.06);
-            transition: var(--transition-smooth);
-        }
-        .search-card:focus-within { border-color: var(--gold); box-shadow: 0 0 40px rgba(201,168,76,0.1); }
-        .search-card .search-header { margin-bottom: 1.5rem; }
-        .search-card .search-header .tag {
-            display: inline-block; font-size: 8px; text-transform: uppercase; letter-spacing: 3px;
-            color: var(--gold-dark); border: 1px solid rgba(201,168,76,0.3);
-            padding: 5px 14px; border-radius: 50px; margin-bottom: 0.8rem; font-weight: 600;
-        }
-        .search-card .search-header h3 { font-family: 'Playfair Display', serif; font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-weight: 500; margin-bottom: 0.3rem; }
-        .search-card .search-header p { color: var(--gray-cool); font-size: clamp(0.75rem, 1.2vw, 0.85rem); font-weight: 300; }
-        .search-form { display: flex; gap: 0.6rem; flex-wrap: wrap; }
-        .search-input {
-            flex: 1; min-width: 180px; padding: 12px 18px; border: 1px solid rgba(0,0,0,0.1);
-            font-size: 13px; font-family: 'Montserrat', sans-serif; transition: var(--transition-smooth);
-            background: var(--cream); border-radius: 2px; letter-spacing: 0.5px;
-        }
-        .search-input::placeholder { color: var(--gray-warm); font-weight: 300; }
-        .search-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.08); }
-        .btn-search {
-            padding: 12px 24px; background: var(--black); color: var(--gold);
-            border: 1px solid rgba(201,168,76,0.3); font-family: 'Montserrat', sans-serif;
-            font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
-            cursor: pointer; transition: var(--transition-smooth); white-space: nowrap;
-            border-radius: 2px; display: flex; align-items: center; gap: 6px;
-        }
-        .btn-search:hover { background: var(--gold); color: var(--black); border-color: var(--gold); box-shadow: 0 10px 30px rgba(201,168,76,0.2); }
-        .auto-refresh { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.8rem; font-size: 9px; color: var(--gray-warm); letter-spacing: 0.5px; flex-wrap: wrap; }
-        .auto-refresh i { color: var(--gold); animation: spin 2s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .search-card { background: var(--white); padding: clamp(1rem, 2vw, 1.5rem); border-radius: var(--radius-sm); box-shadow: var(--shadow-md); margin-bottom: 1.2rem; border: 1px solid rgba(0,0,0,0.06); }
+        .search-card .search-header { margin-bottom: 1rem; }
+        .search-card .search-header .tag { display: inline-block; font-size: 7px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold-dark); border: 1px solid rgba(201,168,76,0.3); padding: 3px 10px; border-radius: var(--radius-full); margin-bottom: 0.5rem; font-weight: 600; }
+        .search-card .search-header h3 { font-size: clamp(1rem, 1.8vw, 1.4rem); }
+        .search-card .search-header p { color: var(--gray-cool); font-size: clamp(0.7rem, 0.9vw, 0.8rem); }
+        .search-form { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+        .search-input { flex: 1; min-width: 150px; padding: 10px 14px; border: 1px solid rgba(0,0,0,0.1); font-size: 11px; font-family: 'Montserrat', sans-serif; transition: var(--transition); background: var(--cream); border-radius: 2px; }
+        .search-input:focus { outline: none; border-color: var(--gold); }
+        .btn-search { padding: 10px 20px; background: var(--black); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); font-weight: 600; font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; transition: var(--transition); white-space: nowrap; border-radius: 2px; display: flex; align-items: center; gap: 5px; }
+        .btn-search:hover { background: var(--gold); color: var(--black); }
+        .auto-refresh { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.6rem; font-size: 8px; color: var(--gray-warm); }
 
         /* ===== RECENT ORDERS ===== */
-        .recent-orders { margin-bottom: 1.5rem; }
-        .recent-orders h4 { font-family: 'Montserrat', sans-serif; font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-warm); margin-bottom: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; }
-        .recent-orders-grid { display: flex; gap: 0.4rem; flex-wrap: wrap; }
-        .recent-order-chip {
-            padding: 7px 14px; background: var(--white); border: 1px solid rgba(0,0,0,0.08);
-            font-size: 10px; cursor: pointer; transition: var(--transition-smooth);
-            color: var(--gray-cool); border-radius: 2px; letter-spacing: 0.5px; white-space: nowrap;
-        }
-        .recent-order-chip:hover { background: var(--black); color: var(--gold); border-color: var(--black); }
-        .recent-order-chip small { opacity: 0.7; font-size: 9px; }
+        .recent-orders { margin-bottom: 1rem; }
+        .recent-orders h4 { font-size: 8px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gray-warm); margin-bottom: 0.5rem; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+        .recent-orders-grid { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+        .recent-order-chip { padding: 5px 10px; background: var(--white); border: 1px solid rgba(0,0,0,0.08); font-size: 9px; cursor: pointer; transition: var(--transition); color: var(--gray-cool); border-radius: 2px; white-space: nowrap; }
+        .recent-order-chip:hover { background: var(--black); color: var(--gold); }
 
         /* ===== RESULT CARD ===== */
-        .result-card {
-            background: var(--white); border-radius: 2px; box-shadow: var(--shadow-luxury);
-            overflow: hidden; display: none; animation: fadeInUp 0.5s ease;
-            border: 1px solid rgba(0,0,0,0.06); margin-bottom: 1.5rem;
-        }
+        .result-card { background: var(--white); border-radius: var(--radius-sm); box-shadow: var(--shadow-md); overflow: hidden; display: none; border: 1px solid rgba(0,0,0,0.06); margin-bottom: 1.2rem; }
         .result-card.show { display: block; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .result-header {
-            background: var(--black); color: var(--gold);
-            padding: clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2vw, 2rem);
-            display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: wrap; gap: 0.8rem; border-bottom: 1px solid rgba(201,168,76,0.2);
-        }
-        .result-header h3 { margin: 0; font-family: 'Playfair Display', serif; font-size: clamp(1rem, 2vw, 1.3rem); font-weight: 500; color: var(--white); display: flex; align-items: center; gap: 8px; }
-        .status-badge { padding: 5px 14px; border-radius: 2px; font-weight: 600; font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
-        .status-en-attente { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
-        .status-confirmee { background: rgba(26,122,62,0.1); color: var(--emerald-light); border: 1px solid rgba(26,122,62,0.2); }
-        .status-en-preparation { background: rgba(26,31,46,0.1); color: #4a5568; border: 1px solid rgba(26,31,46,0.2); }
-        .status-expediee { background: rgba(37,99,235,0.1); color: #2563eb; border: 1px solid rgba(37,99,235,0.2); }
-        .status-livree { background: rgba(13,123,74,0.1); color: var(--success); border: 1px solid rgba(13,123,74,0.2); }
-        .status-annulee { background: rgba(197,34,45,0.1); color: var(--danger); border: 1px solid rgba(197,34,45,0.2); }
-        .status-encours { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
-        .status-expedie { background: rgba(37,99,235,0.1); color: #2563eb; border: 1px solid rgba(37,99,235,0.2); }
-        .status-livre { background: rgba(13,123,74,0.1); color: var(--success); border: 1px solid rgba(13,123,74,0.2); }
-        .status-paye { background: rgba(13,123,74,0.1); color: var(--success); border: 1px solid rgba(13,123,74,0.2); }
-        .status-annule { background: rgba(197,34,45,0.1); color: var(--danger); border: 1px solid rgba(197,34,45,0.2); }
-
-        .result-body { padding: clamp(1rem, 2vw, 2rem); }
-        .payment-info-box {
-            background: var(--cream); padding: 1rem; border-radius: 2px; margin: 1rem 0; border-left: 3px solid var(--gold);
-        }
-        .payment-info-box h5 { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; }
-        .payment-info-box .payment-steps { list-style: none; padding: 0; }
-        .payment-info-box .payment-steps li { font-size: 10px; padding: 0.2rem 0; color: var(--gray-cool); display: flex; align-items: center; gap: 6px; }
-        .payment-info-box .payment-steps li i { color: var(--gold); width: 14px; font-size: 9px; }
-        .payment-info-box.orange-box { border-left-color: var(--orange); background: #fff8f0; }
-        .payment-info-box.wave-box { border-left-color: var(--wave-color); background: #f0f5ff; }
-        .payment-info-box .payment-link-btn {
-            display: inline-block; padding: 8px 16px; border-radius: 50px; font-size: 10px;
-            font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
-            text-decoration: none; margin-top: 0.5rem; transition: var(--transition-smooth);
-        }
-        .payment-info-box.orange-box .payment-link-btn { background: var(--orange); color: white; }
-        .payment-info-box.wave-box .payment-link-btn { background: var(--wave-color); color: white; }
-        .payment-info-box .payment-link-btn:hover { opacity: 0.85; transform: scale(1.03); }
-
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: clamp(0.8rem, 2vw, 1.5rem); margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.06); }
-        .info-item label { font-size: 8px; color: var(--gray-warm); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 0.3rem; font-weight: 600; }
-        .info-item span { font-weight: 500; font-size: 12px; display: flex; align-items: center; gap: 5px; color: var(--black); flex-wrap: wrap; }
-        .info-item i { color: var(--gold); width: 14px; font-size: 11px; }
+        .result-header { background: var(--black); color: var(--gold); padding: clamp(0.8rem, 1.5vw, 1.2rem); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+        .result-header h3 { font-size: clamp(0.9rem, 1.5vw, 1.1rem); color: var(--white); display: flex; align-items: center; gap: 6px; }
+        .status-badge { padding: 3px 10px; border-radius: 2px; font-weight: 600; font-size: 8px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+        .status-en-attente { background: rgba(201,168,76,0.15); color: var(--gold); }
+        .status-confirmee { background: rgba(26,122,62,0.1); color: var(--emerald); }
+        .status-expediee { background: rgba(37,99,235,0.1); color: #2563eb; }
+        .status-livree { background: rgba(13,123,74,0.1); color: var(--success); }
+        .status-annulee { background: rgba(197,34,45,0.1); color: var(--danger); }
+        .result-body { padding: clamp(0.8rem, 1.5vw, 1.2rem); }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.6rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(0,0,0,0.06); }
+        .info-item label { font-size: 7px; color: var(--gray-warm); text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 0.2rem; font-weight: 600; }
+        .info-item span { font-weight: 500; font-size: 10px; display: flex; align-items: center; gap: 4px; }
+        .info-item i { color: var(--gold); font-size: 10px; }
 
         /* ===== TIMELINE ===== */
-        .timeline-title { margin-bottom: 1.2rem; font-family: 'Playfair Display', serif; font-size: clamp(1rem, 1.8vw, 1.2rem); font-weight: 500; display: flex; align-items: center; gap: 0.5rem; color: var(--black); }
-        .timeline-title i { color: var(--gold); }
-        .timeline { position: relative; padding-left: clamp(24px, 3vw, 32px); }
-        .timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 1px; background: rgba(0,0,0,0.08); }
-        .timeline-step { position: relative; margin-bottom: 1.2rem; padding-left: 16px; }
-        .timeline-step:last-child { margin-bottom: 0; }
-        .timeline-step::before {
-            content: ''; position: absolute; left: -20px; top: 4px; width: 9px; height: 9px;
-            border-radius: 50%; background: var(--white); border: 2px solid rgba(0,0,0,0.15);
-        }
+        .timeline { position: relative; padding-left: 24px; margin: 1rem 0; }
+        .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 1px; background: rgba(0,0,0,0.08); }
+        .timeline-step { position: relative; margin-bottom: 1rem; padding-left: 12px; }
+        .timeline-step::before { content: ''; position: absolute; left: -18px; top: 4px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); border: 2px solid rgba(0,0,0,0.15); }
         .timeline-step.completed::before { background: var(--gold); border-color: var(--gold); }
-        .timeline-step.current::before {
-            background: var(--gold); border-color: var(--gold);
-            box-shadow: 0 0 0 4px rgba(201,168,76,0.15); animation: pulse-gold 2s infinite;
-        }
-        .timeline-step.cancelled::before { background: var(--danger); border-color: var(--danger); }
-        @keyframes pulse-gold {
-            0% { box-shadow: 0 0 0 4px rgba(201,168,76,0.15); }
-            50% { box-shadow: 0 0 0 8px rgba(201,168,76,0.05); }
-            100% { box-shadow: 0 0 0 4px rgba(201,168,76,0.15); }
-        }
-        .timeline-step h4 { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; margin-bottom: 0.2rem; color: var(--black); text-transform: uppercase; letter-spacing: 1px; }
-        .timeline-step p { font-size: 10px; color: var(--gray-cool); font-weight: 300; }
-        .timeline-step .step-date { font-size: 9px; color: var(--gray-warm); margin-top: 0.3rem; display: flex; align-items: center; gap: 4px; font-weight: 400; }
+        .timeline-step.current::before { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.15); }
+        .timeline-step h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .timeline-step p { font-size: 9px; color: var(--gray-cool); }
+        .timeline-step .step-date { font-size: 8px; color: var(--gray-warm); margin-top: 0.2rem; }
 
-        /* ===== NEW STATUS ALERT BANNER ===== */
-        .status-alert-banner {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            color: white; padding: 12px 20px; border-radius: 2px;
-            margin-bottom: 1.5rem; display: flex; align-items: center;
-            gap: 10px; font-size: 12px; font-weight: 500;
-            animation: fadeInUp 0.5s ease; box-shadow: 0 4px 20px rgba(37,99,235,0.3);
-        }
-        .status-alert-banner i { font-size: 20px; }
-        .status-alert-banner.confirmed { background: linear-gradient(135deg, #0d7b4a, #0a5c2a); box-shadow: 0 4px 20px rgba(13,123,74,0.3); }
-        .status-alert-banner.shipped { background: linear-gradient(135deg, #e8690c, #c55a05); box-shadow: 0 4px 20px rgba(232,105,12,0.3); }
-        .status-alert-banner.delivered { background: linear-gradient(135deg, #0d5c2e, #0a4a20); box-shadow: 0 4px 20px rgba(13,92,46,0.3); }
-        .status-alert-banner.cancelled { background: linear-gradient(135deg, #c5222d, #a01a24); box-shadow: 0 4px 20px rgba(197,34,45,0.3); }
+        /* ===== NOT FOUND / LOGIN PROMPT ===== */
+        .not-found-card, .login-prompt-card { background: var(--white); padding: clamp(1.2rem, 2vw, 2rem); border-radius: var(--radius-sm); box-shadow: var(--shadow-md); text-align: center; display: none; border: 1px solid rgba(0,0,0,0.06); margin-bottom: 1.2rem; }
+        .not-found-card.show, .login-prompt-card.show { display: block; }
+        .not-found-card .nf-icon { font-size: 2rem; color: var(--danger); margin-bottom: 0.5rem; }
+        .btn-connect-prompt { display: inline-block; padding: 8px 18px; background: var(--black); color: var(--gold); border: 1px solid var(--gold); font-weight: 600; font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; text-decoration: none; border-radius: 2px; }
 
-        /* Status History */
-        .status-history { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(0,0,0,0.06); }
-        .status-history h4 { font-family: 'Playfair Display', serif; font-size: clamp(0.9rem, 1.5vw, 1.1rem); font-weight: 500; margin-bottom: 0.8rem; color: var(--black); display: flex; align-items: center; gap: 6px; }
-        .status-history h4 i { color: var(--gold); }
-        .status-history-item { display: flex; gap: 0.6rem; padding: 0.4rem 0; font-size: 11px; align-items: flex-start; }
-        .status-history-item i { color: var(--gold); margin-top: 4px; font-size: 5px; }
-        .status-history-item strong { font-weight: 600; color: var(--black); }
-        .status-history-item .history-date { color: var(--gray-warm); font-size: 9px; margin-top: 0.1rem; }
+        /* ===== FOOTER ===== */
+        .footer-luxe { background: var(--black); color: var(--white); padding: 1.2rem 0; margin-top: auto; border-top: 1px solid rgba(201,168,76,0.15); }
+        .footer-container { max-width: 1400px; margin: 0 auto; padding: 0 1rem; text-align: center; }
+        .footer-luxe p { font-size: clamp(8px, 0.9vw, 10px); color: rgba(255,255,255,0.4); }
+        .footer-luxe a { color: var(--gold); text-decoration: none; }
+        .footer-bottom { margin-top: 0.3rem; font-size: clamp(7px, 0.8vw, 9px); color: rgba(255,255,255,0.25); }
 
-        /* Order Items */
-        .order-items { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(0,0,0,0.06); }
-        .order-items h4 { font-family: 'Playfair Display', serif; font-size: clamp(0.9rem, 1.5vw, 1.1rem); font-weight: 500; margin-bottom: 0.8rem; color: var(--black); display: flex; align-items: center; gap: 6px; }
-        .order-items h4 i { color: var(--gold); }
-        .order-item { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 11px; gap: 1rem; flex-wrap: wrap; }
-        .order-item:last-child { border-bottom: none; }
-        .order-item span { color: var(--gray-cool); display: flex; align-items: center; gap: 6px; font-weight: 400; flex: 1; min-width: 150px; }
-        .order-item strong { color: var(--gold-dark); font-weight: 600; white-space: nowrap; }
-        .order-item.total-row { font-weight: 700; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 0.8rem; margin-top: 0.4rem; }
-        .order-item.total-row span { color: var(--black); font-weight: 600; }
-        .order-item.total-row strong { color: var(--gold-dark); font-size: 1rem; }
+        /* ===== TOAST ===== */
+        .toast-luxe { position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%); background: var(--black); color: var(--gold); padding: 0.6rem 1rem; border-radius: var(--radius-sm); z-index: 5000; font-size: clamp(9px, 1vw, 10px); letter-spacing: 0.5px; text-transform: uppercase; font-weight: 500; box-shadow: var(--shadow-md); animation: fadeInUp 0.3s ease; max-width: 90vw; text-align: center; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
 
-        .contact-bar { text-align: center; margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid rgba(0,0,0,0.06); font-size: 10px; color: var(--gray-cool); font-weight: 300; }
-        .contact-bar strong { color: var(--gold-dark); font-weight: 600; }
-        .contact-bar small { color: var(--gold-dark); margin-top: 0.3rem; display: inline-block; }
-
-        /* Not Found */
-        .not-found-card {
-            background: var(--white); padding: clamp(1.5rem, 3vw, 3rem) clamp(1rem, 2vw, 2rem);
-            border-radius: 2px; box-shadow: var(--shadow-luxury); text-align: center;
-            display: none; animation: fadeInUp 0.5s ease; border: 1px solid rgba(0,0,0,0.06);
-        }
-        .not-found-card.show { display: block; }
-        .not-found-card .nf-icon { font-size: clamp(2rem, 4vw, 3.5rem); color: var(--danger); margin-bottom: 1rem; display: block; }
-        .not-found-card h3 { color: var(--danger); margin-bottom: 0.5rem; font-size: clamp(1rem, 2vw, 1.2rem); font-family: 'Playfair Display', serif; }
-        .not-found-card p { color: var(--gray-cool); margin-bottom: 0.8rem; font-size: clamp(0.75rem, 1.2vw, 0.85rem); font-weight: 300; }
-        .not-found-card .nf-number { font-weight: 600; color: var(--black); background: var(--cream); padding: 5px 12px; border-radius: 2px; font-size: 12px; letter-spacing: 1px; border: 1px solid rgba(0,0,0,0.08); word-break: break-all; }
-
-        /* Login Prompt */
-        .login-prompt-card {
-            background: var(--white); padding: clamp(1.5rem, 3vw, 2rem); border-radius: 2px;
-            box-shadow: var(--shadow-luxury); text-align: center; border: 1px solid rgba(0,0,0,0.06); margin-bottom: 1.5rem;
-        }
-        .login-prompt-card .prompt-icon { font-size: clamp(2rem, 4vw, 3rem); color: var(--gold); margin-bottom: 1rem; display: block; }
-        .login-prompt-card h3 { font-family: 'Playfair Display', serif; font-size: clamp(1rem, 2vw, 1.3rem); margin-bottom: 0.5rem; }
-        .login-prompt-card p { color: var(--gray-cool); font-size: clamp(0.75rem, 1.2vw, 0.85rem); margin-bottom: 1rem; font-weight: 300; }
-        .btn-connect-prompt {
-            display: inline-block; padding: 10px 24px; background: var(--black); color: var(--gold);
-            border: 1px solid var(--gold); font-family: 'Montserrat', sans-serif; font-weight: 600;
-            font-size: 10px; text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
-            transition: var(--transition-smooth); text-decoration: none; border-radius: 2px;
-        }
-        .btn-connect-prompt:hover { background: var(--gold); color: var(--black); }
-
-        /* Footer */
-        .footer-luxe {
-            background: var(--black); color: var(--white); padding: 1.5rem 0;
-            margin-top: auto; border-top: 1px solid rgba(201,168,76,0.15);
-        }
-        .footer-luxe .footer-container { max-width: 1600px; margin: 0 auto; padding: 0 1.5rem; text-align: center; }
-        .footer-luxe p { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 1px; font-weight: 300; }
-        .footer-luxe a { color: var(--gold); text-decoration: none; transition: var(--transition-smooth); font-weight: 500; }
-        .footer-luxe a:hover { color: var(--gold-light); }
-        .footer-luxe .footer-bottom { margin-top: 0.6rem; font-size: 9px; color: rgba(255,255,255,0.25); }
-
-        /* Toast */
-        .toast-luxe {
-            position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
-            background: var(--black); color: var(--gold); padding: 0.8rem 1.5rem;
-            border-radius: 2px; z-index: 3000; font-size: 10px; letter-spacing: 1px;
-            text-transform: uppercase; font-weight: 500; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            animation: fadeInUp 0.4s ease; border: 1px solid rgba(201,168,76,0.2);
-            max-width: 90vw; text-align: center; white-space: nowrap;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) {
-            .main-content { padding: 0 1.2rem; margin: 1.5rem auto; }
-            .payment-links-grid { grid-template-columns: repeat(2, 1fr); }
-            .notification-container { right: 10px; max-width: 340px; }
-        }
         @media (max-width: 768px) {
-            .header-container { flex-direction: column; padding: 0.8rem 1rem; gap: 0.6rem; }
-            .user-info-header { width: 100%; justify-content: center; }
-            .hero-tracking { padding: 1.5rem 1rem; margin-bottom: 1.5rem; }
-            .info-cards { grid-template-columns: repeat(3, 1fr); gap: 0.4rem; margin-bottom: 1.5rem; }
-            .info-card { padding: 0.8rem 0.5rem; }
-            .search-card { padding: 1.2rem; }
+            .header-container { gap: 0.5rem; }
             .search-form { flex-direction: column; }
-            .btn-search { width: 100%; justify-content: center; padding: 12px; }
-            .result-header { flex-direction: column; text-align: center; padding: 1rem 1.2rem; }
-            .result-body { padding: 1.2rem; }
-            .info-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-            .nav-luxe .nav-container { gap: 1rem; }
-            .nav-luxe .nav-link { font-size: 9px; letter-spacing: 1.5px; }
-            .payment-links-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
-            .notification-container { max-width: 300px; top: 70px; }
+            .btn-search { width: 100%; justify-content: center; }
+            .result-header { flex-direction: column; text-align: center; }
+            .info-grid { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 480px) {
-            .luxe-bar { font-size: 8px; letter-spacing: 1px; padding: 6px 8px; }
-            .header-container { padding: 0.6rem 0.8rem; gap: 0.4rem; }
-            .brand-crest { width: 32px; height: 32px; font-size: 14px; }
-            .brand-name h2 { font-size: 16px; }
-            .user-info-header { font-size: 10px; gap: 0.5rem; }
-            .btn-logout-header, .btn-notif-header { padding: 4px 10px; font-size: 8px; }
-            .hero-tracking { padding: 1.2rem 0.8rem; margin-bottom: 1rem; }
-            .info-cards { grid-template-columns: 1fr 1fr 1fr; gap: 0.3rem; }
-            .info-card { padding: 0.6rem 0.3rem; }
-            .search-card { padding: 1rem; margin-bottom: 1rem; }
-            .search-input { padding: 10px 14px; font-size: 11px; min-width: 100%; }
-            .btn-search { font-size: 9px; letter-spacing: 1.5px; padding: 10px; }
-            .info-grid { grid-template-columns: 1fr; gap: 0.6rem; }
-            .timeline { padding-left: 22px; }
-            .timeline::before { left: 8px; }
-            .timeline-step { padding-left: 12px; margin-bottom: 1rem; }
-            .timeline-step::before { left: -18px; width: 7px; height: 7px; }
-            .nav-luxe .nav-container { gap: 0.6rem; padding: 0 0.5rem; }
-            .nav-luxe .nav-link { font-size: 8px; letter-spacing: 1px; padding: 0.6rem 0; }
-            .main-content { padding: 0 0.8rem; margin: 1rem auto; }
-            .payment-links-grid { grid-template-columns: 1fr 1fr; gap: 0.4rem; }
-            .payment-link-card { padding: 0.8rem; }
-            .notification-container { max-width: 280px; right: 4px; top: 60px; }
-            .notification-toast { padding: 12px 14px; }
-            .notification-toast .notif-title { font-size: 11px; }
-            .notification-toast .notif-message { font-size: 10px; }
+            .header-container { padding: 0.5rem 0.8rem; }
+            .brand-crest { width: 28px; height: 28px; font-size: 12px; }
+            .brand-name h2 { font-size: 15px; }
+            .info-cards { grid-template-columns: repeat(3, 1fr); gap: 0.3rem; }
+            .info-card { padding: 0.5rem 0.3rem; }
+            .info-card h4 { font-size: 6px; }
+            .info-card p { font-size: 6px; }
+            .payment-links-grid { grid-template-columns: 1fr 1fr; }
+            .info-grid { grid-template-columns: 1fr; }
+            .timeline { padding-left: 20px; }
+            .timeline::before { left: 6px; }
+            .timeline-step::before { left: -16px; width: 6px; height: 6px; }
         }
     </style>
 </head>
 <body>
-    <!-- Luxury Bar -->
-    <div class="luxe-bar"><i class="fas fa-gem"></i> Maison de Mode Sénégalaise <i class="fas fa-gem"></i> Service Client Premium <i class="fas fa-gem"></i> Suivi en Temps Réel</div>
+    <div class="luxe-bar">
+        <span><i class="fas fa-gem"></i> Maison de Mode Sénégalaise</span>
+        <span><i class="fas fa-truck"></i> Livraison Offerte dès 20 000 FCFA</span>
+        <span><a href="https://wa.me/221779078970"><i class="fab fa-whatsapp"></i> +221 77 907 89 70</a></span>
+    </div>
 
-    <!-- Header Luxe -->
     <header class="header-luxe">
         <div class="header-container">
-            <a href="index.html" class="brand">
-                <div class="brand-crest"><i class="fas fa-crown"></i></div>
-                <div class="brand-name"><h2>SENSTYLE</h2><span>Maison de Mode • Dakar</span></div>
-            </a>
+            <a href="index.html" class="brand"><div class="brand-crest"><i class="fas fa-crown"></i></div><div class="brand-name"><h2>SENSTYLE</h2><span>Maison de Mode • Dakar</span></div></a>
             <div class="user-info-header" id="userInfoHeader"></div>
         </div>
     </header>
 
-    <!-- Navigation -->
     <nav class="nav-luxe">
         <div class="nav-container">
-            <a href="index.html" class="nav-link">Accueil</a>
-            <a href="suivi.html" class="nav-link active">Suivi Commande</a>
-            <a href="collections.html" class="nav-link">Collections</a>
-            <a href="contact.html" class="nav-link">Contact</a>
+            <a href="index.html" class="nav-link">🏠 Accueil</a>
+            <a href="suivi.html" class="nav-link active">📦 Suivi</a>
+            <a href="collections.html" class="nav-link">🛍️ Collections</a>
+            <a href="contact.html" class="nav-link">📞 Contact</a>
         </div>
     </nav>
 
-    <!-- Notification Container -->
-    <div class="notification-container" id="notificationContainer"></div>
-
-    <!-- Main Content -->
     <div class="main-content">
-        <!-- Hero -->
         <div class="hero-tracking">
             <i class="fas fa-box-open tracking-icon"></i>
             <p class="overline">Service Conciergerie</p>
             <h1>Suivi de <em>Commande</em></h1>
-            <p>Suivez votre colis en temps réel • Service disponible 24h/24 et 7j/7</p>
+            <p>Suivez votre colis en temps réel • 24h/24 et 7j/7</p>
         </div>
 
-        <!-- Info Cards -->
         <div class="info-cards">
-            <div class="info-card"><i class="fas fa-truck-fast card-icon gold"></i><h4>Livraison Premium</h4><p>Dakar 24-48h</p></div>
-            <div class="info-card"><i class="fas fa-concierge-bell card-icon emerald"></i><h4>Service Client</h4><p>+221 78 000 00 00</p></div>
+            <div class="info-card"><i class="fas fa-truck-fast card-icon gold"></i><h4>Livraison</h4><p>Dakar 24-48h</p></div>
+            <div class="info-card"><i class="fas fa-concierge-bell card-icon emerald"></i><h4>Service</h4><p>+221 77 907 89 70</p></div>
             <div class="info-card"><i class="fas fa-shield-check card-icon navy"></i><h4>Sécurisé</h4><p>Protection garantie</p></div>
         </div>
 
-        <!-- Moyens de Paiement -->
         <div class="payment-links-section">
-            <div style="text-align:center;margin-bottom:1.5rem;">
-                <div class="tag" style="display:inline-block;font-size:8px;text-transform:uppercase;letter-spacing:3px;color:var(--gold-dark);border:1px solid rgba(201,168,76,0.3);padding:5px 14px;border-radius:50px;margin-bottom:0.8rem;font-weight:600;">Paiement</div>
-                <h3 style="font-family:'Playfair Display',serif;font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:500;margin-bottom:0.3rem;">Moyens de Paiement</h3>
-                <p style="color:var(--gray-cool);font-size:clamp(0.75rem,1.2vw,0.85rem);font-weight:300;">Paiement 100% sécurisé au Sénégal</p>
+            <div style="text-align:center;margin-bottom:1rem;">
+                <div style="display:inline-block;font-size:7px;text-transform:uppercase;letter-spacing:2px;color:var(--gold-dark);border:1px solid rgba(201,168,76,0.3);padding:3px 10px;border-radius:var(--radius-full);margin-bottom:0.4rem;font-weight:600;">Paiement</div>
+                <h3 style="font-size:clamp(1rem,2vw,1.4rem);">Moyens de Paiement</h3>
             </div>
             <div class="payment-links-grid">
-                <a href="https://orangemoney.sn/ommarketplace/paiement-marchand" target="_blank" rel="noopener noreferrer" class="payment-link-card orange" title="Payer avec Orange Money">
-                    <i class="fas fa-mobile-alt payment-icon"></i><h4>Orange Money</h4><p>Code #144# • Marchand: SENSTYLE2025</p><span class="btn-payment-link"><i class="fas fa-external-link-alt"></i> Payer</span>
-                </a>
-                <a href="https://wave.com/fr/send-money/" target="_blank" rel="noopener noreferrer" class="payment-link-card wave" title="Payer avec Wave">
-                    <i class="fas fa-wallet payment-icon"></i><h4>Wave</h4><p>N° +221 78 000 00 00</p><span class="btn-payment-link"><i class="fas fa-external-link-alt"></i> Payer</span>
-                </a>
-                <a href="https://www.visa.com.sn/fr_SN/pay-with-visa/checkout.html" target="_blank" rel="noopener noreferrer" class="payment-link-card visa" title="Payer avec Visa">
-                    <i class="fab fa-cc-visa payment-icon"></i><h4>Visa</h4><p>Carte bancaire Visa</p><span class="btn-payment-link"><i class="fas fa-external-link-alt"></i> Payer</span>
-                </a>
-                <a href="https://www.mastercard.com/global/fr/consumers/features-benefits/mastercard-send.html" target="_blank" rel="noopener noreferrer" class="payment-link-card mastercard" title="Payer avec Mastercard">
-                    <i class="fab fa-cc-mastercard payment-icon"></i><h4>Mastercard</h4><p>Carte bancaire Mastercard</p><span class="btn-payment-link"><i class="fas fa-external-link-alt"></i> Payer</span>
-                </a>
+                <a href="https://orangemoney.sn/" target="_blank" class="payment-link-card" style="border-left:3px solid var(--orange);"><i class="fas fa-mobile-alt payment-icon" style="color:var(--orange);"></i><h4>Orange Money</h4><p>#144#</p><span class="btn-payment-link" style="background:var(--orange);color:white;">Payer</span></a>
+                <a href="https://wave.com/" target="_blank" class="payment-link-card" style="border-left:3px solid var(--wave-color);"><i class="fas fa-wallet payment-icon" style="color:var(--wave-color);"></i><h4>Wave</h4><p>Transfert</p><span class="btn-payment-link" style="background:var(--wave-color);color:white;">Payer</span></a>
+                <a href="#" class="payment-link-card" style="border-left:3px solid #1a1f71;"><i class="fab fa-cc-visa payment-icon" style="color:#1a1f71;"></i><h4>Visa</h4><p>CB</p><span class="btn-payment-link" style="background:#1a1f71;color:white;">Payer</span></a>
+                <a href="#" class="payment-link-card" style="border-left:3px solid #eb001b;"><i class="fab fa-cc-mastercard payment-icon" style="color:#eb001b;"></i><h4>Mastercard</h4><p>CB</p><span class="btn-payment-link" style="background:#eb001b;color:white;">Payer</span></a>
             </div>
         </div>
 
-        <!-- Content Area (dynamic) -->
         <div id="dynamicContent"></div>
-
-        <!-- Result -->
         <div class="result-card" id="resultCard"></div>
-
-        <!-- Not Found -->
         <div class="not-found-card" id="notFoundCard"></div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer-luxe">
         <div class="footer-container">
             <p><a href="index.html"><i class="fas fa-crown"></i> SENSTYLE</a> — Maison de Mode Sénégalaise</p>
-            <p class="footer-bottom">© 2026 SenStyle. Tous droits réservés. | Made with ❤️ in Sénégal</p>
+            <p class="footer-bottom">© 2026 SenStyle | ❤️ Sénégal</p>
         </div>
     </footer>
 
     <script>
-        // ===== CONFIGURATION =====
         const PAYMENT_LINKS = {
-            orange: {
-                name: 'Orange Money', url: 'https://orangemoney.sn/ommarketplace/paiement-marchand',
-                ussd: '#144#', merchantCode: 'SENSTYLE2025',
-                instructions: ['Composez #144#', 'Sélectionnez "Paiement Marchand"', 'Code marchand : SENSTYLE2025', 'Saisissez le montant', 'Validez avec votre code secret']
-            },
-            wave: {
-                name: 'Wave', url: 'https://wave.com/fr/send-money/',
-                merchantPhone: '+221 779078970',
-                instructions: ['Ouvrez l\'application Wave', 'Sélectionnez "Envoyer de l\'argent"', 'Numéro : +221 779078970', 'Saisissez le montant', 'Confirmez le transfert']
-            },
-            card: { name: 'Carte Bancaire', instructions: ['Paiement sécurisé Visa/Mastercard', 'Données cryptées', 'Cartes internationales acceptées'] }
+            orange: { name:'Orange Money', url:'https://orangemoney.sn/', ussd:'#144#', merchantCode:'SENSTYLE2025', instructions:['Composez #144#','Paiement Marchand','Code : SENSTYLE2025','Saisissez le montant','Validez'] },
+            wave: { name:'Wave', url:'https://wave.com/', merchantPhone:'+221 779078970', instructions:['Ouvrez Wave','Envoyer de l\'argent','N° : +221 779078970','Saisissez le montant','Confirmez'] }
         };
+        let currentTrackingOrder=null, refreshInterval=null, currentUser=null, lastKnownStatus=null;
 
-        let currentTrackingOrder = null;
-        let refreshInterval = null;
-        let currentUser = null;
-        let lastKnownStatus = null;
-        let notificationCount = 0;
+        function formatFCFA(a){return(a||0).toLocaleString('fr-FR')+' FCFA';}
+        function formatDate(d){if(!d)return'Date inconnue';return new Date(d).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+        function formatShortDate(d){if(!d)return'';return new Date(d).toLocaleDateString('fr-FR',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}
+        function getPaymentName(m){const n={orange:'Orange Money',wave:'Wave',card:'Carte Bancaire'};return n[m]||m||'N/A';}
+        function getStatusClass(s){const c={'En attente':'status-en-attente',Confirmée:'status-confirmee','En préparation':'status-en-attente',Expédiée:'status-expediee',Livrée:'status-livree',Annulée:'status-annulee'};return c[s]||'status-en-attente';}
+        function getStatusDisplayName(s){return s||'En attente';}
 
-        // ===== UTILITAIRES =====
-        function formatFCFA(amount) { return (amount || 0).toLocaleString('fr-FR') + ' FCFA'; }
-        function formatDate(dateStr) {
-            if (!dateStr) return 'Date inconnue';
-            return new Date(dateStr).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        function getUserKey(){return currentUser?currentUser.uid:'guest_'+getGuestId();}
+        function getGuestId(){let id=localStorage.getItem('senstyle_guest_id');if(!id){id='guest_'+Date.now()+'_'+Math.random().toString(36).substr(2,9);localStorage.setItem('senstyle_guest_id',id);}return id;}
+        function getUserOrders(){return JSON.parse(localStorage.getItem('senstyle_orders_'+getUserKey()))||[];}
+        function loadCurrentUser(){const u=localStorage.getItem('senstyleCurrentUser');if(u){try{currentUser=JSON.parse(u);}catch(e){currentUser=null;}}}
+        function updateUserInfoHeader(){
+            const h=document.getElementById('userInfoHeader');if(!h)return;
+            if(currentUser?.uid){const n=currentUser.name||currentUser.email||'Client';h.innerHTML=`<span class="user-greeting"><i class="far fa-user"></i> ${n}</span><button class="btn-sm-header" onclick="logoutUser()">Déconnexion</button>`;}
+            else{h.innerHTML=`<span class="user-greeting"><i class="far fa-user"></i> Visiteur</span><button class="btn-sm-header" onclick="redirectToLogin()">Connexion</button>`;}
         }
-        function formatShortDate(dateStr) {
-            if (!dateStr) return '';
-            return new Date(dateStr).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-        }
-        function getPaymentName(method) {
-            const names = { orange: 'Orange Money', wave: 'Wave', card: 'Carte Bancaire', visa: 'Visa', mastercard: 'Mastercard' };
-            return names[method] || method || 'Non spécifié';
-        }
-        function getStatusClass(status) {
-            const classes = {
-                'En attente': 'status-en-attente', 'Confirmée': 'status-confirmee', 'En préparation': 'status-en-preparation',
-                'Expédiée': 'status-expediee', 'Livrée': 'status-livree', 'Annulée': 'status-annulee',
-                'En cours': 'status-encours', 'Expédié': 'status-expedie', 'Livré': 'status-livre', 'Payé': 'status-paye', 'Annulé': 'status-annule'
-            };
-            return classes[status] || 'status-en-attente';
-        }
-        function getStatusDisplayName(status) { return status || 'En attente'; }
+        function logoutUser(){if(confirm('Se déconnecter ?')){localStorage.removeItem('senstyleCurrentUser');currentUser=null;updateUserInfoHeader();stopAutoRefresh();document.getElementById('resultCard').className='result-card';document.getElementById('notFoundCard').className='not-found-card';renderDynamicContent();showToast('Déconnecté');}}
+        function redirectToLogin(){window.location.href='index.html';}
+        function showToast(m,t='info'){const toast=document.createElement('div');toast.className='toast-luxe';toast.innerHTML=m;document.body.appendChild(toast);setTimeout(()=>{toast.style.opacity='0';toast.style.transform='translate(-50%,20px)';setTimeout(()=>toast.remove(),300);},2500);}
 
-        // ===== SYSTÈME DE NOTIFICATION =====
-        function showNotification(title, message, type = 'info', orderId = null) {
-            const container = document.getElementById('notificationContainer');
-            if (!container) return;
-            
-            notificationCount++;
-            const icons = {
-                'status-update': 'fa-truck-fast',
-                'status-confirmed': 'fa-check-circle',
-                'status-shipped': 'fa-box',
-                'status-delivered': 'fa-home',
-                'info': 'fa-info-circle',
-                'warning': 'fa-exclamation-triangle'
-            };
-            
-            const toast = document.createElement('div');
-            toast.className = `notification-toast ${type}`;
-            toast.innerHTML = `
-                <i class="fas ${icons[type] || icons.info} notif-icon"></i>
-                <div class="notif-content">
-                    <div class="notif-title">${title}</div>
-                    <div class="notif-message">${message}</div>
-                    <div class="notif-time"><i class="far fa-clock"></i> ${new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'})}</div>
-                </div>
-                <i class="fas fa-times notif-close" onclick="this.parentElement.remove();notificationCount--;updateNotifBadge();"></i>
-            `;
-            
-            if (orderId) {
-                toast.style.cursor = 'pointer';
-                toast.addEventListener('click', function(e) {
-                    if (!e.target.closest('.notif-close')) {
-                        document.getElementById('trackingNumber').value = orderId;
-                        trackOrder();
-                    }
-                });
-            }
-            
-            container.appendChild(toast);
-            updateNotifBadge();
-            
-            // Auto-suppression après 8 secondes
-            setTimeout(() => {
-                if (toast.parentElement) {
-                    toast.style.animation = 'slideOutRight 0.4s ease forwards';
-                    setTimeout(() => { toast.remove(); notificationCount--; updateNotifBadge(); }, 400);
-                }
-            }, 8000);
+        function getStatusSteps(status,orderDate,statusHistory){
+            const d=new Date(orderDate),steps=[{key:'En attente',label:'Commande reçue',description:'Enregistrée',icon:'fa-receipt'},{key:'Confirmée',label:'Confirmée',description:'Paiement validé',icon:'fa-check-circle'},{key:'En préparation',label:'Préparation',description:'En cours',icon:'fa-box'},{key:'Expédiée',label:'Expédiée',description:'En route',icon:'fa-truck'},{key:'Livrée',label:'Livrée',description:'Livré !',icon:'fa-home'}];
+            const idx=steps.map(s=>s.key).indexOf(status);
+            if(status==='Annulée')return[{label:'Annulée',description:'Commande annulée',status:'cancelled',date:formatShortDate(new Date()),icon:'fa-times-circle'}];
+            if(idx===-1)return steps.map((s,i)=>({...s,status:i<2?'completed':i===2?'current':'',date:i<2?formatShortDate(new Date(d.getTime()+i*3600000)):''}));
+            return steps.map((s,i)=>{let st=i<idx?'completed':i===idx?'current':'';let sd='';if(statusHistory){const h=statusHistory.find(h=>h.status===s.key);if(h)sd=formatShortDate(h.date);}if(!sd&&i===0)sd=formatShortDate(d);return{...s,status:st,date:sd||(i<=idx?'Effectué':'En attente...')};});
         }
 
-        function updateNotifBadge() {
-            const badge = document.getElementById('notifBadge');
-            if (badge) {
-                if (notificationCount > 0) {
-                    badge.style.display = 'flex';
-                    badge.textContent = notificationCount > 9 ? '9+' : notificationCount;
-                } else {
-                    badge.style.display = 'none';
-                }
-            }
+        function loadRecentOrders(){const o=getUserOrders();if(!o.length)return null;return o.slice(-5).reverse().map(o=>`<div class="recent-order-chip" onclick="quickTrack('${o.id}')">#${o.id} <small>(${getStatusDisplayName(o.status)})</small></div>`).join('');}
+        function quickTrack(id){const i=document.getElementById('trackingNumber');if(i)i.value=id;trackOrder();}
+
+        function trackOrder(){
+            const tn=document.getElementById('trackingNumber')?.value.trim().toUpperCase(),rc=document.getElementById('resultCard'),nf=document.getElementById('notFoundCard');
+            rc.className='result-card';nf.className='not-found-card';
+            if(!tn){nf.className='not-found-card show';nf.innerHTML='<i class="fas fa-exclamation-triangle nf-icon"></i><h3>Numéro requis</h3><p>Entrez un numéro de commande</p>';stopAutoRefresh();return;}
+            const orders=getUserOrders(),order=orders.find(o=>o.id===tn||o.id===tn.replace('CMD','')||'CMD'+o.id===tn);
+            if(!order){nf.className='not-found-card show';nf.innerHTML=`<i class="fas fa-search nf-icon"></i><h3>Introuvable</h3><p>N° : <strong>${tn}</strong></p>`;stopAutoRefresh();return;}
+            currentTrackingOrder=tn;displayOrderResult(order);startAutoRefresh();setTimeout(()=>rc.scrollIntoView({behavior:'smooth',block:'start'}),150);
         }
 
-        // ===== GESTION UTILISATEUR =====
-        function getUserKey() { return currentUser ? currentUser.uid : 'guest_' + getOrCreateGuestId(); }
-        function getOrCreateGuestId() {
-            let guestId = localStorage.getItem('senstyle_guest_id');
-            if (!guestId) { guestId = 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9); localStorage.setItem('senstyle_guest_id', guestId); }
-            return guestId;
-        }
-        function getOrdersKey() { return 'senstyle_orders_' + getUserKey(); }
-        function getUserOrders() {
-            const key = getOrdersKey();
-            const ordersData = localStorage.getItem(key);
-            return ordersData ? JSON.parse(ordersData) : [];
-        }
-        function loadCurrentUser() {
-            const userData = localStorage.getItem('senstyleCurrentUser');
-            if (userData) { try { currentUser = JSON.parse(userData); } catch(e) { currentUser = null; } }
-        }
-        function updateUserInfoHeader() {
-            const header = document.getElementById('userInfoHeader');
-            if (!header) return;
-            if (currentUser && currentUser.uid) {
-                const displayName = currentUser.name || currentUser.email || 'Client';
-                header.innerHTML = `
-                    <span class="user-greeting"><i class="far fa-user"></i> ${displayName}</span>
-                    <button class="btn-notif-header" onclick="showAllNotifications()" title="Notifications">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-badge" id="notifBadge" style="display:${notificationCount > 0 ? 'flex' : 'none'}">${notificationCount}</span>
-                    </button>
-                    <button class="btn-logout-header" onclick="logoutUser()" title="Se déconnecter">
-                        <i class="fas fa-sign-out-alt"></i> Déconnexion
-                    </button>
-                `;
-            } else {
-                header.innerHTML = `
-                    <span class="user-greeting" style="opacity:0.6;"><i class="far fa-user"></i> Visiteur</span>
-                    <button class="btn-logout-header" onclick="redirectToLogin()" title="Se connecter">
-                        <i class="fas fa-sign-in-alt"></i> Connexion
-                    </button>
-                `;
-            }
-        }
-        function logoutUser() {
-            if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
-                localStorage.removeItem('senstyleCurrentUser');
-                currentUser = null;
-                updateUserInfoHeader();
-                stopAutoRefresh();
-                document.getElementById('resultCard').className = 'result-card';
-                document.getElementById('resultCard').innerHTML = '';
-                document.getElementById('notFoundCard').className = 'not-found-card';
-                document.getElementById('notFoundCard').innerHTML = '';
-                const input = document.getElementById('trackingNumber');
-                if (input) input.value = '';
-                renderDynamicContent();
-                showToast('Vous êtes déconnecté');
-            }
-        }
-        function redirectToLogin() { window.location.href = 'index.html'; }
-        function showToast(message, type = 'info') {
-            const existingToast = document.querySelector('.toast-luxe');
-            if (existingToast) existingToast.remove();
-            const toast = document.createElement('div');
-            toast.className = 'toast-luxe';
-            const icons = { success: 'check-circle', error: 'exclamation-circle', warning: 'info-circle', info: 'info-circle' };
-            toast.innerHTML = `<i class="fas fa-${icons[type] || icons.info}"></i> ${message}`;
-            document.body.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translate(-50%, 20px)'; setTimeout(() => toast.remove(), 300); }, 3000);
-        }
-        function showAllNotifications() {
-            const container = document.getElementById('notificationContainer');
-            if (container && container.children.length > 0) {
-                container.scrollIntoView({ behavior: 'smooth' });
-                showToast(`${notificationCount} notification(s) en attente`, 'info');
-            } else {
-                showToast('Aucune notification', 'info');
-            }
+        function displayOrderResult(order){
+            const rc=document.getElementById('resultCard'),status=order.status||'En attente',steps=getStatusSteps(status,order.date,order.statusHistory),pm=order.paymentMethod||'';
+            let pmHTML='';
+            if(pm==='orange')pmHTML=`<div style="background:#fff8f0;padding:0.6rem;border-radius:2px;margin:0.6rem 0;border-left:3px solid var(--orange);font-size:9px;"><strong>📱 Orange Money</strong><br>#144# | Marchand : SENSTYLE2025</div>`;
+            else if(pm==='wave')pmHTML=`<div style="background:#f0f5ff;padding:0.6rem;border-radius:2px;margin:0.6rem 0;border-left:3px solid var(--wave-color);font-size:9px;"><strong>💳 Wave</strong><br>N° : +221 779078970</div>`;
+            rc.className='result-card show';
+            rc.innerHTML=`<div class="result-header"><h3><i class="fas fa-box"></i> #${order.id}</h3><span class="status-badge ${getStatusClass(status)}"><i class="fas fa-circle"></i> ${getStatusDisplayName(status)}</span></div><div class="result-body"><div class="info-grid"><div class="info-item"><label>Date</label><span><i class="far fa-calendar-alt"></i> ${formatDate(order.date)}</span></div><div class="info-item"><label>Paiement</label><span><i class="fas fa-credit-card"></i> ${getPaymentName(pm)}</span></div><div class="info-item"><label>Montant</label><span><i class="fas fa-tag"></i> ${formatFCFA(order.total)}</span></div><div class="info-item"><label>Articles</label><span><i class="fas fa-cube"></i> ${order.items?order.items.length:0}</span></div>${order.customerPhone?`<div class="info-item"><label>Tél</label><span>${order.customerPhone}</span></div>`:''}${order.customerCity?`<div class="info-item"><label>Ville</label><span>${order.customerCity}</span></div>`:''}</div>${pmHTML}<h4 style="font-size:1rem;margin-bottom:0.6rem;">📋 Progression</h4><div class="timeline">${steps.map(s=>`<div class="timeline-step ${s.status}"><h4><i class="fas ${s.icon||'fa-circle'}"></i> ${s.label}</h4><p>${s.description}</p>${s.date?`<span class="step-date"><i class="far fa-clock"></i> ${s.date}</span>`:''}</div>`).join('')}</div>${order.items?.length?`<div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(0,0,0,0.06);"><h4 style="font-size:1rem;">🛍️ Articles</h4>${order.items.map(i=>`<div style="display:flex;justify-content:space-between;font-size:10px;padding:0.3rem 0;">${i.name} ×${i.quantity||1}<strong>${formatFCFA((i.price||0)*(i.quantity||1))}</strong></div>`).join('')}<div style="display:flex;justify-content:space-between;font-weight:700;margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid rgba(0,0,0,0.08);">Total<strong>${formatFCFA(order.total)}</strong></div></div>`:''}</div>`;
         }
 
-        // ===== SUIVI DE COMMANDE =====
-        function getStatusSteps(status, orderDate, statusHistory) {
-            const date = new Date(orderDate);
-            const allSteps = [
-                { key: 'En attente', label: 'Commande reçue', description: 'Votre commande a été enregistrée', icon: 'fa-receipt' },
-                { key: 'Confirmée', label: 'Commande confirmée', description: 'Paiement validé et commande acceptée', icon: 'fa-check-circle' },
-                { key: 'En préparation', label: 'En préparation', description: 'Votre colis est en cours de préparation', icon: 'fa-box' },
-                { key: 'Expédiée', label: 'Expédiée', description: 'Votre colis a été remis au transporteur', icon: 'fa-truck' },
-                { key: 'Livrée', label: 'Livrée', description: 'Votre colis a été livré avec succès', icon: 'fa-home' }
-            ];
-            const statusOrder = allSteps.map(s => s.key);
-            const currentIndex = statusOrder.indexOf(status);
-            
-            if (status === 'Annulée' || status === 'Annulé') {
-                return [{ label: 'Commande annulée', description: 'Cette commande a été annulée', status: 'cancelled', date: statusHistory ? formatShortDate(statusHistory[statusHistory.length - 1]?.date) : formatShortDate(new Date()), icon: 'fa-times-circle' }];
-            }
-            if (currentIndex === -1) return getLegacySteps(status, orderDate);
-            
-            return allSteps.map((step, index) => {
-                let stepStatus = index < currentIndex ? 'completed' : index === currentIndex ? 'current' : '';
-                let stepDate = '';
-                if (statusHistory) {
-                    const historyEntry = statusHistory.find(h => h.status === step.key);
-                    if (historyEntry) stepDate = formatShortDate(historyEntry.date);
-                }
-                if (!stepDate && index === 0) stepDate = formatShortDate(date);
-                else if (!stepDate && index <= currentIndex) stepDate = formatShortDate(new Date(date.getTime() + index * 24 * 3600000));
-                return { label: step.label, description: step.description, status: stepStatus, date: stepDate || (index <= currentIndex ? 'Effectué' : 'En attente...'), icon: step.icon };
-            });
-        }
-        function getLegacySteps(status, orderDate) {
-            const date = new Date(orderDate);
-            return [
-                { label: 'Commande confirmée', description: 'Enregistrée avec succès', status: 'completed', date: formatShortDate(date), icon: 'fa-check' },
-                { label: 'Paiement validé', description: 'Paiement confirmé', status: 'completed', date: formatShortDate(new Date(date.getTime() + 60000)), icon: 'fa-credit-card' },
-                { label: 'Préparation', description: 'En cours de préparation', status: (status === 'En cours' || status === 'Payé') ? 'current' : 'completed', date: (status === 'En cours' || status === 'Payé') ? 'En cours...' : formatShortDate(new Date(date.getTime() + 3600000)), icon: 'fa-box' },
-                { label: 'Expédition', description: 'Colis remis au transporteur', status: status === 'Expédié' ? 'current' : (status === 'Livré' ? 'completed' : ''), date: status === 'Expédié' ? 'En cours...' : (status === 'Livré' ? formatShortDate(new Date(date.getTime() + 86400000)) : 'En attente'), icon: 'fa-truck' },
-                { label: 'Livraison', description: 'Colis livré', status: status === 'Livré' ? 'current' : '', date: status === 'Livré' ? formatShortDate(new Date()) : 'En attente...', icon: 'fa-home' }
-            ];
+        function startAutoRefresh(){stopAutoRefresh();refreshInterval=setInterval(()=>{if(currentTrackingOrder){const o=getUserOrders().find(o=>o.id===currentTrackingOrder||'CMD'+o.id===currentTrackingOrder);if(o)displayOrderResult(o);}},5000);}
+        function stopAutoRefresh(){if(refreshInterval){clearInterval(refreshInterval);refreshInterval=null;}}
+
+        function renderDynamicContent(){
+            const dc=document.getElementById('dynamicContent');if(!dc)return;
+            const recent=loadRecentOrders();
+            if(currentUser?.uid){dc.innerHTML=`${recent?`<div class="recent-orders"><h4>📋 Vos commandes récentes</h4><div class="recent-orders-grid">${recent}</div></div>`:''}<div class="search-card"><div class="search-header"><div class="tag">Suivi</div><h3>Rechercher votre commande</h3></div><div class="search-form"><input type="text" id="trackingNumber" class="search-input" placeholder="Ex: CMD12345678" onkeyup="if(event.key==='Enter')trackOrder()"><button class="btn-search" onclick="trackOrder()"><i class="fas fa-search"></i> Suivre</button></div><div class="auto-refresh"><i class="fas fa-sync-alt"></i> Mise à jour automatique</div></div>`;}
+            else{dc.innerHTML=`<div class="login-prompt-card"><i class="fas fa-user-lock" style="font-size:2rem;color:var(--gold);margin-bottom:0.5rem;display:block;"></i><h3>Connectez-vous</h3><p style="font-size:0.8rem;margin-bottom:0.8rem;">Pour suivre vos commandes personnelles</p><a href="index.html" class="btn-connect-prompt">Se connecter</a></div><div class="search-card"><div class="search-header"><div class="tag">Suivi rapide</div><h3>Suivi invité</h3></div><div class="search-form"><input type="text" id="trackingNumber" class="search-input" placeholder="Ex: CMD12345678"><button class="btn-search" onclick="trackOrder()"><i class="fas fa-search"></i> Suivre</button></div></div>`;}
         }
 
-        function loadRecentOrders() {
-            const orders = getUserOrders();
-            if (orders.length === 0) return null;
-            const recent = orders.slice(-5).reverse();
-            return recent.map(o => {
-                const statusDisplay = getStatusDisplayName(o.status || 'En attente');
-                return `<div class="recent-order-chip" onclick="quickTrack('${o.id}')" title="Suivre cette commande - ${statusDisplay}"><i class="fas fa-box"></i> #${o.id} <small>(${statusDisplay})</small></div>`;
-            }).join('');
-        }
+        window.addEventListener('storage',function(e){if(e.key==='senstyleCurrentUser'){loadCurrentUser();updateUserInfoHeader();stopAutoRefresh();document.getElementById('resultCard').className='result-card';document.getElementById('notFoundCard').className='not-found-card';renderDynamicContent();}if(e.key?.startsWith('senstyle_orders_')&&currentTrackingOrder)trackOrder();});
 
-        function quickTrack(orderId) {
-            const input = document.getElementById('trackingNumber');
-            if (input) input.value = orderId;
-            trackOrder();
-        }
-
-        function checkStatusChange(order) {
-            const currentStatus = order.status || 'En attente';
-            if (lastKnownStatus && lastKnownStatus !== currentStatus) {
-                // Alerte de changement de statut
-                const statusMessages = {
-                    'Confirmée': { title: '✅ Commande Confirmée !', message: `Votre commande #${order.id} a été confirmée. Montant : ${formatFCFA(order.total)}`, type: 'status-confirmed' },
-                    'En préparation': { title: '📦 En Préparation', message: `Votre commande #${order.id} est en cours de préparation.`, type: 'status-update' },
-                    'Expédiée': { title: '🚚 Commande Expédiée !', message: `Votre commande #${order.id} a été expédiée. Elle est en route !`, type: 'status-shipped' },
-                    'Livrée': { title: '🏠 Livraison Effectuée !', message: `Votre commande #${order.id} a été livrée avec succès. Merci de votre confiance !`, type: 'status-delivered' },
-                    'Annulée': { title: '❌ Commande Annulée', message: `Votre commande #${order.id} a été annulée.`, type: 'warning' }
-                };
-                
-                const msg = statusMessages[currentStatus];
-                if (msg) {
-                    showNotification(msg.title, msg.message, msg.type, order.id);
-                }
-            }
-            lastKnownStatus = currentStatus;
-        }
-
-        function getStatusAlertBanner(status, orderId, total) {
-            const banners = {
-                'Confirmée': `<div class="status-alert-banner confirmed"><i class="fas fa-check-circle"></i> <strong>Nouveau !</strong> Votre commande #${orderId} a été confirmée pour un montant de ${formatFCFA(total)}</div>`,
-                'Expédiée': `<div class="status-alert-banner shipped"><i class="fas fa-truck-fast"></i> <strong>En route !</strong> Votre commande #${orderId} a été expédiée et est en cours d'acheminement</div>`,
-                'Livrée': `<div class="status-alert-banner delivered"><i class="fas fa-home"></i> <strong>Livrée !</strong> Votre commande #${orderId} a été livrée avec succès. Merci !</div>`,
-                'Annulée': `<div class="status-alert-banner cancelled"><i class="fas fa-times-circle"></i> <strong>Annulée</strong> Votre commande #${orderId} a été annulée</div>`
-            };
-            return banners[status] || '';
-        }
-
-        function trackOrder() {
-            const trackingNumber = document.getElementById('trackingNumber')?.value.trim().toUpperCase();
-            const resultCard = document.getElementById('resultCard');
-            const notFoundCard = document.getElementById('notFoundCard');
-            
-            resultCard.className = 'result-card'; resultCard.innerHTML = '';
-            notFoundCard.className = 'not-found-card'; notFoundCard.innerHTML = '';
-
-            if (!trackingNumber) {
-                notFoundCard.className = 'not-found-card show';
-                notFoundCard.innerHTML = `<i class="fas fa-exclamation-triangle nf-icon"></i><h3>Numéro requis</h3><p>Veuillez entrer un numéro de commande valide</p><p style="font-size:12px;">Exemple : <span class="nf-number">CMD12345678</span></p>`;
-                stopAutoRefresh();
-                return;
-            }
-
-            const orders = getUserOrders();
-            const order = orders.find(o => o.id === trackingNumber || o.id === trackingNumber.replace('CMD', '') || 'CMD' + o.id === trackingNumber);
-
-            if (!order) {
-                notFoundCard.className = 'not-found-card show';
-                notFoundCard.innerHTML = `<i class="fas fa-search nf-icon"></i><h3>Commande introuvable</h3><p>Numéro : <span class="nf-number">${trackingNumber}</span></p><p style="font-size:12px;">${currentUser ? 'Vérifiez votre numéro et réessayez' : 'Connectez-vous pour voir vos commandes'}</p>`;
-                stopAutoRefresh();
-                return;
-            }
-
-            currentTrackingOrder = trackingNumber;
-            checkStatusChange(order);
-            displayOrderResult(order);
-            startAutoRefresh();
-            setTimeout(() => resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
-        }
-
-        function generatePaymentInfoHTML(method) {
-            if (!method) return '';
-            const config = PAYMENT_LINKS[method];
-            if (!config) return '';
-            
-            if (method === 'orange') {
-                return `<div class="payment-info-box orange-box">
-                    <h5><i class="fas fa-mobile-alt"></i> Paiement ${config.name}</h5>
-                    <ul class="payment-steps">${config.instructions.map(s => `<li><i class="fas fa-chevron-right"></i> ${s}</li>`).join('')}</ul>
-                    <a href="${config.url}" target="_blank" rel="noopener noreferrer" class="payment-link-btn"><i class="fas fa-external-link-alt"></i> Payer avec ${config.name}</a>
-                    <small style="display:block;margin-top:0.5rem;font-size:9px;color:var(--gray-warm);">Code USSD : ${config.ussd} | Marchand : ${config.merchantCode}</small>
-                </div>`;
-            } else if (method === 'wave') {
-                return `<div class="payment-info-box wave-box">
-                    <h5><i class="fas fa-wallet"></i> Paiement ${config.name}</h5>
-                    <ul class="payment-steps">${config.instructions.map(s => `<li><i class="fas fa-chevron-right"></i> ${s}</li>`).join('')}</ul>
-                    <a href="${config.url}" target="_blank" rel="noopener noreferrer" class="payment-link-btn"><i class="fas fa-external-link-alt"></i> Payer avec ${config.name}</a>
-                    <small style="display:block;margin-top:0.5rem;font-size:9px;color:var(--gray-warm);">Numéro : ${config.merchantPhone}</small>
-                </div>`;
-            }
-            return '';
-        }
-
-        function displayOrderResult(order) {
-            const resultCard = document.getElementById('resultCard');
-            const status = order.status || 'En attente';
-            const statusDisplay = getStatusDisplayName(status);
-            const statusHistory = order.statusHistory || [];
-            const steps = getStatusSteps(status, order.date, statusHistory);
-            const orderDate = formatDate(order.date);
-            const paymentMethod = order.paymentMethod || '';
-            const alertBanner = getStatusAlertBanner(status, order.id, order.total);
-
-            resultCard.className = 'result-card show';
-            resultCard.innerHTML = `
-                <div class="result-header">
-                    <h3><i class="fas fa-box"></i> Commande #${order.id}</h3>
-                    <span class="status-badge ${getStatusClass(status)}"><i class="fas fa-circle"></i> ${statusDisplay}</span>
-                </div>
-                <div class="result-body">
-                    ${alertBanner}
-                    <div class="info-grid">
-                        <div class="info-item"><label>Date</label><span><i class="far fa-calendar-alt"></i> ${orderDate}</span></div>
-                        <div class="info-item"><label>Paiement</label><span><i class="fas fa-credit-card"></i> ${getPaymentName(paymentMethod)}</span></div>
-                        <div class="info-item"><label>Montant</label><span><i class="fas fa-tag"></i> ${formatFCFA(order.total)}</span></div>
-                        <div class="info-item"><label>Articles</label><span><i class="fas fa-cube"></i> ${order.items ? order.items.length : 0}</span></div>
-                        ${order.customerPhone ? `<div class="info-item"><label>Téléphone</label><span><i class="fas fa-phone"></i> ${order.customerPhone}</span></div>` : ''}
-                        ${order.customerCity ? `<div class="info-item"><label>Ville</label><span><i class="fas fa-map-marker-alt"></i> ${order.customerCity}</span></div>` : ''}
-                    </div>
-                    ${generatePaymentInfoHTML(paymentMethod)}
-                    <h4 class="timeline-title"><i class="fas fa-stream"></i> Progression de votre commande</h4>
-                    <div class="timeline">${steps.map(s => `<div class="timeline-step ${s.status}"><h4><i class="fas ${s.icon || 'fa-circle'}"></i> ${s.label}</h4><p>${s.description}</p>${s.date ? `<span class="step-date"><i class="far fa-clock"></i> ${s.date}</span>` : ''}</div>`).join('')}</div>
-                    ${statusHistory && statusHistory.length > 0 ? `<div class="status-history"><h4><i class="fas fa-history"></i> Historique détaillé</h4>${statusHistory.slice().reverse().map(h => `<div class="status-history-item"><i class="fas fa-circle"></i><div><strong>${h.status}</strong> — ${h.description || ''}<div class="history-date">${formatShortDate(h.date)}</div></div></div>`).join('')}</div>` : ''}
-                    ${order.items && order.items.length > 0 ? `<div class="order-items"><h4><i class="fas fa-shopping-bag"></i> Articles commandés</h4>${order.items.map(item => `<div class="order-item"><span>${item.name} × ${item.quantity || 1}</span><strong>${formatFCFA((item.price || 0) * (item.quantity || 1))}</strong></div>`).join('')}<div class="order-item total-row"><span>Total</span><strong>${formatFCFA(order.total)}</strong></div></div>` : ''}
-                    <div class="contact-bar"><i class="fas fa-info-circle"></i> Besoin d'aide ? Contactez notre service conciergerie au <strong>+221 78 000 00 00</strong>${status !== 'Livrée' && status !== 'Annulée' && status !== 'Livré' && status !== 'Annulé' ? '<br><small><i class="fas fa-sync-alt"></i> Cette page se met à jour automatiquement</small>' : ''}</div>
-                </div>`;
-        }
-
-        function startAutoRefresh() {
-            stopAutoRefresh();
-            refreshInterval = setInterval(() => {
-                if (currentTrackingOrder) {
-                    const orders = getUserOrders();
-                    const order = orders.find(o => o.id === currentTrackingOrder || o.id === currentTrackingOrder.replace('CMD', '') || 'CMD' + o.id === currentTrackingOrder);
-                    if (order) {
-                        checkStatusChange(order);
-                        displayOrderResult(order);
-                    }
-                }
-            }, 5000);
-        }
-
-        function stopAutoRefresh() { if (refreshInterval) { clearInterval(refreshInterval); refreshInterval = null; } }
-
-        function renderDynamicContent() {
-            const dynamicContent = document.getElementById('dynamicContent');
-            if (!dynamicContent) return;
-            const recentOrdersHTML = loadRecentOrders();
-            
-            if (currentUser && currentUser.uid) {
-                dynamicContent.innerHTML = `
-                    ${recentOrdersHTML ? `<div class="recent-orders" id="recentOrdersSection"><h4><i class="far fa-clock"></i> Vos commandes récentes</h4><div class="recent-orders-grid" id="recentOrdersGrid">${recentOrdersHTML}</div></div>` : ''}
-                    <div class="search-card">
-                        <div class="search-header"><div class="tag">Suivi</div><h3>Rechercher votre commande</h3><p>Entrez le numéro de commande reçu par email ou SMS</p></div>
-                        <div class="search-form">
-                            <input type="text" id="trackingNumber" class="search-input" placeholder="Exemple : CMD12345678" onkeyup="if(event.key==='Enter')trackOrder()">
-                            <button class="btn-search" onclick="trackOrder()"><i class="fas fa-search"></i> Suivre</button>
-                        </div>
-                        <div class="auto-refresh"><i class="fas fa-sync-alt"></i> Les informations sont mises à jour en temps réel pour vos commandes</div>
-                    </div>`;
-            } else {
-                dynamicContent.innerHTML = `
-                    <div class="login-prompt-card">
-                        <i class="fas fa-user-lock prompt-icon"></i><h3>Connectez-vous pour suivre vos commandes</h3>
-                        <p>Le suivi de commande est personnalisé. Connectez-vous pour accéder à l'historique complet de vos achats et suivre vos livraisons en temps réel.</p>
-                        <a href="index.html" class="btn-connect-prompt"><i class="fas fa-sign-in-alt"></i> Se connecter</a>
-                    </div>
-                    <div class="search-card">
-                        <div class="search-header"><div class="tag">Suivi rapide</div><h3>Suivi invité</h3><p>Entrez un numéro de commande pour suivre son statut</p></div>
-                        <div class="search-form">
-                            <input type="text" id="trackingNumber" class="search-input" placeholder="Exemple : CMD12345678" onkeyup="if(event.key==='Enter')trackOrder()">
-                            <button class="btn-search" onclick="trackOrder()"><i class="fas fa-search"></i> Suivre</button>
-                        </div>
-                        <div class="auto-refresh"><i class="fas fa-info-circle"></i> Connectez-vous pour voir toutes vos commandes</div>
-                    </div>`;
-            }
-        }
-
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'senstyleCurrentUser') { loadCurrentUser(); updateUserInfoHeader(); stopAutoRefresh(); document.getElementById('resultCard').className = 'result-card'; document.getElementById('resultCard').innerHTML = ''; document.getElementById('notFoundCard').className = 'not-found-card'; document.getElementById('notFoundCard').innerHTML = ''; renderDynamicContent(); }
-            if (e.key && e.key.startsWith('senstyle_orders_') && currentTrackingOrder) { trackOrder(); }
-        });
-
-        function init() {
-            loadCurrentUser();
-            updateUserInfoHeader();
-            renderDynamicContent();
-            setTimeout(() => { const input = document.getElementById('trackingNumber'); if (input) input.focus(); }, 300);
-        }
-
+        function init(){loadCurrentUser();updateUserInfoHeader();renderDynamicContent();setTimeout(()=>{const i=document.getElementById('trackingNumber');if(i)i.focus();},300);}
         init();
-        window.addEventListener('beforeunload', stopAutoRefresh);
-        window.quickTrack = quickTrack;
-        window.trackOrder = trackOrder;
-        window.logoutUser = logoutUser;
-        window.showAllNotifications = showAllNotifications;
+        window.addEventListener('beforeunload',stopAutoRefresh);
+        window.quickTrack=quickTrack;window.trackOrder=trackOrder;window.logoutUser=logoutUser;
     </script>
 </body>
 </html>
