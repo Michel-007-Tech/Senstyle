@@ -14,53 +14,23 @@
     
     <style>
         :root {
-            --gold: #c9a84c;
-            --gold-light: #d4b96a;
-            --gold-dark: #a88a35;
-            --black: #0a0a0a;
-            --black-light: #1a1a1a;
-            --white: #fefefe;
-            --cream: #faf8f3;
-            --gray-warm: #9c9588;
-            --gray-cool: #6b7280;
-            --burgundy: #722f37;
-            --emerald: #0d5c2e;
-            --navy: #1a1f2e;
-            --homme-color: #1a1f2e;
-            --femme-color: #722f37;
-            --success: #0d7b4a;
-            --danger: #c5222d;
-            
+            --gold: #c9a84c; --gold-light: #d4b96a; --gold-dark: #a88a35;
+            --black: #0a0a0a; --black-light: #1a1a1a; --white: #fefefe; --cream: #faf8f3;
+            --gray-warm: #9c9588; --gray-cool: #6b7280; --burgundy: #722f37;
+            --emerald: #0d5c2e; --navy: #1a1f2e; --homme-color: #1a1f2e; --femme-color: #722f37;
+            --success: #0d7b4a; --danger: #c5222d;
             --shadow-elegant: 0 4px 20px rgba(0,0,0,0.08);
             --shadow-luxury: 0 20px 60px rgba(0,0,0,0.12);
             --shadow-gold: 0 10px 40px rgba(201,168,76,0.15);
-            
             --transition-smooth: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 16px; scroll-behavior: smooth; }
         img { max-width: 100%; height: auto; }
 
-        /* ===== ÉCRAN DE VÉRIFICATION ===== */
-        .owner-verify {
-            display: flex; align-items: center; justify-content: center;
-            min-height: 100vh; min-height: 100dvh;
-            background: linear-gradient(135deg, var(--black) 0%, var(--black-light) 100%);
-            font-family: 'Montserrat', sans-serif; padding: 1rem;
-        }
-        .owner-verify-card {
-            background: var(--white); padding: clamp(1.5rem, 4vw, 3rem); border-radius: 2px;
-            text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4); max-width: 480px; width: 100%;
-            border: 1px solid rgba(201,168,76,0.2);
-        }
-        .owner-verify-card .crest {
-            width: 60px; height: 60px;
-            background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
-            border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
-            color: var(--black); font-size: 24px; margin-bottom: 1.2rem;
-            border: 2px solid var(--gold); box-shadow: 0 0 30px rgba(201,168,76,0.3);
-        }
+        .owner-verify { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, var(--black) 0%, var(--black-light) 100%); font-family: 'Montserrat', sans-serif; padding: 1rem; }
+        .owner-verify-card { background: var(--white); padding: clamp(1.5rem, 4vw, 3rem); border-radius: 2px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4); max-width: 480px; width: 100%; border: 1px solid rgba(201,168,76,0.2); }
+        .owner-verify-card .crest { width: 60px; height: 60px; background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light)); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: var(--black); font-size: 24px; margin-bottom: 1.2rem; border: 2px solid var(--gold); box-shadow: 0 0 30px rgba(201,168,76,0.3); }
         .owner-verify-card h2 { font-family: 'Playfair Display', serif; margin-bottom: 0.5rem; color: var(--black); font-size: clamp(1.3rem, 3vw, 1.8rem); }
         .owner-verify-card p { color: var(--gray-cool); margin-bottom: 1.5rem; font-size: 13px; font-weight: 300; }
         .owner-verify-card .warning { background: rgba(201,168,76,0.08); color: var(--gold-dark); padding: 1rem; border-radius: 2px; margin-bottom: 1.5rem; font-size: 11px; border: 1px solid rgba(201,168,76,0.2); font-weight: 500; }
@@ -75,9 +45,8 @@
         .error-msg { background: #fce4ec; color: #880e4f; padding: 10px; border-radius: 2px; margin-bottom: 1rem; font-size: 11px; display: none; border: 1px solid #f8bbd0; }
         .error-msg.show { display: block; }
 
-        /* ===== CORPS ADMIN ===== */
         body.admin-body { font-family: 'Montserrat', sans-serif; background: var(--cream); display: flex; min-height: 100vh; }
-        .sidebar { width: 280px; background: var(--black); color: var(--white); padding: 2rem 0; position: fixed; height: 100vh; height: 100dvh; overflow-y: auto; z-index: 100; border-right: 1px solid rgba(201,168,76,0.15); transition: transform 0.3s ease; }
+        .sidebar { width: 280px; background: var(--black); color: var(--white); padding: 2rem 0; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; border-right: 1px solid rgba(201,168,76,0.15); }
         .sidebar-logo { padding: 0 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 12px; }
         .sidebar-logo .crest { width: 40px; height: 40px; background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--black); font-size: 16px; border: 2px solid var(--gold); }
         .sidebar-logo h3 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--gold); }
@@ -112,26 +81,24 @@
 
         .data-section { background: var(--white); border-radius: 2px; box-shadow: var(--shadow-elegant); padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.06); }
         .data-section h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 1.2rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(0,0,0,0.06); font-weight: 500; }
-        .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; min-width: 700px; }
         th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 11px; }
         th { background: var(--cream); font-weight: 600; color: var(--black); text-transform: uppercase; letter-spacing: 1px; font-size: 9px; }
         tr:hover { background: rgba(201,168,76,0.03); }
-        tr { transition: var(--transition-smooth); }
 
-        .status-badge { padding: 4px 12px; border-radius: 2px; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; display: inline-block; white-space: nowrap; }
+        .status-badge { padding: 4px 12px; border-radius: 2px; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; display: inline-block; }
         .status-en-attente { background: rgba(201,168,76,0.1); color: var(--gold-dark); border: 1px solid rgba(201,168,76,0.2); }
         .status-confirmee { background: rgba(13,92,46,0.08); color: var(--emerald); border: 1px solid rgba(13,92,46,0.15); }
         .status-en-preparation { background: rgba(26,31,46,0.08); color: var(--navy); border: 1px solid rgba(26,31,46,0.15); }
         .status-expediee { background: rgba(37,99,235,0.08); color: #2563eb; border: 1px solid rgba(37,99,235,0.15); }
         .status-livree { background: rgba(13,123,74,0.08); color: var(--success); border: 1px solid rgba(13,123,74,0.15); }
-        .status-annulee { background: rgba(197,34,45,0.08); color: var(--danger); border: 1px solid rgba(197,34,45,0.15); }
-        .genre-badge { padding: 4px 10px; border-radius: 2px; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; display: inline-block; }
-        .genre-homme { background: rgba(26,31,46,0.08); color: var(--homme-color); border: 1px solid rgba(26,31,46,0.15); }
-        .genre-femme { background: rgba(114,47,55,0.08); color: var(--femme-color); border: 1px solid rgba(114,47,55,0.15); }
+        .genre-badge { padding: 4px 10px; border-radius: 2px; font-size: 9px; font-weight: 600; text-transform: uppercase; display: inline-block; }
+        .genre-homme { background: rgba(26,31,46,0.08); color: var(--homme-color); }
+        .genre-femme { background: rgba(114,47,55,0.08); color: var(--femme-color); }
 
         .action-buttons { display: flex; gap: 0.3rem; flex-wrap: wrap; }
-        .btn-action { padding: 6px 12px; border: none; border-radius: 2px; cursor: pointer; font-size: 9px; font-weight: 600; transition: var(--transition-smooth); text-transform: uppercase; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; white-space: nowrap; }
+        .btn-action { padding: 6px 12px; border: none; border-radius: 2px; cursor: pointer; font-size: 9px; font-weight: 600; transition: var(--transition-smooth); text-transform: uppercase; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; }
         .btn-validate { background: rgba(13,92,46,0.1); color: var(--emerald); border: 1px solid rgba(13,92,46,0.15); }
         .btn-validate:hover { background: var(--emerald); color: white; }
         .btn-reject { background: rgba(197,34,45,0.1); color: var(--danger); border: 1px solid rgba(197,34,45,0.15); }
@@ -140,46 +107,36 @@
         .btn-ship:hover { background: #2563eb; color: white; }
         .btn-deliver { background: rgba(13,123,74,0.1); color: var(--success); border: 1px solid rgba(13,123,74,0.15); }
         .btn-deliver:hover { background: var(--success); color: white; }
-        .btn-view { background: rgba(201,168,76,0.1); color: var(--gold-dark); border: 1px solid rgba(201,168,76,0.15); }
-        .btn-view:hover { background: var(--gold); color: var(--black); }
-        .btn-invoice { background: rgba(26,31,46,0.08); color: var(--navy); border: 1px solid rgba(26,31,46,0.15); }
-        .btn-invoice:hover { background: var(--navy); color: white; }
-        .btn-edit { background: rgba(201,168,76,0.1); color: var(--gold-dark); border: 1px solid rgba(201,168,76,0.15); }
-        .btn-edit:hover { background: var(--gold); color: var(--black); }
-        .btn-delete { background: rgba(197,34,45,0.1); color: var(--danger); border: 1px solid rgba(197,34,45,0.15); }
-        .btn-delete:hover { background: var(--danger); color: white; }
+        .btn-view { background: rgba(201,168,76,0.1); color: var(--gold-dark); }
+        .btn-invoice { background: rgba(26,31,46,0.08); color: var(--navy); }
+        .btn-edit { background: rgba(201,168,76,0.1); color: var(--gold-dark); }
+        .btn-delete { background: rgba(197,34,45,0.1); color: var(--danger); }
 
         .btn-add { padding: 10px 22px; background: var(--black); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); border-radius: 2px; cursor: pointer; font-weight: 500; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; transition: var(--transition-smooth); font-family: 'Montserrat', sans-serif; }
         .btn-add:hover { background: var(--gold); color: var(--black); border-color: var(--gold); }
 
         .filter-buttons { display: flex; gap: 0.4rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
-        .filter-btn { padding: 7px 16px; border: 1px solid rgba(0,0,0,0.1); background: transparent; border-radius: 2px; cursor: pointer; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; transition: var(--transition-smooth); font-family: 'Montserrat', sans-serif; color: var(--gray-cool); white-space: nowrap; }
+        .filter-btn { padding: 7px 16px; border: 1px solid rgba(0,0,0,0.1); background: transparent; border-radius: 2px; cursor: pointer; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; transition: var(--transition-smooth); font-family: 'Montserrat', sans-serif; color: var(--gray-cool); }
         .filter-btn:hover, .filter-btn.active { background: var(--black); color: var(--gold); border-color: var(--black); }
 
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(5px); }
         .modal.active { display: flex; }
         .modal-content { background: var(--white); border-radius: 2px; padding: clamp(1.5rem, 3vw, 2.5rem); width: 90%; max-width: 550px; max-height: 85vh; overflow-y: auto; box-shadow: var(--shadow-luxury); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
         .modal-header h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; }
-        .modal-close { cursor: pointer; font-size: 20px; color: var(--gray-warm); transition: var(--transition-smooth); }
+        .modal-close { cursor: pointer; font-size: 20px; color: var(--gray-warm); }
         .modal-close:hover { color: var(--danger); }
 
         .form-group-luxe { margin-bottom: 1rem; }
         .form-group-luxe label { display: block; margin-bottom: 0.3rem; font-weight: 500; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--black); }
-        .form-group-luxe input, .form-group-luxe select, .form-group-luxe textarea { width: 100%; padding: 10px 14px; border: 1px solid rgba(0,0,0,0.1); border-radius: 2px; font-size: 12px; font-family: 'Montserrat', sans-serif; background: var(--cream); transition: var(--transition-smooth); }
-        .form-group-luxe input:focus, .form-group-luxe select:focus, .form-group-luxe textarea:focus { outline: none; border-color: var(--gold); }
-        .btn-submit { width: 100%; padding: 12px; background: var(--black); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); border-radius: 2px; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; font-size: 10px; font-family: 'Montserrat', sans-serif; transition: var(--transition-smooth); }
+        .form-group-luxe input, .form-group-luxe select { width: 100%; padding: 10px 14px; border: 1px solid rgba(0,0,0,0.1); border-radius: 2px; font-size: 12px; font-family: 'Montserrat', sans-serif; background: var(--cream); }
+        .form-group-luxe input:focus, .form-group-luxe select:focus { outline: none; border-color: var(--gold); }
+        .btn-submit { width: 100%; padding: 12px; background: var(--black); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); border-radius: 2px; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; font-size: 10px; font-family: 'Montserrat', sans-serif; }
         .btn-submit:hover { background: var(--gold); color: var(--black); }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-        .admin-timeline { margin-top: 1.2rem; padding: 1rem; background: var(--cream); border-radius: 2px; border: 1px solid rgba(0,0,0,0.04); }
-        .admin-timeline h4 { margin-bottom: 0.6rem; color: var(--gold-dark); font-size: 12px; }
-        .admin-timeline .timeline-step { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem; font-size: 10px; color: var(--gray-cool); }
-        .admin-timeline .timeline-step i { color: var(--gold); font-size: 5px; }
-
-        @media (max-width: 1024px) { .sidebar { width: 240px; } .main-content { margin-left: 240px; } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { body.admin-body { flex-direction: column; } .sidebar { width: 100%; height: auto; position: relative; padding: 1rem; } .sidebar-menu { display: flex; flex-wrap: wrap; gap: 0.3rem; } .sidebar-menu a { padding: 8px 10px; font-size: 9px; } .main-content { margin-left: 0; padding: 1rem; } .admin-header { flex-direction: column; padding: 1rem; } .form-row { grid-template-columns: 1fr; } }
-        @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; } .stat-card { padding: 0.8rem; } .stat-card h3 { font-size: 1.2rem; } .btn-add { padding: 8px 16px; font-size: 9px; } th, td { padding: 8px 10px; font-size: 9px; } }
+        @media (max-width: 768px) { body.admin-body { flex-direction: column; } .sidebar { width: 100%; height: auto; position: relative; padding: 1rem; } .sidebar-menu { display: flex; flex-wrap: wrap; gap: 0.3rem; } .main-content { margin-left: 0; padding: 1rem; } .form-row { grid-template-columns: 1fr; } }
+        @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
 <body>
@@ -210,13 +167,13 @@
                 <li><a onclick="showSection('invoices')"><i class="fas fa-file-invoice"></i> Factures</a></li>
                 <li><a onclick="showSection('settings')"><i class="fas fa-cog"></i> Paramètres</a></li>
             </ul>
-            <a href="collections.html" class="back-to-site" target="_blank"><i class="fas fa-store"></i> Voir la boutique</a>
+            <a href="index.html" class="back-to-site" target="_blank"><i class="fas fa-store"></i> Voir la boutique</a>
         </div>
         <div class="main-content">
             <div class="admin-header">
                 <h1 id="sectionTitle">Tableau de bord</h1>
                 <div class="user-info">
-                    <a href="collections.html" class="btn-visit-site" target="_blank"><i class="fas fa-external-link-alt"></i> Voir le site</a>
+                    <a href="index.html" class="btn-visit-site" target="_blank"><i class="fas fa-external-link-alt"></i> Voir le site</a>
                     <div class="user-avatar">P</div>
                     <div><strong>Propriétaire</strong><br><small style="color:var(--gray-warm);">Administrateur</small></div>
                     <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
@@ -230,13 +187,13 @@
                     <div class="stat-card"><div class="stat-icon navy"><i class="fas fa-users"></i></div><h3 id="totalUsers">0</h3><p>Clients inscrits</p></div>
                     <div class="stat-card"><div class="stat-icon burgundy"><i class="fas fa-money-bill-wave"></i></div><h3 id="totalRevenue">0 FCFA</h3><p>Revenus totaux</p></div>
                 </div>
-                <div class="data-section"><h3><i class="fas fa-clock"></i> Dernières commandes</h3><div class="table-container"><table><thead><tr><th>N°</th><th>Client</th><th>Date</th><th>Montant</th><th>Statut</th><th>Progression</th></tr></thead><tbody id="dashboardRecentOrders"></tbody></table></div></div>
+                <div class="data-section"><h3><i class="fas fa-clock"></i> Dernières commandes</h3><div class="table-container"><table><thead><tr><th>N°</th><th>Client</th><th>Date</th><th>Montant</th><th>Statut</th></tr></thead><tbody id="dashboardRecentOrders"></tbody></table></div></div>
             </div>
 
             <div id="productsSection" class="content-section" style="display:none;">
                 <div class="data-section">
                     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1.2rem;">
-                        <h3 style="margin:0;padding:0;border:none;">Gestion des Produits</h3>
+                        <h3 style="margin:0;padding:0;border:none;">📦 Gestion des Produits</h3>
                         <button class="btn-add" onclick="openProductModal()"><i class="fas fa-plus"></i> Ajouter un produit</button>
                     </div>
                     <div class="filter-buttons">
@@ -254,67 +211,69 @@
             </div>
 
             <div id="ordersSection" class="content-section" style="display:none;">
-                <div class="data-section"><h3>Gestion des Commandes</h3>
+                <div class="data-section"><h3>🛒 Gestion des Commandes</h3>
                     <div class="filter-buttons">
                         <button class="filter-btn active" onclick="filterOrders('all')">Toutes</button>
                         <button class="filter-btn" onclick="filterOrders('En attente')">En attente</button>
                         <button class="filter-btn" onclick="filterOrders('Confirmée')">Confirmées</button>
-                        <button class="filter-btn" onclick="filterOrders('En préparation')">En préparation</button>
                         <button class="filter-btn" onclick="filterOrders('Expédiée')">Expédiées</button>
                         <button class="filter-btn" onclick="filterOrders('Livrée')">Livrées</button>
                     </div>
-                    <div class="table-container"><table><thead><tr><th>N°</th><th>Client</th><th>Email</th><th>Date</th><th>Montant</th><th>Paiement</th><th>Statut</th><th>Progression</th><th>Facture</th><th>Actions</th></tr></thead><tbody id="ordersTableBody"></tbody></table></div>
+                    <div class="table-container"><table><thead><tr><th>N°</th><th>Client</th><th>Email</th><th>Date</th><th>Montant</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="ordersTableBody"></tbody></table></div>
                 </div>
             </div>
 
             <div id="usersSection" class="content-section" style="display:none;">
-                <div class="data-section"><h3>Gestion des Clients</h3><div class="table-container"><table><thead><tr><th>ID</th><th>Nom</th><th>Email</th><th>Téléphone</th><th>Ville</th><th>Rôle</th><th>Inscrit le</th></tr></thead><tbody id="usersTableBody"></tbody></table></div></div>
+                <div class="data-section"><h3>👥 Gestion des Clients</h3><div class="table-container"><table><thead><tr><th>ID</th><th>Nom</th><th>Email</th><th>Téléphone</th><th>Ville</th><th>Rôle</th></tr></thead><tbody id="usersTableBody"></tbody></table></div></div>
             </div>
 
             <div id="invoicesSection" class="content-section" style="display:none;">
-                <div class="data-section"><h3>Factures Électroniques</h3><div class="table-container"><table><thead><tr><th>N° Facture</th><th>Commande</th><th>Client</th><th>Email</th><th>Date</th><th>Montant</th><th>Télécharger</th></tr></thead><tbody id="invoicesTableBody"></tbody></table></div></div>
+                <div class="data-section"><h3>📄 Factures</h3><div class="table-container"><table><thead><tr><th>N° Facture</th><th>Commande</th><th>Client</th><th>Date</th><th>Montant</th><th>PDF</th></tr></thead><tbody id="invoicesTableBody"></tbody></table></div></div>
             </div>
 
             <div id="settingsSection" class="content-section" style="display:none;">
-                <div class="data-section"><h3>Paramètres du site</h3>
+                <div class="data-section"><h3>⚙️ Paramètres</h3>
                     <div class="form-group-luxe"><label>Nom du site</label><input type="text" id="siteName" value="SenStyle"></div>
-                    <div class="form-group-luxe"><label>Email de contact</label><input type="email" id="siteEmail" value="contact@senstyle.sn"></div>
-                    <div class="form-group-luxe"><label>Téléphone</label><input type="tel" id="sitePhone" value="+221 77 727 74 51"></div>
+                    <div class="form-group-luxe"><label>Email</label><input type="email" id="siteEmail" value="contact@senstyle.sn"></div>
+                    <div class="form-group-luxe"><label>Téléphone</label><input type="tel" id="sitePhone" value="+221 77 907 89 70"></div>
                     <div class="form-group-luxe"><label>Adresse</label><input type="text" id="siteAddress" value="Dakar, Sénégal"></div>
-                    <div class="form-group-luxe"><label>N° NINEA</label><input type="text" id="siteNinea" value="SN-DKR-2025-001234"></div>
-                    <div class="form-group-luxe"><label>Code secret propriétaire</label><input type="password" id="ownerSecretCode" value="SenStyle2026"></div>
-                    <div class="form-group-luxe"><label>Frais de livraison (FCFA)</label><input type="number" id="shippingCost" value="2000"></div>
-                    <div class="form-group-luxe"><label>Livraison gratuite à partir de (FCFA)</label><input type="number" id="freeShipping" value="20000"></div>
+                    <div class="form-group-luxe"><label>Code secret</label><input type="password" id="ownerSecretCode" value="SenStyle2026"></div>
+                    <div class="form-group-luxe"><label>Livraison gratuite dès (FCFA)</label><input type="number" id="freeShipping" value="20000"></div>
                     <button class="btn-submit" onclick="saveSettings()"><i class="fas fa-save"></i> Enregistrer</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modals -->
-    <div class="modal" id="orderDetailModal"><div class="modal-content"><div class="modal-header"><h3 id="orderDetailTitle">Détails</h3><i class="fas fa-times modal-close" onclick="closeOrderDetail()"></i></div><div id="orderDetailContent"></div></div></div>
-    
+    <!-- Modal Produit -->
     <div class="modal" id="productModal">
         <div class="modal-content">
             <div class="modal-header"><h3 id="modalTitle">Ajouter un produit</h3><i class="fas fa-times modal-close" onclick="closeModal()"></i></div>
             <form id="productForm" onsubmit="saveProduct(event)">
                 <input type="hidden" id="productId">
-                <div class="form-group-luxe"><label>Nom du produit *</label><input type="text" id="productName" required></div>
+                <div class="form-group-luxe"><label>Nom *</label><input type="text" id="productName" required></div>
                 <div class="form-row">
                     <div class="form-group-luxe"><label>Genre *</label><select id="productGender" required><option value="homme">👔 Homme</option><option value="femme">👗 Femme</option></select></div>
                     <div class="form-group-luxe"><label>Catégorie *</label><select id="productCategory" required><option value="vêtements">Vêtements</option><option value="shorts">Shorts</option><option value="chaussures">Chaussures</option><option value="accessoires">Accessoires</option></select></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group-luxe"><label>Prix (FCFA) *</label><input type="number" id="productPrice" required min="0"></div>
-                    <div class="form-group-luxe"><label>Ancien prix (FCFA)</label><input type="number" id="productOldPrice" min="0" placeholder="Laisser vide si pas de promo"></div>
+                    <div class="form-group-luxe"><label>Ancien prix</label><input type="number" id="productOldPrice" min="0" placeholder="Pour promo"></div>
                 </div>
-                <div class="form-group-luxe"><label>Image URL *</label><input type="text" id="productImage" required placeholder="https://images.unsplash.com/..."></div>
+                <div class="form-group-luxe"><label>Image URL *</label><input type="text" id="productImage" required placeholder="https://..."></div>
                 <div class="form-row">
-                    <div class="form-group-luxe"><label>Badge</label><select id="productBadge"><option value="">Aucun</option><option value="promo">Promo (-%)</option><option value="nouveau">Nouveau</option></select></div>
-                    <div class="form-group-luxe"><label style="display:flex;align-items:center;gap:8px;margin-top:1.8rem;"><input type="checkbox" id="productPromo" style="width:auto;margin:0;"> En promotion</label></div>
+                    <div class="form-group-luxe"><label>Badge</label><select id="productBadge"><option value="">Aucun</option><option value="promo">Promo</option><option value="nouveau">Nouveau</option></select></div>
                 </div>
-                <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Enregistrer le produit</button>
+                <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Enregistrer</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal Commande -->
+    <div class="modal" id="orderDetailModal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 id="orderDetailTitle">Détails</h3><i class="fas fa-times modal-close" onclick="closeOrderDetail()"></i></div>
+            <div id="orderDetailContent"></div>
         </div>
     </div>
 
@@ -325,6 +284,7 @@
         let currentFilterOrder = 'all';
         let currentAdminProductFilter = 'all';
 
+        // ===== VÉRIFICATION =====
         function verifyOwner(e) {
             e.preventDefault();
             const email = document.getElementById('ownerEmail').value.trim();
@@ -335,7 +295,6 @@
                 document.getElementById('ownerVerifyScreen').style.display = 'none';
                 document.getElementById('adminContent').style.display = 'flex';
                 document.body.classList.add('admin-body');
-                document.body.style.background = 'var(--cream)';
                 initAdmin();
                 sessionStorage.setItem('senstyleOwnerAuthenticated', 'true');
             } else {
@@ -363,28 +322,23 @@
 
         function handleStorageChange(e) {
             if (!e.key) return;
-            const currentSection = document.getElementById('sectionTitle')?.textContent || '';
-            if (e.key === STORAGE_KEYS.products) { loadDashboard(); if (currentSection.includes('Produit')) loadProducts(); }
-            if (e.key === STORAGE_KEYS.orders) { loadDashboard(); if (currentSection.includes('Commande')) loadOrders(); if (currentSection.includes('Facture')) loadInvoices(); }
-            if (e.key === STORAGE_KEYS.users) { loadDashboard(); if (currentSection.includes('Client')) loadUsers(); }
+            if (e.key === STORAGE_KEYS.products) { loadDashboard(); loadProducts(); }
+            if (e.key === STORAGE_KEYS.orders) { loadDashboard(); loadOrders(); loadInvoices(); }
+            if (e.key === STORAGE_KEYS.users) { loadDashboard(); loadUsers(); }
         }
 
         function ensureDefaultData() {
             if (!localStorage.getItem(STORAGE_KEYS.products)) {
                 const defaults = [
-                    { id: 101, name: "Costume Slim Fit Dakar", price: 45000, oldPrice: 55000, category: "vêtements", gender: "homme", promo: true, badge: "promo", image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=500&fit=crop", rating: 4.8, reviews: 124 },
-                    { id: 102, name: "Chemise en Lin Blanc", price: 15000, oldPrice: null, category: "vêtements", gender: "homme", promo: false, badge: null, image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=500&fit=crop", rating: 4.5, reviews: 67 },
-                    { id: 104, name: "Short Sport Premium", price: 8000, oldPrice: null, category: "shorts", gender: "homme", promo: false, badge: "nouveau", image: "https://images.unsplash.com/photo-1565693413579-8f2f72c0cfc1?w=400&h=500&fit=crop", rating: 4.7, reviews: 78 },
-                    { id: 106, name: "Basket Montante Cuir", price: 25000, oldPrice: null, category: "chaussures", gender: "homme", promo: false, badge: "nouveau", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=500&fit=crop", rating: 4.9, reviews: 234 },
-                    { id: 201, name: "Robe Élégance Dakar", price: 35000, oldPrice: 42000, category: "vêtements", gender: "femme", promo: true, badge: "promo", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop", rating: 4.9, reviews: 156 },
-                    { id: 202, name: "Ensemble Tailleur Chic", price: 30000, oldPrice: null, category: "vêtements", gender: "femme", promo: false, badge: "nouveau", image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=400&h=500&fit=crop", rating: 4.6, reviews: 89 },
-                    { id: 204, name: "Short Taille Haute", price: 9000, oldPrice: null, category: "shorts", gender: "femme", promo: false, badge: null, image: "https://images.unsplash.com/photo-1509551388413-e18d0ac5d495?w=400&h=500&fit=crop", rating: 4.4, reviews: 45 },
-                    { id: 206, name: "Escarpins Élégants", price: 22000, oldPrice: null, category: "chaussures", gender: "femme", promo: false, badge: "nouveau", image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&h=500&fit=crop", rating: 4.8, reviews: 112 }
+                    { id: 101, name: "Costume Slim Fit Dakar", price: 45000, oldPrice: 55000, category: "vêtements", gender: "homme", promo: true, badge: "promo", image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=500&fit=crop", rating: 4.8 },
+                    { id: 102, name: "Chemise en Lin Blanc", price: 15000, category: "vêtements", gender: "homme", badge: null, image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=500&fit=crop", rating: 4.5 },
+                    { id: 201, name: "Robe Élégance Dakar", price: 35000, oldPrice: 42000, category: "vêtements", gender: "femme", promo: true, badge: "promo", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop", rating: 4.9 },
+                    { id: 202, name: "Ensemble Tailleur Chic", price: 30000, category: "vêtements", gender: "femme", badge: "nouveau", image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=400&h=500&fit=crop", rating: 4.6 }
                 ];
                 localStorage.setItem(STORAGE_KEYS.products, JSON.stringify(defaults));
             }
             if (!localStorage.getItem(STORAGE_KEYS.users)) {
-                localStorage.setItem(STORAGE_KEYS.users, JSON.stringify([{ id: 1, name: 'Propriétaire', email: 'admin@senstyle.sn', phone: '777277451', city: 'Dakar', role: 'admin', createdAt: new Date().toISOString() }]));
+                localStorage.setItem(STORAGE_KEYS.users, JSON.stringify([{ id: 1, name: 'Propriétaire', email: 'admin@senstyle.sn', phone: '779078970', city: 'Dakar', role: 'admin', createdAt: new Date().toISOString() }]));
             }
         }
 
@@ -400,7 +354,7 @@
                 const t = a.textContent.toLowerCase();
                 if ((s==='dashboard'&&t.includes('tableau'))||(s==='products'&&t.includes('produit'))||(s==='orders'&&t.includes('commande'))||(s==='users'&&t.includes('client'))||(s==='invoices'&&t.includes('facture'))||(s==='settings'&&t.includes('param'))) a.classList.add('active');
             });
-            document.getElementById('sectionTitle').textContent = { dashboard:'Tableau de bord', products:'Gestion des Produits', orders:'Gestion des Commandes', users:'Gestion des Clients', invoices:'Factures Électroniques', settings:'Paramètres' }[s]||'Administration';
+            document.getElementById('sectionTitle').textContent = { dashboard:'📊 Tableau de bord', products:'📦 Gestion des Produits', orders:'🛒 Gestion des Commandes', users:'👥 Gestion des Clients', invoices:'📄 Factures', settings:'⚙️ Paramètres' }[s]||'Administration';
             if (s==='dashboard') loadDashboard();
             if (s==='products') loadProducts();
             if (s==='orders') loadOrders();
@@ -408,19 +362,8 @@
             if (s==='invoices') loadInvoices();
         }
 
-        function getOrderProgress(status) {
-            const steps = [{ label: 'En attente', icon: 'fa-clock' },{ label: 'Confirmée', icon: 'fa-check-circle' },{ label: 'En préparation', icon: 'fa-box' },{ label: 'Expédiée', icon: 'fa-truck' },{ label: 'Livrée', icon: 'fa-home' }];
-            const idx = ['En attente','Confirmée','En préparation','Expédiée','Livrée'].indexOf(status);
-            if (status==='Annulée'||status==='Annulé') return '<span style="color:#c5222d;font-weight:600;font-size:10px;"><i class="fas fa-times-circle"></i> Annulée</span>';
-            return steps.map((s,i) => {
-                let st = i<idx?'completed':i===idx?'current':'pending';
-                const c = { completed:'color:#0d7b4a;', current:'color:#1a73e8;font-weight:600;', pending:'color:#9c9588;' };
-                return `<span style="${c[st]};margin-right:4px;font-size:9px;"><i class="fas ${s.icon}" style="font-size:7px;"></i> ${s.label}${i<steps.length-1?' →':''}</span>`;
-            }).join('');
-        }
-
         function getStatusClass(s) {
-            const c = { 'En attente':'status-en-attente','Confirmée':'status-confirmee','En préparation':'status-en-preparation','Expédiée':'status-expediee','Livrée':'status-livree','Annulée':'status-annulee' };
+            const c = { 'En attente':'status-en-attente','Confirmée':'status-confirmee','En préparation':'status-en-preparation','Expédiée':'status-expediee','Livrée':'status-livree','Annulée':'status-en-attente' };
             return c[s]||'status-en-attente';
         }
 
@@ -433,7 +376,7 @@
             document.getElementById('totalUsers').textContent = u.length;
             document.getElementById('totalRevenue').textContent = o.reduce((s,o)=>s+(o.total||0),0).toLocaleString('fr-FR')+' FCFA';
             const recent = o.slice(-5).reverse();
-            document.getElementById('dashboardRecentOrders').innerHTML = recent.length===0?'<tr><td colspan="6" style="text-align:center;padding:2rem;">Aucune commande</td></tr>':recent.map(o=>`<tr><td><strong>#${o.id||'N/A'}</strong></td><td>${o.customerName||'N/A'}</td><td>${new Date(o.date).toLocaleDateString('fr-FR')}</td><td><strong>${formatFCFA(o.total)}</strong></td><td><span class="status-badge ${getStatusClass(o.status)}">${o.status||'En attente'}</span></td><td style="font-size:10px;">${getOrderProgress(o.status||'En attente')}</td></tr>`).join('');
+            document.getElementById('dashboardRecentOrders').innerHTML = recent.length===0?'<tr><td colspan="5" style="text-align:center;padding:2rem;">Aucune commande</td></tr>':recent.map(o=>`<tr><td><strong>#${o.id||'N/A'}</strong></td><td>${o.customerName||'N/A'}</td><td>${new Date(o.date).toLocaleDateString('fr-FR')}</td><td><strong>${formatFCFA(o.total)}</strong></td><td><span class="status-badge ${getStatusClass(o.status)}">${o.status||'En attente'}</span></td></tr>`).join('');
             document.getElementById('pendingCount').textContent = o.filter(o=>o.status==='En attente').length;
         }
 
@@ -447,8 +390,7 @@
             currentAdminProductFilter = filter;
             document.querySelectorAll('#productsSection .filter-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('#productsSection .filter-btn').forEach(b => {
-                const t = b.textContent.trim().toLowerCase();
-                if ((filter==='all'&&t==='tous')||t.includes(filter)) b.classList.add('active');
+                if ((filter==='all'&&b.textContent.trim()==='Tous')||b.textContent.toLowerCase().includes(filter)) b.classList.add('active');
             });
             loadProducts();
         }
@@ -464,13 +406,11 @@
                     const discount = p.oldPrice ? Math.round((1-p.price/p.oldPrice)*100) : 0;
                     const badgeLabel = p.badge==='promo'?`-${discount}%`:p.badge==='nouveau'?'Nouveau':'—';
                     const genreLabel = p.gender==='homme'?'👔 Homme':'👗 Femme';
-                    const genreClass = p.gender==='homme'?'genre-homme':'genre-femme';
                     return `<tr>
                         <td>#${p.id}</td>
-                        <td><img src="${p.image}" alt="${p.name}" style="width:40px;height:40px;object-fit:cover;border-radius:2px;" onerror="this.src='https://via.placeholder.com/40'"></td>
-                        <td>${p.name}</td>
-                        <td>${p.category}</td>
-                        <td><span class="genre-badge ${genreClass}">${genreLabel}</span></td>
+                        <td><img src="${p.image}" style="width:40px;height:40px;object-fit:cover;border-radius:2px;" onerror="this.src='https://via.placeholder.com/40'"></td>
+                        <td>${p.name}</td><td>${p.category}</td>
+                        <td><span class="genre-badge ${p.gender==='homme'?'genre-homme':'genre-femme'}">${genreLabel}</span></td>
                         <td><strong>${formatFCFA(p.price)}</strong>${p.oldPrice?`<br><small style="text-decoration:line-through;color:var(--gray-warm);">${formatFCFA(p.oldPrice)}</small>`:''}</td>
                         <td>${badgeLabel}</td>
                         <td><div class="action-buttons"><button class="btn-action btn-edit" onclick="editProduct(${p.id})"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i></button></div></td>
@@ -493,13 +433,11 @@
                     document.getElementById('productOldPrice').value = product.oldPrice || '';
                     document.getElementById('productImage').value = product.image;
                     document.getElementById('productBadge').value = product.badge || '';
-                    document.getElementById('productPromo').checked = product.promo || false;
                 }
             } else {
                 document.getElementById('modalTitle').textContent = 'Ajouter un produit';
                 document.getElementById('productForm').reset();
                 document.getElementById('productId').value = '';
-                document.getElementById('productGender').value = 'homme';
             }
         }
 
@@ -508,9 +446,9 @@
         function saveProduct(event) {
             event.preventDefault();
             const products = getProducts();
-            const productId = document.getElementById('productId').value;
-            const productData = {
-                id: productId ? parseInt(productId) : Date.now(),
+            const pid = document.getElementById('productId').value;
+            const data = {
+                id: pid ? parseInt(pid) : Date.now(),
                 name: document.getElementById('productName').value.trim(),
                 category: document.getElementById('productCategory').value,
                 gender: document.getElementById('productGender').value,
@@ -518,21 +456,18 @@
                 oldPrice: document.getElementById('productOldPrice').value ? parseInt(document.getElementById('productOldPrice').value) : null,
                 image: document.getElementById('productImage').value.trim(),
                 badge: document.getElementById('productBadge').value || null,
-                promo: document.getElementById('productPromo').checked,
-                rating: 4.5,
-                reviews: 0
+                promo: document.getElementById('productBadge').value === 'promo',
+                rating: 4.5, reviews: 0
             };
-            if (productId) {
-                const idx = products.findIndex(p => p.id === parseInt(productId));
-                if (idx !== -1) { productData.rating = products[idx].rating||4.5; productData.reviews = products[idx].reviews||0; products[idx] = productData; }
-            } else {
-                products.push(productData);
-            }
+            if (pid) {
+                const idx = products.findIndex(p => p.id === parseInt(pid));
+                if (idx !== -1) { data.rating = products[idx].rating||4.5; products[idx] = data; }
+            } else { products.push(data); }
             saveProducts(products);
             closeModal();
             loadProducts();
             loadDashboard();
-            alert('✅ Produit enregistré !\n\nVisible immédiatement sur la page Collections.');
+            alert('✅ Produit enregistré !\n\nVisible immédiatement sur la boutique (index.html + collections.html).');
         }
 
         function editProduct(id) { openProductModal(id); }
@@ -547,85 +482,69 @@
         // ===== COMMANDES =====
         function getOrders() {
             let orders = JSON.parse(localStorage.getItem(STORAGE_KEYS.orders))||[];
-            orders = orders.map(o => { if(!o.status||o.status==='Payé') o.status='En attente'; if(!o.customerName) o.customerName='Client'; if(!o.invoiceNumber) o.invoiceNumber='FACT-'+o.id; if(!o.statusHistory) o.statusHistory=[{status:o.status||'En attente',date:o.date||new Date().toISOString(),description:'Commande créée'}]; return o; });
-            localStorage.setItem(STORAGE_KEYS.orders, JSON.stringify(orders));
-            return orders;
+            return orders.map(o => { if(!o.status) o.status='En attente'; if(!o.customerName) o.customerName='Client'; return o; });
         }
         function saveOrders(orders) { localStorage.setItem(STORAGE_KEYS.orders, JSON.stringify(orders)); window.dispatchEvent(new StorageEvent('storage',{key:STORAGE_KEYS.orders,newValue:JSON.stringify(orders)})); }
-        function filterOrders(status) { currentFilterOrder=status; document.querySelectorAll('#ordersSection .filter-btn').forEach(b=>b.classList.remove('active')); document.querySelectorAll('#ordersSection .filter-btn').forEach(b=>{const t=b.textContent.trim().toLowerCase();if((status==='all'&&t==='toutes')||t.includes(status.toLowerCase()))b.classList.add('active');}); loadOrders(); }
+        function filterOrders(status) { currentFilterOrder=status; document.querySelectorAll('#ordersSection .filter-btn').forEach(b=>b.classList.remove('active')); document.querySelectorAll('#ordersSection .filter-btn').forEach(b=>{if((status==='all'&&b.textContent.trim()==='Toutes')||b.textContent.includes(status))b.classList.add('active');}); loadOrders(); }
         function loadOrders() {
             let orders = getOrders();
             if (currentFilterOrder!=='all') orders = orders.filter(o=>o.status===currentFilterOrder);
             document.getElementById('pendingCount').textContent = getOrders().filter(o=>o.status==='En attente').length;
             const tbody = document.getElementById('ordersTableBody');
-            if (orders.length===0) { tbody.innerHTML='<tr><td colspan="10" style="text-align:center;padding:2rem;">Aucune commande</td></tr>'; return; }
-            tbody.innerHTML = orders.map(o=>`<tr><td><strong>#${o.id||'N/A'}</strong></td><td>${o.customerName||'N/A'}</td><td style="font-size:10px;">${o.customerEmail||'N/A'}</td><td>${new Date(o.date).toLocaleDateString('fr-FR')}</td><td><strong>${formatFCFA(o.total)}</strong></td><td>${o.paymentMethod==='orange'?'Orange Money':o.paymentMethod==='wave'?'Wave':o.paymentMethod==='card'?'Carte':o.paymentMethod||'N/A'}</td><td><span class="status-badge ${getStatusClass(o.status)}">${o.status||'En attente'}</span></td><td style="font-size:9px;">${getOrderProgress(o.status||'En attente')}</td><td><button class="btn-action btn-invoice" onclick="generateInvoice('${o.id}')"><i class="fas fa-file-pdf"></i></button></td><td><div class="action-buttons"><button class="btn-action btn-view" onclick="viewOrderDetails('${o.id}')"><i class="fas fa-eye"></i></button>${o.status==='En attente'?`<button class="btn-action btn-validate" onclick="updateOrderStatus('${o.id}','Confirmée')"><i class="fas fa-check"></i></button><button class="btn-action btn-reject" onclick="updateOrderStatus('${o.id}','Annulée')"><i class="fas fa-times"></i></button>`:''}${o.status==='Confirmée'?`<button class="btn-action btn-ship" onclick="updateOrderStatus('${o.id}','En préparation')"><i class="fas fa-box"></i></button>`:''}${o.status==='En préparation'?`<button class="btn-action btn-ship" onclick="updateOrderStatus('${o.id}','Expédiée')"><i class="fas fa-truck"></i></button>`:''}${o.status==='Expédiée'?`<button class="btn-action btn-deliver" onclick="updateOrderStatus('${o.id}','Livrée')"><i class="fas fa-home"></i></button>`:''}</div></td></tr>`).join('');
+            tbody.innerHTML = orders.length===0?'<tr><td colspan="7" style="text-align:center;padding:2rem;">Aucune commande</td></tr>':orders.map(o=>`<tr><td><strong>#${o.id||'N/A'}</strong></td><td>${o.customerName||'N/A'}</td><td style="font-size:10px;">${o.customerEmail||'N/A'}</td><td>${new Date(o.date).toLocaleDateString('fr-FR')}</td><td><strong>${formatFCFA(o.total)}</strong></td><td><span class="status-badge ${getStatusClass(o.status)}">${o.status||'En attente'}</span></td><td><div class="action-buttons"><button class="btn-action btn-view" onclick="viewOrder('${o.id}')"><i class="fas fa-eye"></i></button>${o.status==='En attente'?`<button class="btn-action btn-validate" onclick="updateOrderStatus('${o.id}','Confirmée')"><i class="fas fa-check"></i></button>`:''}${o.status==='Confirmée'?`<button class="btn-action btn-ship" onclick="updateOrderStatus('${o.id}','Expédiée')"><i class="fas fa-truck"></i></button>`:''}${o.status==='Expédiée'?`<button class="btn-action btn-deliver" onclick="updateOrderStatus('${o.id}','Livrée')"><i class="fas fa-home"></i></button>`:''}</div></td></tr>`).join('');
         }
         function updateOrderStatus(orderId, newStatus) {
-            if (!confirm(`Confirmer le changement en "${newStatus}" ?`)) return;
+            if (!confirm(`Confirmer "${newStatus}" ?`)) return;
             const orders = getOrders();
-            const idx = orders.findIndex(o=>o.id===orderId||'CMD'+o.id===orderId||o.id==='CMD'+orderId);
-            if (idx===-1) { alert('Commande non trouvée.'); return; }
+            const idx = orders.findIndex(o=>o.id===orderId||'CMD'+o.id===orderId);
+            if (idx===-1) { alert('Non trouvée.'); return; }
             orders[idx].status = newStatus;
             if (!orders[idx].statusHistory) orders[idx].statusHistory = [];
-            orders[idx].statusHistory.push({ status: newStatus, date: new Date().toISOString(), description: { Confirmée:'Commande confirmée.', 'En préparation':'En préparation.', Expédiée:'Colis expédié.', Livrée:'Colis livré.', Annulée:'Commande annulée.' }[newStatus]||'Statut mis à jour.' });
-            saveOrders(orders); loadOrders(); loadDashboard(); loadInvoices();
-            alert(`✅ Commande #${orderId} → "${newStatus}"`);
+            orders[idx].statusHistory.push({ status: newStatus, date: new Date().toISOString(), description: `Statut: ${newStatus}` });
+            saveOrders(orders); loadOrders(); loadDashboard();
+            alert(`✅ #${orderId} → "${newStatus}"`);
         }
-        function viewOrderDetails(orderId) {
-            const order = getOrders().find(o=>o.id===orderId||'CMD'+o.id===orderId||o.id==='CMD'+orderId);
-            if (!order) { alert('Non trouvée.'); return; }
+        function viewOrder(orderId) {
+            const order = getOrders().find(o=>o.id===orderId||'CMD'+o.id===orderId);
+            if (!order) return;
             document.getElementById('orderDetailTitle').textContent = `Commande #${order.id}`;
-            document.getElementById('orderDetailContent').innerHTML = `<p><strong>Client :</strong> ${order.customerName||'N/A'}</p><p><strong>Email :</strong> ${order.customerEmail||'N/A'}</p><p><strong>Téléphone :</strong> ${order.customerPhone||'N/A'}</p><p><strong>Montant :</strong> <strong style="color:var(--gold-dark);">${formatFCFA(order.total)}</strong></p><p><strong>Statut :</strong> <span class="status-badge ${getStatusClass(order.status)}">${order.status}</span></p><button class="btn-action btn-invoice" onclick="generateInvoice('${order.id}')" style="margin-top:1rem;padding:10px 20px;"><i class="fas fa-file-pdf"></i> Télécharger PDF</button>`;
+            document.getElementById('orderDetailContent').innerHTML = `<p><strong>Client:</strong> ${order.customerName||'N/A'}</p><p><strong>Email:</strong> ${order.customerEmail||'N/A'}</p><p><strong>Montant:</strong> ${formatFCFA(order.total)}</p><p><strong>Statut:</strong> <span class="status-badge ${getStatusClass(order.status)}">${order.status}</span></p>`;
             document.getElementById('orderDetailModal').classList.add('active');
         }
         function closeOrderDetail() { document.getElementById('orderDetailModal').classList.remove('active'); }
 
         function loadUsers() {
             const users = JSON.parse(localStorage.getItem(STORAGE_KEYS.users))||[];
-            document.getElementById('usersTableBody').innerHTML = users.length===0?'<tr><td colspan="7" style="text-align:center;padding:2rem;">Aucun client</td></tr>':users.map(u=>`<tr><td>#${u.id||'N/A'}</td><td>${u.name||'N/A'}</td><td style="font-size:10px;">${u.email||'N/A'}</td><td>${u.phone||'N/A'}</td><td>${u.city||'N/A'}</td><td>${u.role==='admin'?'<span style="color:var(--gold-dark);">Propriétaire</span>':'Client'}</td><td>${u.createdAt?new Date(u.createdAt).toLocaleDateString('fr-FR'):'N/A'}</td></tr>`).join('');
+            document.getElementById('usersTableBody').innerHTML = users.length===0?'<tr><td colspan="6" style="text-align:center;padding:2rem;">Aucun client</td></tr>':users.map(u=>`<tr><td>#${u.id||'N/A'}</td><td>${u.name||'N/A'}</td><td style="font-size:10px;">${u.email||'N/A'}</td><td>${u.phone||'N/A'}</td><td>${u.city||'N/A'}</td><td>${u.role==='admin'?'<span style="color:var(--gold-dark);">Admin</span>':'Client'}</td></tr>`).join('');
         }
         function loadInvoices() {
             const orders = getOrders();
-            document.getElementById('invoicesTableBody').innerHTML = orders.length===0?'<tr><td colspan="7" style="text-align:center;padding:2rem;">Aucune facture</td></tr>':orders.map(o=>`<tr><td><strong>${o.invoiceNumber||'FACT-'+o.id}</strong></td><td>#${o.id}</td><td>${o.customerName||'N/A'}</td><td style="font-size:10px;">${o.customerEmail||'N/A'}</td><td>${new Date(o.date).toLocaleDateString('fr-FR')}</td><td><strong>${formatFCFA(o.total)}</strong></td><td><button class="btn-action btn-invoice" onclick="generateInvoice('${o.id}')"><i class="fas fa-download"></i> PDF</button></td></tr>`).join('');
+            document.getElementById('invoicesTableBody').innerHTML = orders.length===0?'<tr><td colspan="6" style="text-align:center;padding:2rem;">Aucune facture</td></tr>':orders.map(o=>`<tr><td><strong>FACT-${o.id}</strong></td><td>#${o.id}</td><td>${o.customerName||'N/A'}</td><td>${new Date(o.date).toLocaleDateString('fr-FR')}</td><td><strong>${formatFCFA(o.total)}</strong></td><td><button class="btn-action btn-invoice" onclick="generateInvoice('${o.id}')"><i class="fas fa-download"></i> PDF</button></td></tr>`).join('');
         }
 
         function generateInvoice(orderId) {
-            const order = getOrders().find(o=>o.id===orderId||'CMD'+o.id===orderId);
-            if (!order) { alert('Non trouvée.'); return; }
-            const settings = JSON.parse(localStorage.getItem(STORAGE_KEYS.settings))||{};
+            const order = getOrders().find(o=>o.id===orderId);
+            if (!order) return;
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            doc.setFillColor(10,10,10); doc.rect(0,0,210,32,'F');
-            doc.setTextColor(201,168,76); doc.setFontSize(22); doc.setFont('times','bold'); doc.text('SENSTYLE',105,18,{align:'center'});
-            doc.setFontSize(8); doc.setTextColor(255,255,255); doc.text('FACTURE — Maison de Mode Sénégalaise',105,27,{align:'center'});
-            doc.setTextColor(10,10,10); doc.setFontSize(9); doc.setFont('helvetica','bold'); doc.text('ÉMETTEUR',14,45);
-            doc.setFont('helvetica','normal'); doc.setFontSize(8);
-            doc.text('SenStyle — Dakar, Sénégal',14,51); doc.text('Tél: '+(settings.phone||'+221 77 727 74 51'),14,57);
-            doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.text('FACTURE',140,45);
-            doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.text('N°: '+(order.invoiceNumber||'FACT-'+order.id),140,51);
-            doc.text('Date: '+new Date(order.date).toLocaleDateString('fr-FR'),140,57);
-            doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.text('CLIENT',14,72);
-            doc.setFont('helvetica','normal'); doc.setFontSize(8);
-            doc.text('Nom: '+(order.customerName||'Client'),14,78); doc.text('Email: '+(order.customerEmail||'N/A'),14,84);
-            const items = order.items||[];
-            const rows = items.map(i=>[i.name||'Article',(i.quantity||1).toString(),formatFCFA(i.price||0),formatFCFA((i.price||0)*(i.quantity||1))]);
-            const subtotal = items.reduce((s,i)=>s+((i.price||0)*(i.quantity||1)),0);
-            const shipping = subtotal>=(settings.freeShipping||20000)?0:(settings.shippingCost||2000);
-            doc.autoTable({ startY:92, head:[['Article','Qté','Prix unitaire','Montant']], body:rows, headStyles:{fillColor:[10,10,10],textColor:[201,168,76],fontStyle:'bold',fontSize:8}, bodyStyles:{fontSize:8}, margin:{left:14,right:14} });
-            const fy = doc.lastAutoTable.finalY+10;
-            doc.setFontSize(8); doc.text('Sous-total:',130,fy); doc.text(formatFCFA(subtotal),175,fy,{align:'right'});
-            doc.text('Livraison:',130,fy+7); doc.text(shipping===0?'Gratuite':formatFCFA(shipping),175,fy+7,{align:'right'});
-            doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.text('TOTAL TTC:',130,fy+18); doc.text(formatFCFA(subtotal+shipping),175,fy+18,{align:'right'});
-            doc.save('Facture_'+(order.invoiceNumber||'FACT-'+order.id)+'.pdf');
+            doc.setFillColor(10,10,10); doc.rect(0,0,210,30,'F');
+            doc.setTextColor(201,168,76); doc.setFontSize(20); doc.text('SENSTYLE',105,15,{align:'center'});
+            doc.setTextColor(10,10,10); doc.setFontSize(10);
+            doc.text(`Facture: FACT-${order.id}`,14,45);
+            doc.text(`Client: ${order.customerName||'N/A'}`,14,55);
+            doc.text(`Date: ${new Date(order.date).toLocaleDateString('fr-FR')}`,14,65);
+            doc.text(`Montant: ${formatFCFA(order.total)}`,14,75);
+            doc.setFontSize(8); doc.setTextColor(156,149,136);
+            doc.text('SenStyle - Dakar, Sénégal | Facture électronique',105,280,{align:'center'});
+            doc.save(`Facture_${order.id}.pdf`);
         }
 
         function loadSettings() {
             const s = JSON.parse(localStorage.getItem(STORAGE_KEYS.settings));
-            if (s) { document.getElementById('siteName').value=s.siteName||'SenStyle'; document.getElementById('siteEmail').value=s.email||''; document.getElementById('sitePhone').value=s.phone||''; document.getElementById('siteAddress').value=s.address||''; document.getElementById('siteNinea').value=s.ninea||''; document.getElementById('ownerSecretCode').value=s.ownerSecret||'SenStyle2026'; document.getElementById('shippingCost').value=s.shippingCost||2000; document.getElementById('freeShipping').value=s.freeShipping||20000; }
+            if (s) { document.getElementById('siteName').value=s.siteName||''; document.getElementById('siteEmail').value=s.email||''; document.getElementById('sitePhone').value=s.phone||''; document.getElementById('siteAddress').value=s.address||''; document.getElementById('ownerSecretCode').value=s.ownerSecret||''; document.getElementById('freeShipping').value=s.freeShipping||20000; }
         }
         function saveSettings() {
-            const s = { siteName:document.getElementById('siteName').value, email:document.getElementById('siteEmail').value, phone:document.getElementById('sitePhone').value, address:document.getElementById('siteAddress').value, ninea:document.getElementById('siteNinea').value, ownerSecret:document.getElementById('ownerSecretCode').value, shippingCost:parseInt(document.getElementById('shippingCost').value)||2000, freeShipping:parseInt(document.getElementById('freeShipping').value)||20000 };
+            const s = { siteName:document.getElementById('siteName').value, email:document.getElementById('siteEmail').value, phone:document.getElementById('sitePhone').value, address:document.getElementById('siteAddress').value, ownerSecret:document.getElementById('ownerSecretCode').value, freeShipping:parseInt(document.getElementById('freeShipping').value)||20000 };
             localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(s));
             alert('✅ Paramètres enregistrés !');
         }
@@ -633,7 +552,7 @@
 
         setInterval(()=>{ if(document.getElementById('adminContent').style.display!=='none'&&sessionStorage.getItem('senstyleOwnerAuthenticated')!=='true') window.location.reload(); },5000);
         document.addEventListener('keydown',(e)=>{ if(e.key==='Escape'){ closeModal(); closeOrderDetail(); } });
-        console.log('🔐 Admin SenStyle | 📦 Produits liés à Collections');
+        console.log('🔐 Admin SenStyle | Lié à index.html | Produits synchronisés');
     </script>
 </body>
 </html>
