@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="SenStyle - Découvrez notre collection exclusive de vêtements pour Homme et Femme. Mode sénégalaise haut de gamme.">
+    <title>SenStyle | Collections Homme & Femme</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --gold: #c9a84c; --gold-light: #d4b96a; --gold-dark: #a88a35;
+            --black: #0a0a0a; --black-light: #1a1a1a; --white: #fefefe; --cream: #faf8f3;
+            --gray-warm: #9c9588; --gray-cool: #6b7280; --burgundy: #722f37;
+            --emerald: #0d5c2e; --navy: #1a1f2e; --homme-color: #1a1f2e;
+            --femme-color: #722f37; --success: #0d7b4a; --danger: #c5222d;
+            --shadow-elegant: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-luxury: 0 20px 60px rgba(0,0,0,0.12);
+            --shadow-gold: 0 10px 40px rgba(201,168,76,0.15);
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; scroll-behavior: smooth; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: var(--black); line-height: 1.7; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+        h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+        img { max-width: 100%; height: auto; }
+
+        .luxe-bar { background: var(--black); color: var(--gold); text-align: center; padding: 8px 12px; font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; border-bottom: 1px solid rgba(201,168,76,0.2); overflow: hidden; white-space: nowrap; }
+        .header-luxe { background: rgba(10,10,10,0.95); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-bottom: 1px solid rgba(201,168,76,0.15); position: sticky; top: 0; z-index: 1000; }
+        .header-container { max-width: 1600px; margin: 0 auto; padding: 0.8rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+        .brand-crest { width: 40px; height: 40px; background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--black); font-size: 18px; border: 2px solid var(--gold); box-shadow: 0 0 30px rgba(201,168,76,0.2); }
+        .brand-name h2 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--gold); font-weight: 600; letter-spacing: 1px; line-height: 1; }
+        .brand-name span { font-size: 8px; color: var(--gray-warm); letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+        .search-luxe { flex: 1; max-width: 400px; min-width: 200px; order: 1; }
+        .search-box { position: relative; display: flex; align-items: center; }
+        .search-luxe input { width: 100%; padding: 12px 50px 12px 20px; border: 1px solid rgba(201,168,76,0.2); border-radius: 50px; font-size: 13px; background: rgba(255,255,255,0.05); color: var(--white); font-family: 'Montserrat', sans-serif; transition: var(--transition-smooth); }
+        .search-luxe input:focus { outline: none; border-color: var(--gold); background: rgba(255,255,255,0.08); }
+        .search-luxe button { position: absolute; right: 4px; background: var(--gold); color: var(--black); border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; transition: all 0.5s ease; display: flex; align-items: center; justify-content: center; }
+        .header-actions-luxe { display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0; order: 2; }
+        .btn-icon-luxe { position: relative; width: 40px; height: 40px; border: 1px solid rgba(201,168,76,0.2); background: rgba(255,255,255,0.03); border-radius: 50%; cursor: pointer; transition: var(--transition-smooth); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 16px; }
+        .btn-icon-luxe:hover { background: var(--gold); color: var(--black); border-color: var(--gold); transform: translateY(-2px); }
+        .badge-luxe { position: absolute; top: -4px; right: -4px; background: var(--burgundy); color: var(--white); font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 20px; min-width: 20px; text-align: center; border: 2px solid var(--black); }
+        .user-menu { position: relative; }
+        .user-menu-dropdown { position: absolute; top: calc(100% + 8px); right: 0; background: var(--white); border-radius: 4px; box-shadow: var(--shadow-luxury); padding: 0.5rem 0; min-width: 220px; display: none; z-index: 1001; }
+        .user-menu-dropdown.show { display: block; }
+        .user-menu-dropdown a { display: flex; align-items: center; gap: 12px; padding: 10px 18px; color: var(--black); text-decoration: none; font-size: 12px; transition: var(--transition-smooth); }
+        .user-menu-dropdown a:hover { background: var(--cream); color: var(--gold-dark); }
+
+        .nav-luxe { background: rgba(10,10,10,0.98); border-top: 1px solid rgba(201,168,76,0.1); border-bottom: 1px solid rgba(201,168,76,0.1); overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .nav-luxe .nav-container { max-width: 1600px; margin: 0 auto; padding: 0 1rem; display: flex; justify-content: center; gap: 1.5rem; white-space: nowrap; }
+        .nav-luxe .nav-link { text-decoration: none; color: var(--gray-warm); font-weight: 500; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; padding: 0.8rem 0; position: relative; transition: var(--transition-smooth); }
+        .nav-luxe .nav-link::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 0; height: 1px; background: var(--gold); transition: var(--transition-smooth); }
+        .nav-luxe .nav-link:hover, .nav-luxe .nav-link.active { color: var(--gold); }
+        .nav-luxe .nav-link:hover::after, .nav-luxe .nav-link.active::after { width: 100%; }
+
+        .main-content { flex: 1; max-width: 1600px; width: 100%; margin: 0 auto; padding: 0 1.5rem; }
+        .hero-collection { position: relative; min-height: 60vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--black) 0%, var(--black-light) 100%); overflow: hidden; }
+        .hero-collection::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(201,168,76,0.1) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(114,47,55,0.08) 0%, transparent 60%); z-index: 1; }
+        .hero-collection-content { text-align: center; position: relative; z-index: 2; padding: 4rem 2rem; }
+        .hero-collection .overline { font-size: 11px; text-transform: uppercase; letter-spacing: 6px; color: var(--gold); margin-bottom: 1.5rem; font-weight: 500; }
+        .hero-collection h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 600; color: var(--white); margin-bottom: 1rem; }
+        .hero-collection h1 em { font-style: italic; color: var(--gold); }
+        .hero-collection p { font-size: clamp(0.9rem, 1.5vw, 1.1rem); color: rgba(255,255,255,0.5); max-width: 600px; margin: 0 auto; font-weight: 300; }
+
+        .gender-tabs { display: flex; justify-content: center; gap: 1rem; margin-top: -30px; margin-bottom: 3rem; padding: 0 1rem; flex-wrap: wrap; position: relative; z-index: 10; }
+        .gender-tab { flex: 1; max-width: 350px; padding: 2rem 1.5rem; border-radius: 2px; cursor: pointer; transition: var(--transition-smooth); text-align: center; border: 2px solid rgba(0,0,0,0.08); background: var(--white); box-shadow: var(--shadow-elegant); }
+        .gender-tab:hover { transform: translateY(-4px); box-shadow: var(--shadow-luxury); }
+        .gender-tab.active { border-color: var(--gold); box-shadow: var(--shadow-gold); }
+        .gender-tab.homme { border-left: 4px solid var(--homme-color); }
+        .gender-tab.femme { border-left: 4px solid var(--femme-color); }
+        .gender-tab.homme.active { background: linear-gradient(135deg, #f8f9fc, var(--white)); border-color: var(--homme-color); }
+        .gender-tab.femme.active { background: linear-gradient(135deg, #fdf8f8, var(--white)); border-color: var(--femme-color); }
+        .gender-tab .gender-icon { font-size: 3rem; margin-bottom: 0.8rem; display: block; }
+        .gender-tab.homme .gender-icon { color: var(--homme-color); }
+        .gender-tab.femme .gender-icon { color: var(--femme-color); }
+        .gender-tab h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.3rem; font-weight: 600; }
+        .gender-tab p { font-size: 11px; color: var(--gray-cool); font-weight: 400; }
+        .gender-tab .tab-badge { display: inline-block; padding: 4px 12px; border-radius: 50px; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.8rem; }
+        .gender-tab.homme .tab-badge { background: rgba(26,31,46,0.1); color: var(--homme-color); }
+        .gender-tab.femme .tab-badge { background: rgba(114,47,55,0.1); color: var(--femme-color); }
+        .gender-tab.homme.active .tab-badge { background: var(--homme-color); color: white; }
+        .gender-tab.femme.active .tab-badge { background: var(--femme-color); color: white; }
+
+        .section-title-luxe { text-align: center; margin-bottom: 2rem; }
+        .section-title-luxe .tag { display: inline-block; font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: var(--gold-dark); border: 1px solid rgba(201,168,76,0.3); padding: 6px 16px; border-radius: 50px; margin-bottom: 1rem; font-weight: 600; }
+        .section-title-luxe h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 500; margin-bottom: 0.5rem; }
+        .section-title-luxe p { color: var(--gray-cool); font-size: 0.9rem; font-weight: 300; }
+
+        .filter-bar { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; padding: 0 1rem; }
+        .filter-btn { padding: 10px 22px; border: 1px solid rgba(0,0,0,0.1); background: var(--white); border-radius: 50px; cursor: pointer; font-weight: 500; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; transition: var(--transition-smooth); font-family: 'Montserrat', sans-serif; color: var(--gray-cool); white-space: nowrap; }
+        .filter-btn:hover, .filter-btn.active { background: var(--black); color: var(--gold); border-color: var(--black); }
+        .filter-btn.homme-filter.active { background: var(--homme-color); color: white; border-color: var(--homme-color); }
+        .filter-btn.femme-filter.active { background: var(--femme-color); color: white; border-color: var(--femme-color); }
+
+        .products-section { margin: 2rem 0 2rem; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .product-card { background: var(--white); border-radius: 2px; overflow: hidden; transition: var(--transition-smooth); box-shadow: var(--shadow-elegant); position: relative; }
+        .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-luxury); }
+        .product-badge { position: absolute; top: 1rem; left: 1rem; background: var(--burgundy); color: var(--white); padding: 5px 12px; font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; z-index: 1; border-radius: 2px; }
+        .product-badge.nouveau { background: var(--emerald); }
+        .product-image { width: 100%; height: 380px; object-fit: cover; transition: var(--transition-smooth); }
+        .product-card:hover .product-image { transform: scale(1.04); }
+        .product-details { padding: 1.5rem; text-align: center; }
+        .product-category { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold-dark); font-weight: 600; margin-bottom: 0.5rem; }
+        .product-name { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 500; margin-bottom: 0.6rem; }
+        .product-price { font-size: 1.1rem; font-weight: 700; }
+        .original-price { text-decoration: line-through; color: var(--gray-warm); font-size: 0.85rem; margin-left: 0.5rem; font-weight: 400; }
+        .product-gender { display: inline-block; padding: 3px 10px; border-radius: 50px; font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem; }
+        .product-gender.homme { background: rgba(26,31,46,0.08); color: var(--homme-color); }
+        .product-gender.femme { background: rgba(114,47,55,0.08); color: var(--femme-color); }
+        .btn-cart { width: 100%; padding: 12px; margin-top: 0.8rem; background: transparent; border: 1px solid var(--black); color: var(--black); font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; transition: var(--transition-smooth); border-radius: 2px; }
+        .btn-cart:hover { background: var(--black); color: var(--gold); }
+
+        .info-banner { background: linear-gradient(135deg, var(--black), var(--black-light)); color: white; padding: 2rem; border-radius: 2px; display: flex; align-items: center; gap: 2rem; margin: 2rem 0 4rem; flex-wrap: wrap; border: 1px solid rgba(201,168,76,0.15); }
+        .info-banner .banner-icon { font-size: 3rem; color: var(--gold); flex-shrink: 0; }
+        .info-banner .banner-content { flex: 1; min-width: 200px; }
+        .info-banner .banner-content h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--gold); }
+        .info-banner .banner-content p { font-size: 12px; opacity: 0.7; margin-bottom: 0.3rem; }
+        .info-banner .btn-banner { padding: 12px 24px; background: var(--gold); color: var(--black); border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; transition: var(--transition-smooth); white-space: nowrap; }
+        .info-banner .btn-banner:hover { background: var(--gold-light); transform: scale(1.05); }
+
+        .footer-luxe { background: var(--black); color: var(--white); padding: 3rem 0 0; margin-top: auto; border-top: 1px solid rgba(201,168,76,0.15); }
+        .footer-container { max-width: 1600px; margin: 0 auto; padding: 0 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2.5rem; }
+        .footer-col h4 { font-family: 'Montserrat', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 1.2rem; font-weight: 600; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.6rem; }
+        .footer-col ul li a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 12px; transition: var(--transition-smooth); font-weight: 300; }
+        .footer-col ul li a:hover { color: var(--gold); padding-left: 4px; }
+        .footer-bottom { margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.06); text-align: center; font-size: 10px; color: rgba(255,255,255,0.3); }
+
+        .toast-luxe { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); background: var(--black); color: var(--gold); padding: 0.8rem 1.5rem; border-radius: 2px; z-index: 3000; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 500; box-shadow: 0 20px 40px rgba(0,0,0,0.3); animation: fadeInUp 0.4s ease; border: 1px solid rgba(201,168,76,0.2); max-width: 90vw; text-align: center; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+        @media (max-width: 768px) {
+            .header-container { flex-wrap: wrap; gap: 0.8rem; }
+            .search-luxe { order: 3; max-width: 100%; width: 100%; }
+            .hero-collection { min-height: 40vh; }
+            .hero-collection-content { padding: 2rem 1rem; }
+            .gender-tab { padding: 1.2rem 0.8rem; }
+            .gender-tab .gender-icon { font-size: 2rem; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            .product-image { height: 250px; }
+            .footer-container { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .hero-collection { min-height: 35vh; }
+            .gender-tabs { flex-direction: column; gap: 0.5rem; }
+            .gender-tab { max-width: 100%; padding: 1rem; }
+            .products-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+            .product-image { height: 200px; }
+            .btn-cart { font-size: 8px; padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="luxe-bar"><i class="fas fa-gem"></i> Maison de Mode Sénégalaise <i class="fas fa-gem"></i> Collections Homme & Femme <i class="fas fa-gem"></i> Livraison Offerte dès 20 000 FCFA</div>
+
+    <header class="header-luxe">
+        <div class="header-container">
+            <a href="index.html" class="brand"><div class="brand-crest"><i class="fas fa-crown"></i></div><div class="brand-name"><h2>SENSTYLE</h2><span>Maison de Mode • Dakar</span></div></a>
+            <div class="search-luxe"><div class="search-box"><input type="text" id="searchInput" placeholder="Rechercher un article..."><button onclick="searchProducts()"><i class="fas fa-search"></i></button></div></div>
+            <div class="header-actions-luxe">
+                <div class="user-menu" id="userMenuContainer"><button class="btn-icon-luxe" onclick="toggleUserMenu()"><i class="far fa-user"></i></button><div class="user-menu-dropdown" id="userMenuDropdown"><a href="#" onclick="redirectToLogin()"><i class="fas fa-sign-in-alt"></i> Se connecter</a><a href="#" onclick="redirectToLogin()"><i class="fas fa-user-plus"></i> S'inscrire</a></div></div>
+                <button class="btn-icon-luxe" onclick="toggleCart()"><i class="fas fa-shopping-bag"></i><span class="badge-luxe" id="cartCount">0</span></button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-luxe"><div class="nav-container"><a href="index.html" class="nav-link">Accueil</a><a href="collections.html" class="nav-link active">Collections</a><a href="suivi.html" class="nav-link">Suivi</a><a href="contact.html" class="nav-link">Contact</a></div></nav>
+
+    <div class="main-content">
+        <div class="hero-collection"><div class="hero-collection-content"><p class="overline">Nouvelle Collection</p><h1>Collections <em>2026</em></h1><p>Découvrez notre collection exclusive pour Homme et Femme. Des pièces uniques qui célèbrent l'élégance et le savoir-faire sénégalais.</p></div></div>
+
+        <div class="gender-tabs" id="genderTabs">
+            <div class="gender-tab homme active" onclick="switchGender('homme')" id="tabHomme"><i class="fas fa-male gender-icon"></i><h3>Collection Homme</h3><p>Élégance masculine • Pièces exclusives</p><span class="tab-badge" id="hommeCount">0 articles</span></div>
+            <div class="gender-tab femme" onclick="switchGender('femme')" id="tabFemme"><i class="fas fa-female gender-icon"></i><h3>Collection Femme</h3><p>Raffinement féminin • Créations uniques</p><span class="tab-badge" id="femmeCount">0 articles</span></div>
+        </div>
+
+        <div class="products-section" id="productsSection">
+            <div class="section-title-luxe"><div class="tag" id="sectionTag">Collection Homme</div><h2 id="sectionTitle">Élégance Masculine</h2><p id="sectionDesc">Des pièces d'exception pour l'homme moderne sénégalais</p></div>
+            <div class="filter-bar" id="filterBar">
+                <button class="filter-btn homme-filter active" onclick="filterByCategory('all')">Tout</button>
+                <button class="filter-btn homme-filter" onclick="filterByCategory('vêtements')">Vêtements</button>
+                <button class="filter-btn homme-filter" onclick="filterByCategory('shorts')">Shorts</button>
+                <button class="filter-btn homme-filter" onclick="filterByCategory('chaussures')">Chaussures</button>
+                <button class="filter-btn homme-filter" onclick="filterByCategory('accessoires')">Accessoires</button>
+            </div>
+            <div class="products-grid" id="productsGrid"></div>
+        </div>
+
+        <div class="info-banner"><div class="banner-icon"><i class="fas fa-truck-fast"></i></div><div class="banner-content"><h3>Livraison Partout au Sénégal</h3><p>Livraison <strong>offerte</strong> dès 20 000 FCFA • Dakar en 24-48h</p></div><a href="contact.html" class="btn-banner"><i class="fas fa-phone"></i> Nous Contacter</a></div>
+    </div>
+
+    <footer class="footer-luxe">
+        <div class="footer-container">
+            <div class="footer-col"><div class="brand" style="margin-bottom:1rem;"><div class="brand-crest"><i class="fas fa-crown"></i></div><div class="brand-name"><h2 style="color:var(--gold);">SENSTYLE</h2></div></div></div>
+            <div class="footer-col"><h4>Collections</h4><ul><li><a href="collections.html#homme">Homme</a></li><li><a href="collections.html#femme">Femme</a></li></ul></div>
+            <div class="footer-col"><h4>Service</h4><ul><li><a href="suivi.html">Suivi</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+            <div class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/221777277451">+221 77 727 74 51</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p>© 2026 SenStyle. Made with ❤️ in Sénégal</p></div>
+    </footer>
+
+    <script>
+        // ===== CLÉ PARTAGÉE AVEC L'ADMIN =====
+        const STORAGE_KEY = 'senstyleProducts';
+
+        // ===== PRODUITS PAR DÉFAUT (si aucun dans le localStorage) =====
+        const defaultProducts = [
+            { id: 101, name: "Costume Slim Fit Dakar", price: 45000, oldPrice: 55000, category: "vêtements", gender: "homme", promo: true, badge: "promo", image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=500&fit=crop", rating: 4.8, reviews: 124 },
+            { id: 102, name: "Chemise en Lin Blanc", price: 15000, oldPrice: null, category: "vêtements", gender: "homme", promo: false, badge: null, image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=500&fit=crop", rating: 4.5, reviews: 67 },
+            { id: 103, name: "Pantalon Chino Beige", price: 18000, oldPrice: 22000, category: "vêtements", gender: "homme", promo: true, badge: "promo", image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400&h=500&fit=crop", rating: 4.6, reviews: 89 },
+            { id: 104, name: "Short Sport Premium", price: 8000, oldPrice: null, category: "shorts", gender: "homme", promo: false, badge: "nouveau", image: "https://images.unsplash.com/photo-1565693413579-8f2f72c0cfc1?w=400&h=500&fit=crop", rating: 4.7, reviews: 78 },
+            { id: 105, name: "Short Cargo Urban", price: 10000, oldPrice: 13000, category: "shorts", gender: "homme", promo: true, badge: "promo", image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=400&h=500&fit=crop", rating: 4.4, reviews: 56 },
+            { id: 106, name: "Basket Montante Cuir", price: 25000, oldPrice: null, category: "chaussures", gender: "homme", promo: false, badge: "nouveau", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=500&fit=crop", rating: 4.9, reviews: 234 },
+            { id: 107, name: "Mocassins Classiques", price: 20000, oldPrice: 28000, category: "chaussures", gender: "homme", promo: true, badge: "promo", image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&h=500&fit=crop", rating: 4.7, reviews: 89 },
+            { id: 108, name: "Ceinture Cuir Véritable", price: 8000, oldPrice: null, category: "accessoires", gender: "homme", promo: false, badge: null, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=500&fit=crop", rating: 4.3, reviews: 34 },
+            { id: 201, name: "Robe Élégance Dakar", price: 35000, oldPrice: 42000, category: "vêtements", gender: "femme", promo: true, badge: "promo", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop", rating: 4.9, reviews: 156 },
+            { id: 202, name: "Ensemble Tailleur Chic", price: 30000, oldPrice: null, category: "vêtements", gender: "femme", promo: false, badge: "nouveau", image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=400&h=500&fit=crop", rating: 4.6, reviews: 89 },
+            { id: 203, name: "Blouse en Soie", price: 18000, oldPrice: 22000, category: "vêtements", gender: "femme", promo: true, badge: "promo", image: "https://images.unsplash.com/photo-1434389677669-e08b4cda4b40?w=400&h=500&fit=crop", rating: 4.7, reviews: 67 },
+            { id: 204, name: "Short Taille Haute", price: 9000, oldPrice: null, category: "shorts", gender: "femme", promo: false, badge: null, image: "https://images.unsplash.com/photo-1509551388413-e18d0ac5d495?w=400&h=500&fit=crop", rating: 4.4, reviews: 45 },
+            { id: 205, name: "Short Bermuda Style", price: 11000, oldPrice: 14000, category: "shorts", gender: "femme", promo: true, badge: "promo", image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=400&h=500&fit=crop", rating: 4.5, reviews: 52 },
+            { id: 206, name: "Escarpins Élégants", price: 22000, oldPrice: null, category: "chaussures", gender: "femme", promo: false, badge: "nouveau", image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&h=500&fit=crop", rating: 4.8, reviews: 112 },
+            { id: 207, name: "Sandales Bijoux", price: 15000, oldPrice: 19000, category: "chaussures", gender: "femme", promo: true, badge: "promo", image: "https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=400&h=500&fit=crop", rating: 4.6, reviews: 78 },
+            { id: 208, name: "Sac à Main Luxe", price: 18000, oldPrice: null, category: "accessoires", gender: "femme", promo: false, badge: "nouveau", image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&h=500&fit=crop", rating: 4.7, reviews: 91 }
+        ];
+
+        let currentGender = 'homme';
+        let currentCategory = 'all';
+
+        // ===== LECTURE DES PRODUITS DEPUIS LE LOCALSTORAGE (LIEN AVEC L'ADMIN) =====
+        function getProducts() {
+            let products = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            if (!products || products.length === 0) {
+                // Initialiser avec les produits par défaut
+                products = defaultProducts;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+            }
+            // Normaliser les champs manquants
+            return products.map(p => ({
+                ...p,
+                gender: p.gender || 'homme',
+                badge: p.badge || (p.promo ? 'promo' : null),
+                category: p.category || 'vêtements',
+                price: p.price || 0,
+                oldPrice: p.oldPrice || null,
+                image: p.image || 'https://via.placeholder.com/400x500?text=SenStyle'
+            }));
+        }
+
+        function formatFCFA(a) { return (a||0).toLocaleString('fr-FR')+' FCFA'; }
+
+        function switchGender(g) {
+            currentGender=g; currentCategory='all';
+            document.getElementById('tabHomme').classList.toggle('active',g==='homme');
+            document.getElementById('tabFemme').classList.toggle('active',g==='femme');
+            const t=document.getElementById('sectionTag'),ti=document.getElementById('sectionTitle'),d=document.getElementById('sectionDesc');
+            if(g==='homme'){t.textContent='Collection Homme';ti.textContent='Élégance Masculine';d.textContent="Des pièces d'exception pour l'homme moderne sénégalais";}
+            else{t.textContent='Collection Femme';ti.textContent='Raffinement Féminin';d.textContent='Des créations uniques pour la femme élégante';}
+            updateFilterStyles();
+            document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+            document.querySelector('.filter-btn').classList.add('active');
+            displayProducts();
+            document.getElementById('productsSection').scrollIntoView({behavior:'smooth'});
+        }
+
+        function updateFilterStyles(){
+            document.querySelectorAll('.filter-btn').forEach(b=>{b.classList.remove('homme-filter','femme-filter');b.classList.add(currentGender==='homme'?'homme-filter':'femme-filter');});
+        }
+
+        function filterByCategory(c){
+            currentCategory=c;
+            document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+            document.querySelectorAll('.filter-btn').forEach(b=>{const t=b.textContent.trim().toLowerCase();if((c==='all'&&t==='tout')||t.includes(c))b.classList.add('active');});
+            displayProducts();
+        }
+
+        function displayProducts(){
+            const grid=document.getElementById('productsGrid');
+            const allProducts = getProducts();
+            
+            let f=allProducts.filter(p=>p.gender===currentGender);
+            if(currentCategory!=='all')f=f.filter(p=>p.category===currentCategory);
+            
+            const hommeCount = allProducts.filter(p=>p.gender==='homme').length;
+            const femmeCount = allProducts.filter(p=>p.gender==='femme').length;
+            document.getElementById('hommeCount').textContent=hommeCount+' article'+(hommeCount>1?'s':'');
+            document.getElementById('femmeCount').textContent=femmeCount+' article'+(femmeCount>1?'s':'');
+            
+            if(f.length===0){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--gray-warm);"><i class="fas fa-box-open" style="font-size:3rem;margin-bottom:1rem;display:block;"></i><p>Aucun produit dans cette catégorie</p><p style="font-size:12px;margin-top:0.5rem;">L\'administrateur peut ajouter des produits depuis le panneau d\'administration.</p></div>';return;}
+            
+            grid.innerHTML=f.map(p=>{
+                const discount=p.oldPrice?Math.round((1-p.price/p.oldPrice)*100):0;
+                const badgeLabel=p.badge==='promo'?`-${discount}%`:p.badge==='nouveau'?'Nouveau':'';
+                const badgeClass=p.badge==='nouveau'?'nouveau':'';
+                return`<div class="product-card">${p.badge?`<div class="product-badge ${badgeClass}">${badgeLabel}</div>`:''}<img src="${p.image}" alt="${p.name}" class="product-image" loading="lazy" onerror="this.src='https://via.placeholder.com/400x500?text=SenStyle'"><div class="product-details"><div class="product-category">${p.category}</div><h3 class="product-name">${p.name}</h3><div class="product-price">${formatFCFA(p.price)}${p.oldPrice?`<span class="original-price">${formatFCFA(p.oldPrice)}</span>`:''}</div><span class="product-gender ${p.gender}"><i class="fas fa-${p.gender==='homme'?'male':'female'}"></i> ${p.gender==='homme'?'Homme':'Femme'}</span><button class="btn-cart" onclick="addToCart(${p.id})"><i class="fas fa-cart-plus"></i> Ajouter au panier</button></div></div>`;
+            }).join('');
+        }
+
+        function searchProducts(){
+            const q=document.getElementById('searchInput')?.value.toLowerCase().trim();
+            if(!q){displayProducts();return;}
+            const grid=document.getElementById('productsGrid');
+            const allProducts = getProducts();
+            let f=allProducts.filter(p=>p.gender===currentGender&&(p.name.toLowerCase().includes(q)||p.category.toLowerCase().includes(q)));
+            if(f.length===0){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem;"><p>Aucun résultat pour "'+q+'"</p></div>';return;}
+            grid.innerHTML=f.map(p=>{const d=p.oldPrice?Math.round((1-p.price/p.oldPrice)*100):0;const bl=p.badge==='promo'?`-${d}%`:p.badge==='nouveau'?'Nouveau':'';const bc=p.badge==='nouveau'?'nouveau':'';return`<div class="product-card">${p.badge?`<div class="product-badge ${bc}">${bl}</div>`:''}<img src="${p.image}" alt="${p.name}" class="product-image" loading="lazy" onerror="this.src='https://via.placeholder.com/400x500'"><div class="product-details"><div class="product-category">${p.category}</div><h3 class="product-name">${p.name}</h3><div class="product-price">${formatFCFA(p.price)}${p.oldPrice?`<span class="original-price">${formatFCFA(p.oldPrice)}</span>`:''}</div><span class="product-gender ${p.gender}"><i class="fas fa-${p.gender==='homme'?'male':'female'}"></i> ${p.gender==='homme'?'Homme':'Femme'}</span><button class="btn-cart" onclick="addToCart(${p.id})"><i class="fas fa-cart-plus"></i> Ajouter</button></div></div>`;}).join('');
+        }
+
+        // ===== PANIER =====
+        function getUserKey(){const u=JSON.parse(localStorage.getItem('senstyleCurrentUser'));return u?u.uid:'guest_'+getOrCreateGuestId();}
+        function getOrCreateGuestId(){let id=localStorage.getItem('senstyle_guest_id');if(!id){id='guest_'+Date.now()+'_'+Math.random().toString(36).substr(2,9);localStorage.setItem('senstyle_guest_id',id);}return id;}
+        function getCartKey(){return'senstyle_cart_'+getUserKey();}
+        function getUserCart(){const d=localStorage.getItem(getCartKey());return d?JSON.parse(d):[];}
+        function saveUserCart(c){localStorage.setItem(getCartKey(),JSON.stringify(c));}
+        function addToCart(pid){
+            const allProducts = getProducts();
+            const p=allProducts.find(x=>x.id===pid);
+            if(!p)return;
+            let c=getUserCart();const e=c.find(i=>i.id===pid);
+            e?e.quantity++:c.push({...p,quantity:1});
+            saveUserCart(c);updateCartCount();showToast(p.name+' ajouté !');
+        }
+        function updateCartCount(){const c=getUserCart();const el=document.getElementById('cartCount');if(el)el.textContent=c.reduce((s,i)=>s+i.quantity,0);}
+        function toggleCart(){window.location.href='index.html';}
+        function redirectToLogin(){window.location.href='index.html';}
+        function toggleUserMenu(){const dd=document.getElementById('userMenuDropdown');if(dd){dd.classList.toggle('show');document.addEventListener('click',function close(e){if(!e.target.closest('.user-menu')){dd.classList.remove('show');document.removeEventListener('click',close);}});}}
+        function showToast(msg,type='success'){const t=document.createElement('div');t.className='toast-luxe';t.innerHTML=`<i class="fas fa-${type==='error'?'exclamation-circle':'check-circle'}"></i> ${msg}`;document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translate(-50%,20px)';setTimeout(()=>t.remove(),300);},3000);}
+
+        // ===== INIT =====
+        function init(){
+            updateFilterStyles();displayProducts();updateCartCount();
+            
+            // Écouter les changements de l'admin
+            window.addEventListener('storage', function(e) {
+                if (e.key === STORAGE_KEY) {
+                    displayProducts();
+                }
+            });
+            
+            const user=JSON.parse(localStorage.getItem('senstyleCurrentUser'));
+            if(user){const dd=document.getElementById('userMenuDropdown');if(dd){const dn=user.name||user.email||'Client';const al=user.role==='admin'?'<a href="admin.html" target="_blank"><i class="fas fa-cog"></i> Administration</a><hr>':'';dd.innerHTML=`<div style="padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.06);"><div style="font-weight:600;font-size:13px;">${dn}</div><div style="font-size:10px;color:var(--gold-dark);">${user.role==='admin'?'Administrateur':'Client'}</div></div>${al}<a href="suivi.html"><i class="fas fa-box"></i> Mes commandes</a><a href="collections.html"><i class="fas fa-tshirt"></i> Collections</a><hr><a href="#" onclick="logoutUser();return false;"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>`;}}
+            document.getElementById('searchInput')?.addEventListener('keyup',e=>{if(e.key==='Enter')searchProducts();});
+        }
+        function logoutUser(){if(confirm('Se déconnecter ?')){localStorage.removeItem('senstyleCurrentUser');window.location.reload();}}
+
+        init();
+        window.switchGender=switchGender;
+        window.filterByCategory=filterByCategory;
+        window.searchProducts=searchProducts;
+        window.addToCart=addToCart;
+        window.toggleCart=toggleCart;
+        window.toggleUserMenu=toggleUserMenu;
+        window.logoutUser=logoutUser;
+
+        console.log('👔 Collections SenStyle | 🔗 Lié à l\'Admin | Clé: ' + STORAGE_KEY);
+    </script>
+</body>
+</html>
